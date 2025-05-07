@@ -1,61 +1,38 @@
-// script.js
+// api/cmc.js
+const fetch = require('node-fetch'); // この行は一番上に
 
-// ... (DOMContentLoadedやBithomp関連のコードはそのまま) ...
+export default async function handler(request, response) { // ← この行が超重要！
+    const CMC_API_KEY = process.env.CMC_PRO_API_KEY;
+    const API_ENDPOINT = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest';
+    const PARAMS = '?start=1&limit=10&convert=USD';
 
-// --- CoinMarketCap API (Vercel プロキシ経由) ---
-async function fetchCmcDataViaProxy() {
-    // Vercelの場合、apiフォルダ内のファイル名がそのままパスになる
-    const proxyUrl = '/api/cmc'; // 例: api/cmc.js なら /api/cmc
+    if (!CMC_API_KEY) {
+        console.error("APIキーが環境変数に設定されていません。");
+        response.status(500).json({ error: 'サーバー設定エラー: APIキーがありません。' });
+        return;
+    }
 
-    const container = document.getElementById('cmc-data-container');
-    container.innerHTML = '<p class="loading-message">価格情報を読み込み中...</p>';
+    const url = `${API_ENDPOINT}${PARAMS}`;
 
     try {
-        const response = await fetch(proxyUrl); // プロキシを呼び出す
+        const apiResponse = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'X-CMC_PRO_API_KEY': CMC_API_KEY,
+                'Accept': 'application/json',
+            },
+        });
 
-        if (!response.ok) {
-            const errorData = await response.json().catch(() => ({ message: response.statusText }));
-            console.error('CMC Proxy Response Error:', response.status, errorData);
-            let errorMessage = `CMCデータ取得エラー: ${response.status}`;
-            if (errorData && errorData.status && errorData.status.error_message) {
-                errorMessage += ` - ${errorData.status.error_message}`;
-            } else if (errorData && errorData.message) {
-                errorMessage += ` - ${errorData.message}`;
-            } else {
-                errorMessage += ' - 詳細不明';
-            }
-            throw new Error(errorMessage);
-        }
-        const data = await response.json();
+        const data = await apiResponse.json();
 
-        if (data && data.data) { // CoinMarketCap APIの成功時のレスポンス構造
-            container.innerHTML = '';
-            data.data.slice(0, 10).forEach(crypto => {
-                const price = crypto.quote.USD.price;
-                const change24h = crypto.quote.USD.percent_change_24h;
-
-                const card = document.createElement('div');
-                card.className = 'token-card';
-                card.innerHTML = `
-                    <h3>${crypto.name} (${crypto.symbol})</h3>
-                    <p>価格: <span class="price">$${price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: price < 0.01 ? 8 : (price < 1 ? 4 : 2) })}</span></p>
-                    <p>24時間変動: <span class="${change24h >= 0 ? 'change-positive' : 'change-negative'}">${change24h.toFixed(2)}%</span></p>
-                `;
-                container.appendChild(card);
-            });
-        } else if (data.error) { // プロキシ自体がエラーを返した場合 (api/cmc.js で定義したエラー)
-             throw new Error(`プロキシエラー: ${data.error}`);
-        } else if (data.status && data.status.error_message) { // CMC APIからのエラーが直接返ってきた場合
-            throw new Error(`CMC APIエラー: ${data.status.error_message}`);
-        }
-        else {
-            console.warn("CMC APIからの予期せぬデータ構造:", data);
-            throw new Error('CMC API: 無効なデータ構造です。');
+        if (!apiResponse.ok) {
+            console.error('CoinMarketCap API Error:', apiResponse.status, data);
+            response.status(apiResponse.status).json(data);
+        } else {
+            response.status(200).json(data);
         }
     } catch (error) {
-        console.error('CoinMarketCapデータ(プロキシ経由)の取得エラー:', error);
-        container.innerHTML = `<p class="error-message">あらら！価格情報が取れなかったみたい… メイフラちゃんが確認するね！<br>(詳細: ${error.message})</p>`;
+        console.error('プロキシ内部エラー:', error);
+        response.status(500).json({ error: 'プロキシサーバーで内部エラーが発生しました。' });
     }
 }
-
-// ... (getMockCmcData, fetchXrplAccountData, hexToString, convertIpfsUrl は変更なし) ...
