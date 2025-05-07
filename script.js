@@ -1,10 +1,10 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // Bithomp APIキー (これはフロントエンドにあっても大きな問題にはなりにくいですが、
-    // もし気になるなら、これもプロキシ経由にすることも可能です)
-    const BITHOMP_API_KEY = 'd952a638-37c6-43e7-8aa0-f2a827acdc67'; 
+// script.js (完全版 - CMCとBithompの両方をプロキシ経由)
 
-    // CoinMarketCapのデータはVercelのプロキシ経由で取得します
-    fetchCmcDataViaProxy(); 
+document.addEventListener('DOMContentLoaded', () => {
+    // APIキーはVercelの環境変数で管理するため、ここには書きません
+
+    // ページ読み込み時にCoinMarketCapのデータを取得開始
+    fetchCmcDataViaProxy();
 
     // --- ヒーローボタンのイベントリスナー ---
     document.getElementById('hero-btn-address').addEventListener('click', () => {
@@ -16,29 +16,28 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('nft-gallery').scrollIntoView({ behavior: 'smooth' });
         const address = document.getElementById('xrpl-address-input').value.trim();
         const nftContainer = document.getElementById('nft-items-container');
-        
+
         if (address) {
             // アドレスがあればアカウントデータとNFTデータを取得
-            fetchXrplAccountData(BITHOMP_API_KEY); 
+            fetchXrplAccountData(); // APIキーは不要になりました
         } else if (!nftContainer.querySelector('.nft-item')) {
             // アドレスがなく、NFTもまだ表示されていなければプレースホルダーを表示
             nftContainer.innerHTML = '<p class="gallery-placeholder">まず、上のセクションでXRP Ledgerアドレスを入力してくださいね！</p>';
         }
     });
-    
+
     // --- XRPLアドレス検索ボタンのイベントリスナー ---
-    document.getElementById('fetch-xrpl-data-btn').addEventListener('click', () => fetchXrplAccountData(BITHOMP_API_KEY));
+    document.getElementById('fetch-xrpl-data-btn').addEventListener('click', fetchXrplAccountData); // APIキーは不要になりました
     document.getElementById('xrpl-address-input').addEventListener('keypress', function (e) {
         if (e.key === 'Enter') {
-            fetchXrplAccountData(BITHOMP_API_KEY);
+            fetchXrplAccountData(); // APIキーは不要になりました
         }
     });
 });
 
-// --- CoinMarketCap API (Vercel プロキシ経由) ---
+// --- CoinMarketCap API (Vercel プロキシ経由 /api/cmc) ---
 async function fetchCmcDataViaProxy() {
-    // Vercelのapiフォルダ内のファイル名がパスになります (例: api/cmc.js なら /api/cmc)
-    const proxyUrl = '/api/cmc'; 
+    const proxyUrl = '/api/cmc'; // Vercelのapiフォルダ内のcmc.jsを指す
 
     const container = document.getElementById('cmc-data-container');
     container.innerHTML = '<p class="loading-message">価格情報を読み込み中...</p>';
@@ -47,27 +46,24 @@ async function fetchCmcDataViaProxy() {
         const response = await fetch(proxyUrl); // プロキシ(通訳さん)を呼び出す
 
         if (!response.ok) {
-            // プロキシやAPIからのエラーレスポンスを処理
-            const errorData = await response.json().catch(() => ({ message: response.statusText })); // エラー本文の取得を試みる
+            const errorData = await response.json().catch(() => ({ message: response.statusText }));
             console.error('CMC Proxy Response Error:', response.status, errorData);
             let errorMessage = `CMCデータ取得エラー: ${response.status}`;
-            // CoinMarketCapからの具体的なエラーメッセージがあればそれを優先
             if (errorData && errorData.status && errorData.status.error_message) {
                 errorMessage += ` - ${errorData.status.error_message}`;
-            } else if (errorData && errorData.message) { // プロキシサーバーからのエラーなど
+            } else if (errorData && errorData.message) {
                 errorMessage += ` - ${errorData.message}`;
-            } else if (errorData && errorData.error) { // プロキシサーバーからの独自エラー形式など
+            } else if (errorData && errorData.error) {
                 errorMessage += ` - ${errorData.error}`;
-            }
-             else {
+            } else {
                 errorMessage += ' - 詳細不明';
             }
             throw new Error(errorMessage);
         }
         const data = await response.json();
 
-        if (data && data.data) { // CoinMarketCap APIの成功時のレスポンス構造を期待
-            container.innerHTML = ''; // ローディングメッセージをクリア
+        if (data && data.data) {
+            container.innerHTML = '';
             data.data.slice(0, 10).forEach(crypto => {
                 const price = crypto.quote.USD.price;
                 const change24h = crypto.quote.USD.percent_change_24h;
@@ -81,12 +77,11 @@ async function fetchCmcDataViaProxy() {
                 `;
                 container.appendChild(card);
             });
-        } else if (data.error) { // プロキシ自体がエラーを返した場合 (api/cmc.js で定義したエラー形式など)
+        } else if (data.error) {
              throw new Error(`プロキシエラー: ${data.error}`);
-        } else if (data.status && data.status.error_message) { // CMC APIからのエラーが直接返ってきた場合
+        } else if (data.status && data.status.error_message) {
             throw new Error(`CMC APIエラー: ${data.status.error_message}`);
         } else {
-            // 予期せぬ成功レスポンス構造の場合
             console.warn("CMC APIからの予期せぬデータ構造:", data);
             throw new Error('CMC API: 無効なデータ構造です。');
         }
@@ -96,10 +91,11 @@ async function fetchCmcDataViaProxy() {
     }
 }
 
-// --- Bithomp API ---
+
+// --- Bithomp API (Vercel プロキシ経由 /api/bithomp) ---
 const RIPPLE_EPOCH_OFFSET = 946684800000; // リップルエポックとUNIXエポックの差（ミリ秒）
 
-async function fetchXrplAccountData(bithompApiKey) {
+async function fetchXrplAccountData() { // APIキーは引数で受け取らない
     const address = document.getElementById('xrpl-address-input').value.trim();
     const bithompContainer = document.getElementById('bithomp-data-container');
     const nftContainer = document.getElementById('nft-items-container');
@@ -113,30 +109,40 @@ async function fetchXrplAccountData(bithompApiKey) {
     bithompContainer.innerHTML = `<p class="loading-message">アカウント情報を読み込み中...</p>`;
     nftContainer.innerHTML = `<p class="loading-message">NFTを読み込み中...</p>`;
 
-    const headers = {
-        'Accept': 'application/json'
-    };
-    if (bithompApiKey) {
-        headers['X-Bithomp-Key'] = bithompApiKey;
+    // プロキシ(通訳さん)を呼び出す共通関数
+    async function fetchViaBithompProxy(endpoint) {
+        // endpoint の例: "account/rXXXXX/info", "account/rXXXXX/transactions?limit=5&type=..."
+        const proxyUrl = `/api/bithomp?endpoint=${encodeURIComponent(endpoint)}`;
+        // console.log(`[script.js] Calling Bithomp proxy: ${proxyUrl}`); // デバッグ用
+        const response = await fetch(proxyUrl);
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => ({ error: `HTTP ${response.status} - ${response.statusText}` }));
+            console.error(`Bithomp Proxy Error (Endpoint: ${endpoint}):`, response.status, errorData);
+            throw new Error(errorData.error || `Bithomp情報の取得に失敗 (${response.status})`);
+        }
+        return response.json();
     }
 
     try {
-        // 1. アカウント情報を取得 (残高、作成日など)
-        const infoUrl = `https://bithomp.com/api/v2/account/${address}/info`;
-        const infoResponse = await fetch(infoUrl, { headers });
-        if (!infoResponse.ok) {
-             const errorText = await infoResponse.text().catch(() => "エラー詳細不明");
-             console.error("Bithomp Info API Error:", infoResponse.status, errorText);
-             throw new Error(`アカウント情報の取得に失敗: ${infoResponse.status} ${infoResponse.statusText}`);
-        }
-        const accountInfo = await infoResponse.json();
+        // アカウント情報、トランザクション、NFTを並行して取得開始 (Promise.allを使う)
+        // 各APIエンドポイントを組み立ててプロキシに渡す
+        const [accountInfo, txData, nftsData] = await Promise.all([
+            fetchViaBithompProxy(`account/${address}/info`),
+            fetchViaBithompProxy(`account/${address}/transactions?limit=5&type=Payment,OfferCreate,NFTokenMint,NFTokenCreateOffer,NFTokenAcceptOffer`),
+            fetchViaBithompProxy(`account/${address}/nfts?limit=20`) // NFTの取得数
+        ]).catch(error => {
+             // Promise.all の中のいずれか一つでも失敗したら、まとめてエラー処理
+             console.error('Promise.all failed:', error);
+             throw error; // エラーを再スローして下のcatchブロックで処理
+        });
 
+
+        // --- アカウント情報の表示 ---
         let creationDateDisplay = '不明';
         if (accountInfo.account_data && accountInfo.account_data.inception) {
             const creationTimestamp = (accountInfo.account_data.inception * 1000) + RIPPLE_EPOCH_OFFSET;
             creationDateDisplay = new Date(creationTimestamp).toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' });
         }
-        
         const balanceXRP = accountInfo.balance ? (parseFloat(accountInfo.balance) / 1000000) : 0;
         const balanceDisplay = balanceXRP.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 6 });
 
@@ -145,177 +151,169 @@ async function fetchXrplAccountData(bithompApiKey) {
             <p><strong>アドレス:</strong> ${accountInfo.address || address}</p>
             <p><strong>残高:</strong> ${balanceDisplay} XRP</p>
             <p><strong>アカウント作成日:</strong> ${creationDateDisplay}</p>
-            <div id="transactions-list"><h3>トランザクション履歴 (直近5件)</h3><p class="loading-message">読み込み中...</p></div>
-        `;
+            <div id="transactions-list"></div>
+        `; // transactions-list の中身は後で入れる
 
-        // 2. トランザクション履歴を取得
-        const txUrl = `https://bithomp.com/api/v2/account/${address}/transactions?limit=5&type=Payment,OfferCreate,NFTokenMint,NFTokenCreateOffer,NFTokenAcceptOffer`;
-        const txResponse = await fetch(txUrl, { headers });
+        // --- トランザクション履歴の表示 ---
         const transactionsListEl = document.getElementById('transactions-list');
-        if (txResponse.ok) {
-            const txData = await txResponse.json();
-            if (txData.transactions && txData.transactions.length > 0) {
-                transactionsListEl.innerHTML = '<h3>トランザクション履歴 (直近5件)</h3>';
-                txData.transactions.forEach(tx => {
-                    const txDate = new Date((tx.date * 1000) + RIPPLE_EPOCH_OFFSET).toLocaleString('ja-JP', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
-                    let txDetails = `タイプ: ${tx.tx.TransactionType}`;
-                    if (tx.tx.Amount && typeof tx.tx.Amount === 'object' && tx.tx.Amount.currency) { // IOUの場合
-                        txDetails += `, 金額: ${parseFloat(tx.tx.Amount.value).toLocaleString()} ${tx.tx.Amount.currency}`;
-                    } else if (tx.tx.Amount) { // XRPの場合
-                         txDetails += `, 金額: ${(parseFloat(tx.tx.Amount) / 1000000).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 6})} XRP`;
-                    }
-                     if(tx.tx.NFTokenID) { // NFT関連の場合
-                        txDetails += `, NFT ID: ${tx.tx.NFTokenID.slice(0,10)}...${tx.tx.NFTokenID.slice(-4)}`
-                    }
+        transactionsListEl.innerHTML = '<h3>トランザクション履歴 (直近5件)</h3>'; // 見出しを先に追加
+        if (txData.transactions && txData.transactions.length > 0) {
+            txData.transactions.forEach(tx => {
+                const txDate = new Date((tx.date * 1000) + RIPPLE_EPOCH_OFFSET).toLocaleString('ja-JP', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+                let txDetails = `タイプ: ${tx.tx.TransactionType}`;
+                 if (tx.tx.Amount && typeof tx.tx.Amount === 'object' && tx.tx.Amount.currency) { // IOU
+                    txDetails += `, 金額: ${parseFloat(tx.tx.Amount.value).toLocaleString()} ${tx.tx.Amount.currency}`;
+                 } else if (tx.tx.Amount) { // XRP
+                    txDetails += `, 金額: ${(parseFloat(tx.tx.Amount) / 1000000).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 6})} XRP`;
+                 }
+                 if(tx.tx.NFTokenID) {
+                    txDetails += `, NFT ID: ${tx.tx.NFTokenID.slice(0,10)}...${tx.tx.NFTokenID.slice(-4)}`
+                 }
 
-                    const txItem = document.createElement('div');
-                    txItem.className = 'transaction-item';
-                    txItem.innerHTML = `<p><strong>日時:</strong> ${txDate}</p><p>${txDetails}</p>`;
-                    transactionsListEl.appendChild(txItem);
-                });
-            } else {
-                transactionsListEl.innerHTML = '<h3>トランザクション履歴 (直近5件)</h3><p>トランザクションは見つかりませんでした。</p>';
-            }
+                const txItem = document.createElement('div');
+                txItem.className = 'transaction-item';
+                txItem.innerHTML = `<p><strong>日時:</strong> ${txDate}</p><p>${txDetails}</p>`;
+                transactionsListEl.appendChild(txItem);
+            });
         } else {
-            const errorText = await txResponse.text().catch(() => "エラー詳細不明");
-            console.error("Bithomp Transactions API Error:", txResponse.status, errorText);
-            transactionsListEl.innerHTML = '<h3>トランザクション履歴 (直近5件)</h3><p class="error-message">トランザクションの取得に失敗しました。</p>';
+            const p = document.createElement('p');
+            p.textContent = 'トランザクションは見つかりませんでした。';
+            transactionsListEl.appendChild(p);
         }
 
-        // 3. NFTを取得
-        const nftsUrl = `https://bithomp.com/api/v2/account/${address}/nfts?limit=20`; // 取得するNFTの上限
-        const nftsResponse = await fetch(nftsUrl, { headers });
-        if (!nftsResponse.ok) {
-            const errorText = await nftsResponse.text().catch(() => "エラー詳細不明");
-            console.error("Bithomp NFTs API Error:", nftsResponse.status, errorText);
-            nftContainer.innerHTML = `<p class="error-message">NFTデータの取得に失敗しました: ${nftsResponse.status}</p>`;
-        } else {
-            const nftsData = await nftsResponse.json();
-            if (nftsData.nfts && nftsData.nfts.length > 0) {
-                nftContainer.innerHTML = ''; // ローディングメッセージをクリア
-                const nftPromises = nftsData.nfts.slice(0, 12).map(async (nft) => { // 表示するNFTの上限 (例: 12件)
-                    const nftItem = document.createElement('div');
-                    nftItem.className = 'nft-item';
-                    let nftImageUrl = 'studio4.jpg'; // デフォルトのプレースホルダー画像
-                    let nftName = `NFT ID: ${nft.NFTokenID.slice(0, 8)}...${nft.NFTokenID.slice(-4)}`;
-                    
-                    if (nft.uri) {
-                        try {
-                            const decodedUri = hexToString(nft.uri);
-                            let metadataUrl = convertIpfsUrl(decodedUri);
-                           
-                            if (metadataUrl && !metadataUrl.startsWith('http') && !metadataUrl.startsWith('ipfs:')) {
-                                console.warn("相対パスまたは不明な形式のメタデータURI:", metadataUrl, "デコード元:", decodedUri, "NFT ID:", nft.NFTokenID);
-                                // ここでURIの形式に応じて適切な処理を行う (例: ベースURLを付加)
-                                // 今回はそのまま進めますが、実際のNFTではより複雑な処理が必要な場合があります
-                            }
-                            
-                            if (metadataUrl && (metadataUrl.startsWith('http') || metadataUrl.startsWith('ipfs:'))) {
-                                const controller = new AbortController();
-                                const timeoutId = setTimeout(() => controller.abort(), 7000); // 7秒でタイムアウト
+        // --- NFTギャラリーの表示 ---
+        if (nftsData.nfts && nftsData.nfts.length > 0) {
+            nftContainer.innerHTML = ''; // ローディングメッセージをクリア
+            const nftPromises = nftsData.nfts.slice(0, 12).map(async (nft) => { // 表示上限
+                const nftItem = document.createElement('div');
+                nftItem.className = 'nft-item';
+                let nftImageUrl = 'studio4.jpg';
+                let nftName = `NFT ID: ${nft.NFTokenID.slice(0, 8)}...${nft.NFTokenID.slice(-4)}`;
 
-                                const metaResponse = await fetch(metadataUrl, { 
-                                    headers: { 'Accept': 'application/json' }, // JSONメタデータを期待
-                                    signal: controller.signal 
+                if (nft.uri) {
+                    try {
+                        const decodedUri = hexToString(nft.uri);
+                        let metadataUrl = convertIpfsUrl(decodedUri);
+
+                        if (metadataUrl && (metadataUrl.startsWith('http') || metadataUrl.startsWith('ipfs:'))) {
+                            const controller = new AbortController();
+                            const timeoutId = setTimeout(() => controller.abort(), 7000);
+
+                            // メタデータ取得は依然としてブラウザから直接。CORSエラーの可能性あり。
+                            const metaResponse = await fetch(metadataUrl, {
+                                headers: { 'Accept': 'application/json' },
+                                signal: controller.signal
+                            }).catch(metaFetchError => {
+                                // メタデータ取得自体のネットワークエラー(CORS含む)
+                                console.warn(`NFTメタデータFetchエラー (URL: ${metadataUrl}, NFT ID: ${nft.NFTokenID}):`, metaFetchError);
+                                return null; // エラー時はnullを返す
+                            });
+                            clearTimeout(timeoutId);
+
+                            if (metaResponse && metaResponse.ok) {
+                                const metadata = await metaResponse.json().catch(parseError => {
+                                    console.warn(`NFTメタデータJSON解析エラー (URL: ${metadataUrl}, NFT ID: ${nft.NFTokenID}):`, parseError);
+                                    return null; // 解析エラー時もnull
                                 });
-                                clearTimeout(timeoutId);
 
-                                if (metaResponse.ok) {
-                                    const metadata = await metaResponse.json();
-                                    // 一般的な画像キーと言語ごとの名前キーを試す
+                                if (metadata) {
                                     nftImageUrl = convertIpfsUrl(metadata.image || metadata.image_url || metadata.Image || metadata.imageUrl || metadata.uri || nftImageUrl);
                                     nftName = metadata.name || metadata.Name || metadata.title || metadata.Title || (metadata.name_ja || metadata.name_en) || nftName;
-                                } else {
-                                    console.warn(`NFTメタデータの取得失敗 (URL: ${metadataUrl}, Status: ${metaResponse.status}, NFT ID: ${nft.NFTokenID})`);
                                 }
-                            } else {
-                                console.log(`処理できないメタデータURI形式またはURIなし (NFT ID: ${nft.NFTokenID}, Decoded URI: ${decodedUri})`);
+                            } else if (metaResponse) { // metaResponseはあるがokではない場合 (404など)
+                                console.warn(`NFTメタデータの取得失敗 (URL: ${metadataUrl}, Status: ${metaResponse.status}, NFT ID: ${nft.NFTokenID})`);
                             }
-                        } catch (e) {
-                            if (e.name === 'AbortError') {
-                                console.warn(`NFTメタデータの取得タイムアウト (URI: ${nft.uri}, NFT ID: ${nft.NFTokenID})`);
-                            } else {
-                                console.warn(`NFTメタデータの解析エラー (URI: ${nft.uri}, NFT ID: ${nft.NFTokenID}):`, e);
-                            }
+                        } else if(metadataUrl) {
+                            console.log(`処理できないメタデータURI形式またはURIなし (NFT ID: ${nft.NFTokenID}, Decoded URI: ${decodedUri})`);
+                        }
+                    } catch (e) { // その他の予期せぬエラー
+                        if (e.name === 'AbortError') {
+                            console.warn(`NFTメタデータの取得タイムアウト (URI: ${nft.uri}, NFT ID: ${nft.NFTokenID})`);
+                        } else {
+                            console.warn(`NFTメタデータ処理中のエラー (URI: ${nft.uri}, NFT ID: ${nft.NFTokenID}):`, e);
                         }
                     }
+                }
 
-                    nftItem.innerHTML = `
-                        <img src="${nftImageUrl}" alt="${nftName}" onerror="this.onerror=null;this.src='studio4.jpg';">
-                        <p title="${nftName}">${nftName.length > 25 ? nftName.slice(0,22)+'...' : nftName}</p>
-                        <p class="nft-uri" title="NFT ID: ${nft.NFTokenID}\nURI: ${nft.uri || 'URIなし'}">
-                            ID: ${nft.NFTokenID.slice(0,6)}...${nft.NFTokenID.slice(-4)}
-                        </p>
-                    `;
-                    return nftItem; // Promise<HTMLElement> を返す
-                });
+                nftItem.innerHTML = `
+                    <img src="${nftImageUrl}" alt="${nftName}" onerror="this.onerror=null;this.src='studio4.jpg';">
+                    <p title="${nftName}">${nftName.length > 25 ? nftName.slice(0,22)+'...' : nftName}</p>
+                    <p class="nft-uri" title="NFT ID: ${nft.NFTokenID}\nURI: ${nft.uri || 'URIなし'}">
+                        ID: ${nft.NFTokenID.slice(0,6)}...${nft.NFTokenID.slice(-4)}
+                    </p>
+                `;
+                return nftItem;
+            });
 
-                // 全てのNFTアイテムのPromiseが解決されるのを待つ
-                const resolvedNftItems = await Promise.all(nftPromises);
-                resolvedNftItems.forEach(item => {
-                    if (item) nftContainer.appendChild(item); // nullチェック
-                });
+            const resolvedNftItems = await Promise.all(nftPromises);
+            resolvedNftItems.forEach(item => {
+                 if (item) nftContainer.appendChild(item);
+            });
 
-            } else {
-                nftContainer.innerHTML = `<p class="gallery-placeholder">このアドレスにはNFTが見つからなかったみたい。残念！</p>`;
-            }
+        } else {
+            nftContainer.innerHTML = `<p class="gallery-placeholder">このアドレスにはNFTが見つからなかったみたい。残念！</p>`;
         }
 
     } catch (error) {
-        console.error('Bithompデータの取得エラー全体:', error);
-        bithompContainer.innerHTML = `<p class="error-message">あらら！アカウント情報が取れなかったみたい… (詳細: ${error.message})</p>`;
-        nftContainer.innerHTML = `<p class="error-message">NFTの表示に失敗しました。(詳細: ${error.message})</p>`;
+        // Promise.all でキャッチしたエラー、またはその後の処理のエラー
+        console.error('Bithompデータ(プロキシ経由)の取得または処理エラー全体:', error);
+        bithompContainer.innerHTML = `<p class="error-message">あらら！アカウント情報が取れなかったみたい…<br>(詳細: ${error.message})</p>`;
+        nftContainer.innerHTML = `<p class="error-message">NFTの表示に失敗しました。<br>(詳細: ${error.message})</p>`;
     }
 }
 
 
+// --- ヘルパー関数 ---
+
 function hexToString(hex) {
-    if (!hex || typeof hex !== 'string' || hex.length % 2 !== 0) return hex; // 無効な入力はそのまま返す
+    if (!hex || typeof hex !== 'string' || hex.length % 2 !== 0) return hex;
     try {
         let str = '';
         for (let i = 0; i < hex.length; i += 2) {
             const charCode = parseInt(hex.substr(i, 2), 16);
-            if (isNaN(charCode)) return hex; // 16進数でない場合は元の値を返す
+            if (isNaN(charCode)) return hex;
             str += String.fromCharCode(charCode);
         }
-        // 印字可能なASCII文字のみで構成され、URLや一般的なテキスト形式の可能性が高いかチェック
         if (/^[\x20-\x7E]*$/.test(str) && str.length > 0 &&
             (str.startsWith('http') || str.startsWith('ipfs://') || str.startsWith('data:') ||
              str.includes('.') || str.includes('/') || str.includes(':') ||
              str.match(/\.(jpeg|jpg|png|gif|svg|json|txt|html|xml)$/i) ||
-             str.trim().startsWith('{') && str.trim().endsWith('}') // JSONの可能性
+             str.trim().startsWith('{') && str.trim().endsWith('}')
             )) {
             return str;
         }
-        return hex; // それ以外の場合はデコードせず元の16進数文字列を返す
+        return hex;
     } catch (e) {
         console.warn("hexToString変換エラー:", e);
-        return hex; // エラー時も元の値を返す
+        return hex;
     }
 }
 
 function convertIpfsUrl(url) {
-    if (typeof url !== 'string') return url; // 文字列でない場合はそのまま返す
+    if (typeof url !== 'string') return url;
+    // より多くのゲートウェイや形式に対応させることも可能
+    const ipfsGateway = 'https://ipfs.io/ipfs/'; // 他のゲートウェイ(cloudflare-ipfs.comなど)も検討可
 
     if (url.startsWith('ipfs://ipfs/')) {
-        return url.replace('ipfs://ipfs/', 'https://ipfs.io/ipfs/');
+        return url.replace('ipfs://ipfs/', ipfsGateway);
     }
     if (url.startsWith('ipfs://')) {
-        // IPFS CID v0 (Qm...) または v1 (bafy...)
-        const cid = url.substring(7); // "ipfs://" を除去
-        if (cid.match(/^[a-zA-Z0-9]{40,}$/)) { // CIDの基本的な形式チェック
-             return `https://ipfs.io/ipfs/${cid}`;
+        const cid = url.substring(7);
+        if (cid.match(/^[a-zA-Z0-9/?=_-]{40,}$/)) { // CIDやパスを含む可能性を考慮
+             return `${ipfsGateway}${cid}`;
         }
-        // それ以外の場合は、元の形式のままか、より汎用的なゲートウェイを試す
-        return `https://ipfs.io/ipfs/${url.replace('ipfs://', '')}`;
-
+        return `${ipfsGateway}${url.replace('ipfs://', '')}`; // フォールバック
     }
-    // CIDのみの場合 (例: Qm... や bafy...)
+    // CID v0 or v1
     if (url.match(/^(Qm[1-9A-HJ-NP-Za-km-z]{44}|b[A-Za-z2-7]{58,})$/) && !url.includes('/')) {
-         return `https://ipfs.io/ipfs/${url}`;
+         return `${ipfsGateway}${url}`;
     }
-    return url; // 上記以外はそのまま返す
+    // Arweave gateway (example, if needed)
+    // if (url.startsWith('ar://')) {
+    //     return `https://arweave.net/${url.substring(5)}`;
+    // }
+    return url;
 }
 
-// モックデータ関数は、プロキシが失敗した場合のフォールバックやテスト用に残しておいても良いでしょう。
-// function getMockCmcData() { /* ... */ }
+// モックデータ関数はコメントアウトまたは削除
+// function getMockCmcData() { ... }
