@@ -1,0 +1,14 @@
+{
+  "name": "mayfla-chan-portal",
+  "version": "1.0.0",
+  "description": "Mayfla-chan XRP Ledger Portal",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "node-fetch": "^2.6.7"
+  }
+}

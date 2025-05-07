@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>メイフラちゃん XRPレジャーポータル</title>
+    <link rel="icon" type="image/png" href="studio1.png">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- ===== ヘッダー ===== -->
+    <header class="site-header">
+        <div class="container header-content">
+            <img src="studio1.png" alt="メイフラちゃんアイコン" class="header-logo">
+            <h1>メイフラちゃん XRPレジャーポータル</h1>
+        </div>
+    </header>
+
+    <main>
+        <!-- ===== ヒーローセクション ===== -->
+        <section id="hero" class="hero-section">
+            <div class="container hero-content">
+                <div class="hero-text">
+                    <h2>メイフラちゃんと一緒に</h2>
+                    <p>一緒にXRPレジャーの世界を探検しよう！<br>ドキドキわくわくがいっぱい待ってるよ！</p>
+                    <div class="hero-buttons">
+                        <button id="hero-btn-address" class="btn btn-primary">アドレスを入力する</button>
+                        <button id="hero-btn-nft" class="btn btn-secondary">NFTギャラリーを見る</button>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="studio6.jpg" alt="メイフラちゃん">
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== CoinMarketCap API セクション ===== -->
+        <section id="cmc-prices" class="data-section">
+            <div class="container">
+                <h2><span class="icon">💖</span>トップ暗号通貨の価格<span class="icon">💖</span></h2>
+                <p class="section-subtitle">CoinMarketCapからの最新情報だよ！</p>
+                <div id="cmc-data-container" class="api-data-grid">
+                    <p class="loading-message">価格情報を読み込み中...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== XRPレジャーアドレス情報 (Bithomp) ===== -->
+        <section id="xrpl-address-info" class="data-section alt-bg">
+            <div class="container">
+                <h2><span class="icon">✨</span>XRPレジャー アカウント情報<span class="icon">✨</span></h2>
+                <p class="section-subtitle">Bithompでアカウントの詳細を見てみよう！</p>
+                <div class="address-input-container">
+                    <input type="text" id="xrpl-address-input" placeholder="XRP Ledger アドレスを入力 (例: rXXXX...)">
+                    <button id="fetch-xrpl-data-btn" class="btn">検索</button>
+                </div>
+                <div id="bithomp-data-container" class="bithomp-results">
+                    <!-- データはJSで表示 -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== NFTギャラリー (Bithomp) ===== -->
+        <section id="nft-gallery" class="nft-gallery-section">
+            <div class="container">
+                <h2><span class="icon">🎨</span>メイフラちゃんのNFTコレクション！<span class="icon">🎨</span></h2>
+                <p class="section-subtitle">あなたのアカウントにある素敵なNFTを見てみよう！</p>
+                <div id="nft-items-container" class="nft-grid">
+                    <p class="gallery-placeholder">アドレスを入力してNFTを表示してね！</p>
+                    <!-- NFTはJSで表示 -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== AMMとは？セクション ===== -->
+        <section id="amm-info" class="content-section alt-bg">
+            <div class="container content-grid">
+                <div class="content-image">
+                    <img src="studio3.jpg" alt="AMMアイコン" class="content-icon">
+                </div>
+                <div class="content-text">
+                    <h2><span class="icon">💡</span>XRPLのAMM（自動マーケットメーカー）とは？</h2>
+                    <p>AMMは、XRPレジャーでトークンを簡単に交換できる魔法みたいな仕組みだよ！</p>
+                    <div class="info-card-container">
+                        <div class="info-card">
+                            <h4>🚀 スピーディーな取引</h4>
+                            <p>伝統的な取引所みたいに複雑な注文ブックがなくても、すぐにトークンを交換できるんだ。</p>
+                        </div>
+                        <div class="info-card">
+                            <h4>💧 流動性を提供</h4>
+                            <p>誰でも流動性を提供して、手数料の一部を報酬として受け取ることができるよ。</p>
+                        </div>
+                        <div class="info-card">
+                            <h4>🌐 分散型</h4>
+                            <p>中央管理者がいないから、より公平で透明性の高い取引が期待できるんだ。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== ウォレットセクション ===== -->
+        <section id="wallet-info" class="content-section">
+            <div class="container content-grid reverse-grid">
+                 <div class="content-image">
+                    <img src="studio5.jpg" alt="Xamanウォレットアイコン" class="content-icon">
+                </div>
+                <div class="content-text">
+                    <h2><span class="icon">👛</span>おすすめウォレット：Xaman</h2>
+                    <p>XRPレジャーを安全に使うなら、<strong>Xaman (旧XUMM) ウォレット</strong>がおすすめだよ！</p>
+                    <p>Xamanは、XRPL専用の非管理型ウォレットで、自分の資産を自分で管理できるんだ。NFTを見たり、トークンを送ったり、XRPLの楽しい機能をたくさん体験できるよ！</p>
+                    <a href="https://xaman.app/" target="_blank" class="btn">Xaman公式サイトへ</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ===== フッター ===== -->
+    <footer class="site-footer-bottom">
+        <div class="container footer-content">
+            <img src="studio2.png" alt="リボンロゴ" class="footer-ribbon">
+            <nav class="footer-nav">
+                <a href="#hero">ホーム</a>
+                <a href="https://xrpl.org/ja/" target="_blank">XRPLについて</a>
+                <a href="#wallet-info">ウォレット</a>
+            </nav>
+            <p>© 2024 メイフラちゃん XRPレジャーポータル. 無断複写・転載を禁じます。</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
