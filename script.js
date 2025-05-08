@@ -1,4 +1,4 @@
-// script.js (最終版 - ヘッダーナビ/モバイル対応)
+// script.js (モバイルメニューなしの最終版)
 
 // グローバルスコープでChartインスタンスを保持する変数
 let tvlChartInstance = null;
@@ -11,15 +11,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- スムーススクロール設定 ---
     setupSmoothScrolling();
 
-    // --- モバイルメニュー設定 ---
-    setupMobileMenu();
+    // --- モバイルメニュー設定は削除 ---
+    // setupMobileMenu();
 
 }); // End of DOMContentLoaded
 
 // ===== Smooth Scrolling Function =====
 function setupSmoothScrolling() {
-    // ヘッダーナビとモバイルナビの両方のリンクを取得
-    const navLinks = document.querySelectorAll('.header-nav a[href^="#"], .mobile-nav a[href^="#"], .hero-buttons a[href^="#"]');
+    // スクロール対象のリンクをヒーローボタンとフッターナビに限定
+    const navLinks = document.querySelectorAll('.hero-buttons a[href^="#"], .footer-nav a[href^="#"]');
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
             e.preventDefault();
@@ -29,7 +29,6 @@ function setupSmoothScrolling() {
             if (targetElement) {
                 const headerHeight = document.querySelector('.site-header')?.offsetHeight || 0;
                 const elementPosition = targetElement.getBoundingClientRect().top;
-                // スクロール位置を計算 (ヘッダー高さ + 少しのオフセット)
                 const offsetPosition = elementPosition + window.pageYOffset - headerHeight - 20;
 
                 window.scrollTo({
@@ -37,37 +36,15 @@ function setupSmoothScrolling() {
                     behavior: 'smooth'
                 });
             }
-            // モバイルメニューが開いていたら閉じる
-            closeMobileMenu();
+            // モバイルメニューを閉じる処理は不要
+            // closeMobileMenu();
         });
     });
 }
 
-// ===== Mobile Menu Functions =====
-function setupMobileMenu() {
-    const menuToggle = document.getElementById('mobile-menu-toggle');
-    const mobileNav = document.getElementById('mobile-nav-menu'); // モバイルメニュー本体
-
-    if (menuToggle && mobileNav) {
-        menuToggle.addEventListener('click', () => {
-            const isActive = document.body.classList.toggle('mobile-menu-active');
-            menuToggle.classList.toggle('active', isActive);
-            // アクセシビリティ対応: メニューが開いているか閉じたかを伝える
-            menuToggle.setAttribute('aria-expanded', isActive ? 'true' : 'false');
-            mobileNav.setAttribute('aria-hidden', !isActive);
-        });
-    }
-}
-
-function closeMobileMenu() {
-     const menuToggle = document.getElementById('mobile-menu-toggle');
-     document.body.classList.remove('mobile-menu-active');
-     if (menuToggle) {
-        menuToggle.classList.remove('active');
-        menuToggle.setAttribute('aria-expanded', 'false');
-     }
-     document.getElementById('mobile-nav-menu')?.setAttribute('aria-hidden', 'true');
-}
+// ===== Mobile Menu Functions は削除 =====
+// function setupMobileMenu() { ... }
+// function closeMobileMenu() { ... }
 
 
 // ===== API Fetching Functions =====
@@ -78,14 +55,8 @@ async function fetchCmcDataViaProxy() {
     const container = document.getElementById('cmc-data-container');
     if (!container) { console.error("CMC data container not found!"); return; }
     container.innerHTML = '<p class="loading-message">価格情報を読み込み中...</p>';
-
     try {
         const response = await fetch(proxyUrl);
-        if (!response.ok) { /* ... エラー処理 ... */ throw new Error('CMC Fetch Error'); } // 省略 (前回のコードと同じ)
-        const data = await response.json();
-        if (data?.data) { /* ... データ表示 ... */ } // 省略 (前回のコードと同じ)
-        else { /* ... エラー処理 ... */ throw new Error('CMC Data Error'); } // 省略
-        // --- 省略部分 Start (コピペ用) ---
         if (!response.ok) {
             const errorData = await response.json().catch(() => ({ message: response.statusText }));
             console.error('CMC Proxy Response Error:', response.status, errorData);
@@ -114,7 +85,6 @@ async function fetchCmcDataViaProxy() {
         } else if (data?.error) { throw new Error(`プロキシエラー: ${data.error}`);
         } else if (data?.status?.error_message) { throw new Error(`CMC APIエラー: ${data.status.error_message}`);
         } else { console.warn("CMC APIからの予期せぬデータ構造:", data); throw new Error('CMC API: 無効なデータ構造です。'); }
-        // --- 省略部分 End ---
     } catch (error) {
         console.error('CoinMarketCapデータ(プロキシ経由)の取得エラー:', error);
         container.innerHTML = `<p class="error-message">あらら！価格情報が取れなかったみたい…<br>(詳細: ${error.message})</p>`;
@@ -131,20 +101,14 @@ async function fetchDefiLlamaTvl() {
 
     if (!container || !currentTvlContainer || !canvas || !chartContainer) { console.error("TVL表示に必要なHTML要素が見つかりません。"); return; }
 
-    chartContainer.innerHTML = ''; // Clear previous content
-    chartContainer.appendChild(canvas); // Ensure canvas is there
+    chartContainer.innerHTML = '';
+    chartContainer.appendChild(canvas);
     currentTvlContainer.innerHTML = `<p class="loading-message">現在のTVL読み込み中...</p>`;
-
 
     try {
         const response = await fetch(url);
-        if (!response.ok) { /* ... エラー処理 ... */ throw new Error('DefiLlama Fetch Error'); } // 省略 (前回のコードと同じ)
-        const chartData = await response.json();
-        if (Array.isArray(chartData) && chartData.length > 0) { /* ... グラフ描画 ... */ } // 省略 (前回のコードと同じ)
-        else { /* ... エラー処理 ... */ throw new Error('DefiLlama Data Error'); } // 省略
-         // --- 省略部分 Start (コピペ用) ---
-         if (!response.ok) {
-            const errorText = await response.text().catch(()=> response.statusText);
+        if (!response.ok) {
+             const errorText = await response.text().catch(()=> response.statusText);
             console.error('DefiLlama API Error:', response.status, errorText);
              if(response.status === 404) { throw new Error(`DefiLlama APIエラー: XRPLのチャートデータが見つかりません。`); }
              else { throw new Error(`DefiLlama APIエラー: ${response.status} - ${errorText}`); }
@@ -167,7 +131,6 @@ async function fetchDefiLlamaTvl() {
             });
              chartContainer.querySelector('.loading-message')?.remove();
         } else { console.warn("DefiLlama APIからのデータが空または配列ではありません:", chartData); throw new Error('DefiLlamaから有効なチャートデータが取得できませんでした。'); }
-         // --- 省略部分 End ---
     } catch (error) {
         console.error('DefiLlama TVL Chartデータの取得/処理エラー:', error);
          if (error.message.includes('Failed to fetch')) { error.message = 'DefiLlama APIへの接続に失敗しました。ネットワークを確認するか、CORSの問題かもしれません。'; }
