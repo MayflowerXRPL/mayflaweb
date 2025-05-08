@@ -1,4 +1,4 @@
-/* style.css (最終完全版 Ver.7 - パーティクル背景) */
+/* style.css (最終完全版 Ver.8 - パーティクル表示修正) */
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=M+PLUS+Rounded+1c:wght@400;500;700&display=swap');
 
@@ -9,9 +9,9 @@
     --accent-green: #8BC34A;
     --text-color-dark: #37324d;
     --text-color-light: #f8f8ff;
-    --bg-color-body: #f0f5ff; /* ベース背景色を少し青寄りに */
-    --bg-card: rgba(255, 255, 255, 0.85); /* カード背景 */
-    --bg-card-alt: rgba(245, 248, 255, 0.9); /* Altカード背景 */
+    --bg-color-body: #f0f5ff;
+    --bg-card: rgba(255, 255, 255, 0.85);
+    --bg-card-alt: rgba(245, 248, 255, 0.9);
     --border-color: rgba(103, 58, 183, 0.1);
     --shadow-soft: 0 6px 18px rgba(103, 58, 183, 0.08);
     --shadow-strong: 0 10px 28px rgba(103, 58, 183, 0.12);
@@ -27,7 +27,6 @@
 
 /* ===== アニメーション定義 ===== */
 @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-8px); } 100% { transform: translateY(0px); } }
-/* グラデーションアニメは削除 */
 
 /* ===== 基本設定 ===== */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -51,8 +50,8 @@ body.mobile-menu-active { overflow: hidden; }
     width: 100%;
     height: 100%;
     z-index: -1; /* 他のコンテンツの後ろ */
-    /* background-color は body と同じなので不要 */
 }
+
 
 .container { width: 90%; max-width: 1140px; margin: 0 auto; padding: 30px 0; position: relative; z-index: 1; }
 h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; line-height: 1.3; margin-bottom: 0.7em; }
@@ -88,14 +87,20 @@ body.mobile-menu-active .mobile-nav { display: flex; transform: translateX(0); }
 .mobile-nav a:hover { color: var(--accent-pink); transform: scale(1.03); }
 
 /* ===== メインコンテンツ ===== */
- main { position: relative; z-index: 1; } /* パーティクルより手前に */
+ main {
+     position: relative;
+     z-index: 1; /* パーティクルより手前に */
+     overflow: hidden; /* これはあっても良い */
+     background-color: transparent; /* ★★★ main自体の背景は透明に ★★★ */
+ }
+ /* main::before は削除済み */
 
 /* ===== ヒーローセクション ===== */
-.hero-section { padding: 80px 0 100px; text-align: center; position: relative; overflow: hidden; background-color: transparent; } /* 背景削除 */
+.hero-section { padding: 80px 0 100px; text-align: center; position: relative; overflow: hidden; background-color: transparent; /* ★★★ 背景透明 ★★★ */ }
 .hero-section::before { display: none; } /* チェック柄削除 */
 .hero-content { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 30px; background: rgba(255,255,255,0.3); backdrop-filter: blur(3px); padding: 40px 20px; border-radius: var(--border-radius); }
 .hero-text h2 { font-size: clamp(2.5rem, 7vw, 4rem); color: var(--primary-color); font-weight: 700; margin-bottom: 0.3em; text-shadow: none; }
-.hero-text p { font-size: clamp(1.1rem, 3vw, 1.3rem); max-width: 650px; margin-bottom: 1.5em; color: var(--text-color-dark); font-weight: 500; background: none; padding: 0; border-radius: 0; } /* テキスト背景削除 */
+.hero-text p { font-size: clamp(1.1rem, 3vw, 1.3rem); max-width: 650px; margin-bottom: 1.5em; color: var(--text-color-dark); font-weight: 500; background: none; padding: 0; border-radius: 0; }
 .hero-image { margin-top: 30px; perspective: 1000px; }
 .hero-image img { max-width: 350px; border-radius: 24px; border: none; box-shadow: 0 15px 40px rgba(103, 58, 183, 0.2); transition: transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.8s cubic-bezier(0.165, 0.84, 0.44, 1); transform: rotateY(0deg) rotateX(0deg); }
 .hero-image img:hover { box-shadow: 0 25px 50px rgba(103, 58, 183, 0.3); transform: rotateY(10deg) rotateX(5deg) scale(1.05); }
@@ -110,8 +115,8 @@ body.mobile-menu-active .mobile-nav { display: flex; transform: translateX(0); }
 .hackathon-hero-btn:hover { background: linear-gradient(45deg, #9c27b0, var(--secondary-color)); transform: translateY(-4px) scale(1.1); }
 .btn .icon { margin-right: 8px; font-size: 1.1em; }
 
-/* ===== データセクション (背景調整) ===== */
-.data-section { padding: 70px 0; position: relative; border-radius: var(--border-radius); margin-bottom: 50px; background-color: rgba(255, 255, 255, 0.5); backdrop-filter: blur(5px); }
+/* ===== データセクション ===== */
+.data-section { padding: 70px 0; position: relative; z-index: 1; /* ★★★ z-index追加 ★★★ */ border-radius: var(--border-radius); margin-bottom: 50px; background-color: rgba(255, 255, 255, 0.5); backdrop-filter: blur(5px); }
 .data-section::before { display: none; }
 .data-section.alt-bg { background-color: rgba(240, 248, 255, 0.6); }
 .api-data-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 30px; }
@@ -132,8 +137,8 @@ body.mobile-menu-active .mobile-nav { display: flex; transform: translateX(0); }
 .current-tvl h3 { font-size: 2.2em; margin-bottom: 5px; color: var(--secondary-color); font-family: var(--font-display); }
 .current-tvl p { font-size: 1em; margin: 0; color: #4d4861; font-weight: 500; }
 
-/* ===== Content Section (背景調整) ===== */
-.content-section { padding: 80px 0; position: relative; overflow: hidden; background-color: transparent; }
+/* ===== Content Section ===== */
+.content-section { padding: 80px 0; position: relative; z-index: 1; /* ★★★ z-index追加 ★★★ */ overflow: hidden; background-color: transparent; }
 .content-section.alt-bg { background-color: rgba(240, 248, 255, 0.6); border-radius: var(--border-radius); margin-bottom: 50px; box-shadow: var(--shadow-soft); }
 .content-section::before { display:none; }
 .content-section.alt-bg::before { display:none; }
@@ -147,8 +152,6 @@ body.mobile-menu-active .mobile-nav { display: flex; transform: translateX(0); }
 .info-card { background: var(--bg-card); backdrop-filter: blur(5px); padding: 25px 30px; border-radius: var(--border-radius); box-shadow: var(--shadow-soft); border-left: 7px solid var(--accent-green); transition: all var(--transition-main); }
 .info-card:hover { transform: translateX(8px) scale(1.02); box-shadow: var(--shadow-strong); border-left-color: var(--secondary-color); }
 .info-card h4 { margin-top: 0; color: var(--accent-green); font-weight: 700; font-size: 1.2em; }
-
-/* ===== AMM Animation Section (完全に削除)===== */
 
 /* ===== フッター ===== */
 .site-footer-bottom { background: #e8eaf6; color: var(--text-color-dark); text-align: center; padding: 40px 0; margin-top: 60px; border-top: 1px solid var(--border-color); position: relative; z-index: 1; }
