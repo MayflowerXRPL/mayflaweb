@@ -3,23 +3,18 @@
 let tvlChartInstance = null;
 
 document.addEventListener('DOMContentLoaded', () => {
-    // --- APIデータ取得 ---
     fetchCmcDataViaProxy();
     fetchDefiLlamaTvl();
-
-    // --- ページ内動作 ---
     setupSmoothScrolling();
     setupMobileMenu();
     setupScrollAnimations();
-
-    // --- ★★★ パーティクル背景の初期化 ★★★ ---
+    // ★★★ パーティクル背景の初期化を呼び出す ★★★
     loadParticles();
-
-}); // End of DOMContentLoaded
+});
 
 // ===== Smooth Scrolling Function =====
 function setupSmoothScrolling() {
-    const navLinks = document.querySelectorAll('.mobile-nav a[href^="#"], .hero-buttons a[href^="#"], .footer-nav a[href^="#"]'); // ヘッダーナビ削除
+    const navLinks = document.querySelectorAll('.mobile-nav a[href^="#"], .hero-buttons a[href^="#"], .footer-nav a[href^="#"]');
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
             const targetId = this.getAttribute('href');
@@ -93,113 +88,89 @@ function setupScrollAnimations() {
     } else { revealElements.forEach(element => element.classList.add('active')); }
 }
 
-// ===== Particles Background Function =====
+// ===== ★★★ Particles Background Function ★★★ =====
 async function loadParticles() {
-    // tsParticlesが読み込まれるのを待つ (より確実に)
-     await new Promise(resolve => {
-        if (window.tsParticles) {
-            resolve();
-        } else {
-            // もしCDNの読み込みが遅い場合、少し待つか、エラー処理を追加
-            setTimeout(resolve, 500); // 0.5秒待つ
-        }
-    });
-
-     if (!window.tsParticles) {
-         console.error("tsParticles library not loaded.");
-         return;
-     }
+     // tsParticles が利用可能になるまで少し待つ（CDN読み込み用）
+     if (typeof tsParticles === "undefined") {
+        console.log("Waiting for tsParticles...");
+        await new Promise(resolve => setTimeout(resolve, 500));
+        if (typeof tsParticles === "undefined") {
+             console.error("tsParticles library not loaded after wait.");
+             return; // tsParticlesがなければ実行しない
+         }
+    }
 
     // tsParticlesの設定 (星や花びらが舞うイメージ)
-    await tsParticles.load({
-        id: "tsparticles", // HTMLのコンテナID
-        options: {
-            fullScreen: {
-                enable: false, // falseにして #tsparticles div に合わせる
-                zIndex: -1   // 他のコンテンツの後ろ
-            },
-            particles: {
-                number: {
-                    value: 50, // パーティクルの数
-                    density: {
-                        enable: true,
-                        value_area: 800 // この範囲に指定数のパーティクル
-                    }
-                },
-                color: {
-                    value: ["#FFB6C1", "#ADD8E6", "#98FB98", "#DDA0DD", "#FFFACD"] // パステルカラー複数
-                },
-                shape: {
-                    type: ["circle", "star"], // 形: 円と星
-                    // type: "image", // 画像を使う場合
-                    // image: {
-                    //     src: "path/to/flower.png", // 花の画像パス
-                    //     width: 100,
-                    //     height: 100
-                    // }
-                },
-                opacity: {
-                    value: {min: 0.3, max: 0.8}, // 透明度をランダムに
-                    animation: {
-                        enable: true,
-                        speed: 1,
-                        minimumValue: 0.1,
-                        sync: false
-                    }
-                },
-                size: {
-                    value: {min: 2, max: 5}, // サイズをランダムに
-                    animation: {
-                        enable: true,
-                        speed: 3,
-                        minimumValue: 1,
-                        sync: false
-                    }
-                },
-                links: { // パーティクル間の線 (今回はなし)
-                    enable: false,
-                },
-                move: {
-                    enable: true,
-                    speed: 1.5, // 移動速度
-                    direction: "none", // 方向はランダム
-                    random: true,
-                    straight: false,
-                    outModes: { // 画面外に出た時の挙動
-                        default: "bounce" // 跳ね返る
+    try {
+        await tsParticles.load({
+            id: "tsparticles", // HTMLのコンテナID
+            options: {
+                /* ★★★ パーティクル設定 ここから ★★★ */
+                fullScreen: { enable: true, zIndex: -1 }, // 画面全体、最背面
+                particles: {
+                    number: { value: 60, density: { enable: true, value_area: 800 } }, // 数を調整
+                    color: { value: ["#FFB6C1", "#ADD8E6", "#98FB98", "#DDA0DD", "#FFFACD", "#ffccdd"] }, // パステルカラー
+                    shape: {
+                        type: ["circle", "star"] // ★★★ 星と円を混ぜる ★★★
+                        // 画像を使う場合:
+                        // type: "image",
+                        // image: [
+                        //   { src: "path/to/flower1.png", height: 20, width: 20 },
+                        //   { src: "path/to/star1.png", height: 20, width: 20 },
+                        //   { src: "path/to/sparkle.png", height: 15, width: 15 }
+                        // ]
                     },
-                     attract: { // 引き付け効果（オプション）
-                         enable: false,
-                         rotateX: 600,
-                         rotateY: 1200
-                     }
-                }
-            },
-            interactivity: { // マウス操作への反応 (今回は無効)
-                detectsOn: "canvas",
-                events: {
-                    onHover: {
-                        enable: false,
-                        mode: "repulse" // ホバーで避けるなど
+                    opacity: { value: { min: 0.4, max: 0.9 }, anim: { enable: true, speed: 0.8, sync: false } },
+                    size: { value: { min: 2, max: 6 }, anim: { enable: true, speed: 4, sync: false } }, // サイズ調整
+                    links: { enable: false }, // 線はなし
+                    move: {
+                        enable: true,
+                        speed: 1.2, // 速度を少し落とす
+                        direction: "none",
+                        random: true,
+                        straight: false,
+                        outModes: { default: "bounce" }, // ★★★ 端で跳ね返る ★★★
+                        attract: { enable: false },
+                        trail: { // 軌跡（オプション）
+                            enable: false, // trueにすると軌跡が残る
+                            //fillColor: "#000000",
+                            //length: 20,
+                        },
                     },
-                    onClick: {
-                        enable: false,
-                        mode: "push" // クリックで押し出すなど
+                    // 回転（オプション）
+                    rotate: {
+                        value: { min: 0, max: 360 },
+                        direction: "random",
+                        animation: {
+                            enable: true,
+                            speed: 5,
+                            sync: false
+                        }
                     },
-                    resize: true // ウィンドウリサイズに対応
+                    // 浮遊感（オプション）
+                     wobble: {
+                         distance: 5,
+                         enable: true,
+                         speed: { min: -5, max: 5 },
+                     },
                 },
-                modes: {
-                    // ... (必要ならモード設定)
-                }
-            },
-            detectRetina: true // 高解像度ディスプレイ対応
-        }
-    });
+                 interactivity: { // マウスインタラクションは無効に
+                     detectsOn: "window",
+                     events: { onHover: { enable: false }, onClick: { enable: false }, resize: true },
+                 },
+                detectRetina: true
+                 /* ★★★ パーティクル設定 ここまで ★★★ */
+            }
+        });
+        console.log("tsParticles loaded successfully!");
+    } catch (error) {
+        console.error("Error loading tsParticles:", error);
+    }
 }
 
 
 // ===== API Fetching Functions (変更なし) =====
-async function fetchCmcDataViaProxy() {
+async function fetchCmcDataViaProxy() { /* ... 前回のコードと同じ ... */
     const proxyUrl = '/api/cmc';
     const container = document.getElementById('cmc-data-container');
     if (!container) { console.error("CMC data container not found!"); return; }
@@ -209,13 +180,11 @@ async function fetchCmcDataViaProxy() {
         if (!response.ok) { const errorData = await response.json().catch(() => ({ message: response.statusText })); console.error('CMC Proxy Response Error:', response.status, errorData); let errorMessage = `CMCデータ取得エラー: ${response.status}`; if (errorData?.status?.error_message) errorMessage += ` - ${errorData.status.error_message}`; else if (errorData?.message) errorMessage += ` - ${errorData.message}`; else if (errorData?.error) errorMessage += ` - ${errorData.error}`; else errorMessage += ' - 詳細不明'; throw new Error(errorMessage); }
         const data = await response.json();
         if (data?.data) { container.innerHTML = ''; data.data.slice(0, 10).forEach(crypto => { const price = crypto.quote.USD.price; const change24h = crypto.quote.USD.percent_change_24h; const card = document.createElement('div'); card.className = 'token-card'; card.innerHTML = `<h3>${crypto.name} (${crypto.symbol})</h3><p>価格: <span class="price">$${price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: price < 0.01 ? 8 : (price < 1 ? 4 : 2) })}</span></p><p>24時間変動: <span class="${change24h >= 0 ? 'change-positive' : 'change-negative'}">${change24h?.toFixed(2) ?? 'N/A'}%</span></p>`; container.appendChild(card); }); }
-        else if (data?.error) { throw new Error(`プロキシエラー: ${data.error}`); }
-        else if (data?.status?.error_message) { throw new Error(`CMC APIエラー: ${data.status.error_message}`); }
-        else { console.warn("CMC APIからの予期せぬデータ構造:", data); throw new Error('CMC API: 無効なデータ構造です。'); }
+        else if (data?.error) { throw new Error(`プロキシエラー: ${data.error}`); } else if (data?.status?.error_message) { throw new Error(`CMC APIエラー: ${data.status.error_message}`); } else { console.warn("CMC APIからの予期せぬデータ構造:", data); throw new Error('CMC API: 無効なデータ構造です。'); }
     } catch (error) { console.error('CoinMarketCapデータ(プロキシ経由)の取得エラー:', error); container.innerHTML = `<p class="error-message">あらら！価格情報が取れなかったみたい…<br>(詳細: ${error.message})</p>`; }
 }
 
-async function fetchDefiLlamaTvl() {
+async function fetchDefiLlamaTvl() { /* ... 前回のコードと同じ ... */
     const url = 'https://api.llama.fi/charts/xrpl';
     const container = document.getElementById('defilama-tvl-container');
     const currentTvlContainer = document.getElementById('current-tvl-display');
