@@ -1,4 +1,4 @@
-/* style.css (最終版) */
+/* style.css (最終版 - AMM削除、XPMarket追加) */
 
 :root {
     --pastel-pink: #FFF0F5; /* LavenderBlush */
@@ -15,14 +15,14 @@
     --border-color: rgba(221, 160, 221, 0.5); /* Plum, semi-transparent */
     --shadow-color: rgba(219, 112, 147, 0.15); /* PaleVioletRed shadow */
     --font-family: 'M PLUS Rounded 1c', 'Rounded Mplus 1c', sans-serif;
-    --border-radius: 20px; /* More rounded */
+    --border-radius: 20px;
     --button-primary-bg: linear-gradient(135deg, var(--accent-pink), var(--accent-purple));
     --button-primary-hover-bg: linear-gradient(135deg, var(--accent-purple), var(--accent-pink));
     --button-secondary-bg: linear-gradient(135deg, var(--accent-blue), var(--accent-green));
     --button-secondary-hover-bg: linear-gradient(135deg, var(--accent-green), var(--accent-blue));
-    --chart-line-color: #DB7093; /* PaleVioletRed */
-    --chart-bg-color: rgba(255, 182, 193, 0.1); /* LightPink Transparent */
-    --chart-grid-color: rgba(221, 160, 221, 0.2); /* Plum Transparent */
+    --chart-line-color: #DB7093;
+    --chart-bg-color: rgba(255, 182, 193, 0.1);
+    --chart-grid-color: rgba(221, 160, 221, 0.2);
 }
 
 /* ===== Animated Background ===== */
@@ -45,30 +45,29 @@ body {
     color: var(--text-color);
     line-height: 1.7;
     font-size: 16px;
-    /* Animated Gradient Background */
     background: linear-gradient(-45deg, var(--pastel-pink), var(--pastel-blue), var(--pastel-green), var(--pastel-purple));
     background-size: 400% 400%;
     animation: gradient-animation 25s ease infinite;
-    overflow-x: hidden; /* Prevent horizontal scroll */
+    overflow-x: hidden;
 }
 
 .container {
     width: 90%;
     max-width: 1100px;
     margin: 0 auto;
-    padding: 25px 0; /* Slightly increased padding */
+    padding: 25px 0;
 }
 
 h1, h2, h3, h4 {
     color: var(--heading-color);
     margin-bottom: 0.8em;
     font-weight: 700;
-    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.6); /* Subtle text shadow */
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.6);
 }
 
 h1 { font-size: 2.3em; }
 h2 {
-    font-size: 2em; /* Slightly larger */
+    font-size: 2em;
     text-align: center;
     margin-bottom: 35px;
     display: flex;
@@ -76,12 +75,12 @@ h2 {
     justify-content: center;
     gap: 12px;
 }
-h2 .icon { font-size: 1.3em; animation: bounce 2s infinite; } /* Added bounce animation */
+h2 .icon { font-size: 1.3em; animation: bounce 2s infinite; }
 h3 { font-size: 1.4em; }
 h4 { font-size: 1.15em; color: var(--accent-purple); }
 
 
-p { margin-bottom: 1.1em; } /* Slightly more margin */
+p { margin-bottom: 1.1em; }
 .section-subtitle {
     text-align: center;
     font-size: 1.15em;
@@ -95,11 +94,11 @@ a {
     color: var(--accent-pink);
     text-decoration: none;
     transition: color 0.3s ease, transform 0.3s ease;
-    display: inline-block; /* Needed for transform */
+    display: inline-block;
 }
 a:hover {
     color: var(--heading-color);
-    text-decoration: none; /* Remove underline on hover */
+    text-decoration: none;
     transform: scale(1.05);
 }
 
@@ -107,24 +106,23 @@ img {
     max-width: 100%;
     height: auto;
     border-radius: var(--border-radius);
-    display: block; /* Prevent extra space below images */
+    display: block;
 }
 
 /* 日本語部分のスタイル（オプション） */
 .jp-part {
-    /* 必要ならフォントサイズなどを微調整 */
     /* font-size: 0.9em; */
 }
 
 /* ===== ヘッダー ===== */
 .site-header {
-    background: rgba(255, 255, 255, 0.7); /* Semi-transparent white */
-    backdrop-filter: blur(10px); /* Frosted glass effect */
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     padding: 12px 0;
     border-bottom: 2px solid var(--accent-pink);
     box-shadow: 0 3px 8px var(--shadow-color);
-    position: sticky; /* Sticky header */
+    position: sticky;
     top: 0;
     z-index: 1000;
 }
@@ -133,7 +131,7 @@ img {
     align-items: center;
     justify-content: center;
     gap: 15px;
-    padding: 0; /* Remove container padding */
+    padding: 0;
 }
 .header-logo {
     width: 45px;
@@ -143,7 +141,7 @@ img {
 }
 .site-header h1 {
     color: var(--heading-color);
-    font-size: 1.6em; /* 少し調整 */
+    font-size: 1.6em;
     margin: 0;
     text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
 }
@@ -151,32 +149,31 @@ img {
 /* ===== ヒーローセクション ===== */
 .hero-section {
     color: var(--heading-color);
-    padding: 60px 0 80px; /* Increased bottom padding */
+    padding: 60px 0 80px;
     text-align: center;
     position: relative;
 }
-.hero-content { /* ★★★ここが重要★★★ */
+.hero-content {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 40px;
 }
 .hero-text h2 {
-    font-size: 2.8em; /* 英語に合わせて調整 */
+    font-size: 2.8em;
     color: var(--heading-color);
     text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.7);
     margin-bottom: 15px;
 }
 .hero-text p {
-    font-size: 1.25em; /* 英語に合わせて調整 */
+    font-size: 1.25em;
     line-height: 1.6;
     margin-bottom: 30px;
     color: #6a5acd;
     font-weight: 400;
 }
 .hero-image {
-    /* 画像のスタイル */
-    margin-top: 20px; /* テキストとの間に少し余白を追加 */
+     margin-top: 20px;
 }
 .hero-image img {
     max-width: 320px;
@@ -193,7 +190,7 @@ img {
     gap: 20px;
     justify-content: center;
     flex-wrap: wrap;
-    margin-top: 30px; /* テキストとの間に少し余白 */
+    margin-top: 30px;
 }
 .btn {
     display: inline-block;
@@ -218,7 +215,7 @@ img {
     transform: translateY(-4px) scale(1.05);
     box-shadow: 0 8px 20px var(--shadow-color);
 }
-.btn-secondary { /* ★★★これが「XRPカフェを見る」ボタンのスタイル★★★ */
+.btn-secondary {
     background: var(--button-secondary-bg);
 }
 .btn-secondary:hover {
@@ -230,7 +227,7 @@ img {
 /* ===== データセクション (CMC, DefiLlama TVL) ===== */
 .data-section {
     padding: 60px 0;
-    background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent */
+    background-color: rgba(255, 255, 255, 0.5);
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
     border-radius: var(--border-radius);
@@ -238,7 +235,7 @@ img {
     box-shadow: 0 8px 25px rgba(0,0,0,0.1);
 }
 .data-section.alt-bg {
-    background-color: rgba(230, 230, 250, 0.5); /* Lavender semi-transparent */
+    background-color: rgba(230, 230, 250, 0.5);
 }
 .api-data-grid {
     display: grid;
@@ -282,13 +279,13 @@ img {
 /* DefiLlama TVL Specific */
 .tvl-display {
     padding: 20px;
-    text-align: center; /* 中央寄せを追加 */
+    text-align: center;
 }
 .chart-container {
     position: relative;
     width: 100%;
     max-width: 800px;
-    height: 350px; /* 高さを指定 */
+    height: 350px;
     margin: 20px auto;
     background: rgba(255, 255, 255, 0.3);
     border-radius: var(--border-radius);
@@ -314,7 +311,7 @@ img {
     opacity: 0.8;
 }
 
-/* ===== Content Section (XRP Cafe, AMM, Wallet) ===== */
+/* ===== Content Section (XRP Cafe, XPMarket, Wallet) ===== */
 .content-section {
     padding: 60px 0;
     position: relative;
@@ -378,6 +375,7 @@ img {
     padding: 15px;
 }
 
+/* Info Card for AMM (now XPMarket/Wallet also use similar style) */
 .info-card-container {
     display: grid;
     grid-template-columns: 1fr;
@@ -460,16 +458,16 @@ img {
     .hero-text h2 { font-size: 2.5em; }
     .hero-text p { font-size: 1.2em; }
     .api-data-grid { grid-template-columns: 1fr; gap: 25px; }
-    .tvl-display h3 { font-size: 2em; } /* TVLグラフタイトルは無し */
+    .tvl-display h3 { font-size: 2em; }
     .current-tvl h3 { font-size: 1.8em; }
     .current-tvl p { font-size: 1em; }
-    .chart-container { height: 300px; padding: 10px; } /* スマホで高さを調整 */
+    .chart-container { height: 300px; padding: 10px; }
     .btn { padding: 12px 30px; font-size: 1em;}
 }
 
 @media (max-width: 480px) {
     body { font-size: 14px; }
-    .site-header h1 { font-size: 1.3em; }
+    .site-header h1 { font-size: 1.2em; }
     .hero-text h2 { font-size: 1.8em; }
     .hero-text p { font-size: 1.05em; }
     .hero-buttons { flex-direction: column; gap: 15px; }

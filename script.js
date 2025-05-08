@@ -9,9 +9,10 @@ document.addEventListener('DOMContentLoaded', () => {
     fetchDefiLlamaTvl();
 
     // --- ヒーローボタン (XRP Cafeへスクロール) ---
-    const heroBtnNft = document.querySelector('.hero-buttons a[href="#xrp-cafe"]');
-    if (heroBtnNft) {
-        heroBtnNft.addEventListener('click', (e) => {
+    // ボタンが複数になったので、より具体的に選択
+    const heroBtnXrpCafe = document.querySelector('.hero-buttons a[href="#xrp-cafe"]');
+    if (heroBtnXrpCafe) {
+        heroBtnXrpCafe.addEventListener('click', (e) => {
             e.preventDefault();
             const targetSection = document.getElementById('xrp-cafe');
             if (targetSection) {
@@ -19,6 +20,17 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+    // --- ヒーローボタン (XPMarketへスクロール) ---
+     const heroBtnXpMarket = document.querySelector('.hero-buttons a[href="#xpmarket-info"]');
+     if (heroBtnXpMarket) {
+         heroBtnXpMarket.addEventListener('click', (e) => {
+             e.preventDefault();
+             const targetSection = document.getElementById('xpmarket-info');
+             if (targetSection) {
+                 targetSection.scrollIntoView({ behavior: 'smooth' });
+             }
+         });
+     }
 });
 
 // --- CoinMarketCap API (Vercel プロキシ経由 /api/cmc) ---
@@ -26,7 +38,7 @@ async function fetchCmcDataViaProxy() {
     const proxyUrl = '/api/cmc';
 
     const container = document.getElementById('cmc-data-container');
-    if (!container) { // コンテナが存在しない場合は処理中断
+    if (!container) {
         console.error("CMC data container not found!");
         return;
     }
@@ -88,20 +100,18 @@ async function fetchDefiLlamaTvl() {
     const container = document.getElementById('defilama-tvl-container');
     const currentTvlContainer = document.getElementById('current-tvl-display');
     const canvas = document.getElementById('tvlChart');
-    const chartContainer = container?.querySelector('.chart-container'); // グラフコンテナを取得
+    const chartContainer = container?.querySelector('.chart-container');
 
-    // 必要なHTML要素が存在するか確認
     if (!container || !currentTvlContainer || !canvas || !chartContainer) {
         console.error("TVL表示に必要なHTML要素が見つかりません。 ID: defilama-tvl-container, current-tvl-display, tvlChart");
         return;
     }
 
-    // ローディング表示を更新
-    chartContainer.innerHTML = '<p class="loading-message">グラフデータを読み込み中...</p>'; // グラフエリアに表示
+    chartContainer.innerHTML = '<p class="loading-message">グラフデータを読み込み中...</p>';
     currentTvlContainer.innerHTML = `<p class="loading-message">現在のTVL読み込み中...</p>`;
-    // canvas自体は残しておく必要があるので、chartContainerからメッセージを消す
-     chartContainer.innerHTML = '';
-     chartContainer.appendChild(canvas); // canvasを再追加
+    // canvas自体は残す必要があるので、メッセージ後にcanvasを戻す
+    chartContainer.innerHTML = '';
+    chartContainer.appendChild(canvas);
 
 
     try {
@@ -120,23 +130,18 @@ async function fetchDefiLlamaTvl() {
 
         if (Array.isArray(chartData) && chartData.length > 0) {
 
-            // データをChart.js用に整形
-            // 最後の1年分(約365点)のデータに絞るか、データ点数で間引くなど軽量化も検討
-            const recentData = chartData.slice(-365); // 例: 直近365日分
+            const recentData = chartData.slice(-365);
             const labels = recentData.map(item => new Date(parseInt(item.date) * 1000).toLocaleDateString('ja-JP', { month: 'short', day: 'numeric'}));
             const tvlValues = recentData.map(item => item.totalLiquidityUSD);
 
-            // 最新のTVLを取得して表示
             const latestTvl = tvlValues.length > 0 ? tvlValues[tvlValues.length - 1] : 0;
             currentTvlContainer.innerHTML = `
                  <h3>$${latestTvl.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</h3>
                  <p>Current TVL (XRPL)</p>
             `;
 
-            // グラフを描画
             const ctx = canvas.getContext('2d');
 
-             // 既存のグラフがあれば破棄
              if (tvlChartInstance) {
                 tvlChartInstance.destroy();
             }
@@ -152,9 +157,9 @@ async function fetchDefiLlamaTvl() {
                         backgroundColor: 'var(--chart-bg-color)',
                         borderWidth: 2,
                         fill: true,
-                        tension: 0.2, // 少し滑らかに
-                        pointRadius: 0, // 点を非表示にして線を滑らかに見せる
-                        pointHoverRadius: 5 // ホバー時の点
+                        tension: 0.2,
+                        pointRadius: 0,
+                        pointHoverRadius: 5
                     }]
                 },
                 options: {
@@ -164,13 +169,13 @@ async function fetchDefiLlamaTvl() {
                         y: {
                             beginAtZero: true,
                             ticks: {
-                                callback: function(value) { // 短縮形表示
+                                callback: function(value) {
                                     if (value >= 1e9) return (value / 1e9).toFixed(1) + 'B';
                                     if (value >= 1e6) return (value / 1e6).toFixed(1) + 'M';
                                     if (value >= 1e3) return (value / 1e3).toFixed(1) + 'K';
                                     return value.toLocaleString();
                                 },
-                                font: { size: 10 } // Y軸ラベルのフォントサイズ
+                                font: { size: 10 }
                             },
                              grid: {
                                 color: 'var(--chart-grid-color)'
@@ -181,8 +186,8 @@ async function fetchDefiLlamaTvl() {
                                 display: false
                             },
                             ticks: {
-                                maxTicksLimit: 8, // X軸ラベル数を調整
-                                font: { size: 10 } // X軸ラベルのフォントサイズ
+                                maxTicksLimit: 8,
+                                font: { size: 10 }
                             }
                         }
                     },
@@ -207,13 +212,12 @@ async function fetchDefiLlamaTvl() {
                             display: false
                         }
                     },
-                    interaction: { // ホバー時のインタラクション設定
+                    interaction: {
                       intersect: false,
                       mode: 'index',
                     },
                 }
             });
-             // ローディングメッセージがあれば消す
              chartContainer.querySelector('.loading-message')?.remove();
 
         } else {
@@ -227,7 +231,7 @@ async function fetchDefiLlamaTvl() {
              error.message = 'DefiLlama APIへの接続に失敗しました。ネットワークを確認するか、CORSの問題かもしれません。';
          }
          const errorMessageHtml = `<p class="error-message">あらら！TVL情報が取れなかったみたい…<br>(詳細: ${error.message})</p>`;
-         chartContainer.innerHTML = errorMessageHtml; // エラーをグラフエリアに表示
-         currentTvlContainer.innerHTML = ''; // 現在TVL表示はクリア
+         chartContainer.innerHTML = errorMessageHtml;
+         currentTvlContainer.innerHTML = '';
     }
 }

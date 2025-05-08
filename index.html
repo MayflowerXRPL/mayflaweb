@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- 変更: タイトル -->
     <title>Welcome with Mayfla-chan! XRPレジャーポータル</title>
     <link rel="icon" type="image/png" href="studio1.png"> <!-- ファビコン -->
     <link rel="stylesheet" href="style.css">
@@ -17,7 +16,6 @@
     <header class="site-header">
         <div class="container header-content">
             <img src="studio1.png" alt="メイフラちゃんアイコン" class="header-logo">
-             <!-- 変更: ヘッダータイトル -->
             <h1>Welcome with Mayfla-chan! <span class="jp-part">XRPレジャーポータル</span></h1>
         </div>
     </header>
@@ -27,12 +25,11 @@
         <section id="hero" class="hero-section">
             <div class="container hero-content">
                 <div class="hero-text">
-                     <!-- 変更: ヒーロー見出し -->
                     <h2>Hi there, I'm Mayfla-chan!</h2>
-                     <!-- 変更: ヒーロー説明文 -->
                     <p>Let's explore the super cool XRP Ledger together! It's fast, green, and full of possibilities! <span class="jp-part">一緒にXRPLの世界を探検しよう！</span></p>
                     <div class="hero-buttons">
                         <a href="#xrp-cafe" class="btn btn-secondary">XRPカフェを見る</a>
+                        <a href="#xpmarket-info" class="btn btn-primary">XPMarketを見る</a> {/* XPMarketへのボタン追加 */}
                     </div>
                 </div>
                 <div class="hero-image">
@@ -58,13 +55,12 @@
                 <h2><span class="icon">📊</span>XRPL DeFi TVL<span class="icon">📊</span></h2>
                 <p class="section-subtitle">DefiLlamaからの最新情報だよ！</p>
                 <div id="defilama-tvl-container" class="tvl-display">
-                     <!-- 変更: グラフ表示用のCanvasと現在のTVL表示エリアを追加 -->
                     <p class="loading-message">TVL情報を読み込み中...</p>
                     <div class="chart-container">
                         <canvas id="tvlChart"></canvas>
                     </div>
                     <div id="current-tvl-display" class="current-tvl">
-                        <!-- 現在のTVLをJSで表示 -->
+                        {/* <!-- 現在のTVLをJSで表示 --> */}
                     </div>
                 </div>
             </div>
@@ -72,7 +68,7 @@
 
         <!-- ===== XRP Cafe 案内セクション ===== -->
         <section id="xrp-cafe" class="content-section">
-             <div class="container content-grid reverse-grid"> {/* レイアウト反転 */}
+             <div class="container content-grid reverse-grid">
                 <div class="content-image cafe-image">
                     <img src="studio4.jpg" alt="XRP Cafe アイコン" class="content-icon">
                 </div>
@@ -85,37 +81,28 @@
             </div>
         </section>
 
-        <!-- ===== AMMとは？セクション ===== -->
-        <section id="amm-info" class="content-section alt-bg">
-            {/* レイアウト反転解除 */}
+        <!-- ===== [新規] XPMarket 案内セクション ===== -->
+        <section id="xpmarket-info" class="content-section alt-bg">
             <div class="container content-grid">
                 <div class="content-image">
-                    <img src="studio3.jpg" alt="AMMアイコン" class="content-icon">
+                    {/* <!-- studio8.jpg を使用 --> */}
+                    <img src="studio8.jpg" alt="XPMarket アイコン" class="content-icon">
                 </div>
                 <div class="content-text">
-                    <h2><span class="icon">💡</span>XRPLのAMMとは？</h2>
-                    <p>AMMは、XRPレジャーでトークンを簡単に交換できる魔法みたいな仕組みだよ！難しい注文をしなくても、自動でスムーズに取引できるんだ。</p>
-                    <div class="info-card-container">
-                        <div class="info-card">
-                            <h4>🚀 スピーディーな交換</h4>
-                            <p>銀行や取引所を通さずに、トークン同士を直接、素早く交換できる！</p>
-                        </div>
-                        <div class="info-card">
-                            <h4>💧 流動性プール</h4>
-                            <p>みんながトークンを預け合う「プール」があって、そこから交換が行われるよ。預けると報酬も！</p>
-                        </div>
-                         <div class="info-card">
-                            <h4>🤖 自動価格調整</h4>
-                            <p>需要と供給に応じて、プログラムが自動で価格を調整してくれるから公平！</p>
-                        </div>
-                    </div>
+                    <h2><span class="icon">📈</span>XRPLのトークンを探検！XPMarket</h2>
+                    <p>XPMarketは、XRPレジャー上の色々なトークン（XRPL DEXで取引されているもの）の価格や取引量を見ることができる便利なサイトだよ！</p>
+                    <p>どんなトークンが人気なのか、どんな価格で取引されているのかチェックしてみよう！チャートも見られて、市場の動きを知るのに役立つよ。色々なDEX（分散型取引所）の情報をまとめて見られるのがポイント！</p>
+                    <a href="https://xpmarket.com/" target="_blank" class="btn btn-secondary">XPMarketへ行く</a>
                 </div>
             </div>
         </section>
 
+        <!-- ===== [削除] AMMとは？セクション ===== -->
+        <!-- このセクションは完全に削除されました -->
+
         <!-- ===== ウォレットセクション ===== -->
         <section id="wallet-info" class="content-section">
-            <div class="container content-grid reverse-grid"> {/* レイアウト反転 */}
+            <div class="container content-grid reverse-grid">
                  <div class="content-image">
                     <img src="studio5.jpg" alt="Xamanウォレットアイコン" class="content-icon">
                 </div>
@@ -139,9 +126,8 @@
                 <a href="https://xrpl.org/ja/" target="_blank">XRPLについて</a>
                 <a href="#wallet-info">ウォレット</a>
                  <a href="#xrp-cafe">XRPカフェ</a>
-                 <a href="#amm-info">AMM</a>
+                 <a href="#xpmarket-info">XPMarket</a> {/* フッターにXPMarket追加 */}
             </nav>
-             <!-- 変更: 日本語部分をspanで囲む -->
             <p>© 2024 Welcome with Mayfla-chan! <span class="jp-part">XRPレジャーポータル</span>. All rights reserved.</p>
         </div>
     </footer>
