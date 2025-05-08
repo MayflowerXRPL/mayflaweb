@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome with Mayfla-chan! XRPレジャーポータル</title>
     <link rel="icon" type="image/png" href="studio1.png">
-    <link rel="stylesheet" href="style.css"> {/* <!-- メインのCSS --> */}
+    <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 </head>
@@ -14,22 +14,22 @@
     <!-- ===== ヘッダー ===== -->
     <header class="site-header sticky">
         <div class="container header-content">
-            {/* <!-- ロゴとタイトルのみ（ナビゲーションなし） --> */}
             <div class="logo-container">
                 <img src="studio1.png" alt="メイフラちゃんアイコン" class="header-logo">
                 <h1>Welcome with Mayfla-chan! <span class="jp-part">XRPレジャーポータル</span></h1>
             </div>
+             <!-- ヘッダーナビゲーションは無し -->
         </div>
     </header>
 
     <main>
-        {/* ===== ヒーローセクション ===== */}
+        <!-- ===== ヒーローセクション ===== -->
         <section id="hero" class="hero-section">
             <div class="container hero-content">
                 <div class="hero-text">
                     <h2>Hi there, I'm Mayfla-chan!</h2>
                     <p>Let's explore the super cool XRP Ledger together! It's fast, green, and full of possibilities! <span class="jp-part">一緒にXRPLの世界を探検しよう！</span></p>
-                    {/* ===== ヒーローボタン (XRP Cafe と XPMarket) ===== */}
+                    <!-- ===== ヒーローボタン (XRP Cafe と XPMarket) ===== -->
                     <div class="hero-buttons">
                         <a href="#xrp-cafe" class="btn btn-secondary">XRPカフェを見る</a>
                         <a href="#xpmarket-info" class="btn btn-primary">XPMarketを見る</a>
@@ -41,7 +41,7 @@
             </div>
         </section>
 
-        {/* ===== CoinMarketCap API セクション ===== */}
+        <!-- ===== CoinMarketCap API セクション ===== -->
         <section id="cmc-prices" class="data-section">
             <div class="container">
                 <h2><span class="icon">💖</span>トップ暗号通貨の価格<span class="icon">💖</span></h2>
@@ -52,7 +52,7 @@
             </div>
         </section>
 
-        {/* ===== XRPL DeFi TVL (DefiLlama) セクション ===== */}
+        <!-- ===== XRPL DeFi TVL (DefiLlama) セクション ===== -->
         <section id="xrpl-tvl" class="data-section alt-bg">
             <div class="container">
                 <h2><span class="icon">📊</span>XRPL DeFi TVL<span class="icon">📊</span></h2>
@@ -63,13 +63,13 @@
                         <canvas id="tvlChart"></canvas>
                     </div>
                     <div id="current-tvl-display" class="current-tvl">
-                        {/* <!-- 現在のTVLをJSで表示 --> */}
+                        <!-- 現在のTVLをJSで表示 -->
                     </div>
                 </div>
             </div>
         </section>
 
-        {/* ===== XRP Cafe 案内セクション ===== */}
+        <!-- ===== XRP Cafe 案内セクション ===== -->
         <section id="xrp-cafe" class="content-section">
              <div class="container content-grid reverse-grid">
                 <div class="content-image cafe-image">
@@ -84,7 +84,7 @@
             </div>
         </section>
 
-        {/* ===== XPMarket 案内セクション (AMM説明追記) ===== */}
+        <!-- ===== XPMarket 案内セクション (AMM説明追記) ===== -->
         <section id="xpmarket-info" class="content-section alt-bg">
             <div class="container content-grid">
                 <div class="content-image">
@@ -102,7 +102,7 @@
             </div>
         </section>
 
-        {/* ===== ウォレットセクション ===== */}
+        <!-- ===== ウォレットセクション ===== -->
         <section id="wallet-info" class="content-section">
             <div class="container content-grid reverse-grid">
                  <div class="content-image">
@@ -123,20 +123,19 @@
     <footer class="site-footer-bottom">
         <div class="container footer-content">
             <img src="studio2.png" alt="リボンロゴ" class="footer-ribbon">
-            <nav class="footer-nav"> {/* <!-- フッターナビ --> */}
+            <nav class="footer-nav">
                 <a href="#hero">ホーム</a>
                 <a href="https://xrpl.org/ja/" target="_blank">XRPLについて</a>
                 <a href="#wallet-info">ウォレット</a>
                  <a href="#xrp-cafe">XRPカフェ</a>
                  <a href="#xpmarket-info">XPMarket</a>
-                 {/* <!-- フッターにハッカソンページへのリンク --> */}
                  <a href="hackathon.html" class="hackathon-link">ハッカソン2025特設ページ</a>
             </nav>
             <p>© 2024 Welcome with Mayfla-chan! <span class="jp-part">XRPレジャーポータル</span>. All rights reserved.</p>
         </div>
     </footer>
 
-    {/* <!-- メインのJavaScript --> */}
+    <!-- メインのJavaScript -->
     <script src="script.js"></script>
 </body>
 </html>
