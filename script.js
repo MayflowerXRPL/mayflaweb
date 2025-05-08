@@ -8,10 +8,8 @@ document.addEventListener('DOMContentLoaded', () => {
     setupSmoothScrolling();
     setupMobileMenu();
     setupScrollAnimations();
-    // loadParticles(); // パーティクル初期化呼び出しを削除
 });
 
-// ===== Smooth Scrolling Function =====
 function setupSmoothScrolling() {
     const navLinks = document.querySelectorAll('.mobile-nav a[href^="#"], .hero-buttons a[href^="#"], .footer-nav a[href^="#"]');
     navLinks.forEach(link => {
@@ -49,7 +47,6 @@ function setupSmoothScrolling() {
      });
 }
 
-// ===== Mobile Menu Functions =====
 function setupMobileMenu() {
     const menuToggle = document.getElementById('mobile-menu-toggle');
     const mobileNav = document.getElementById('mobile-nav-menu');
@@ -73,7 +70,6 @@ function closeMobileMenu() {
      document.getElementById('mobile-nav-menu')?.setAttribute('aria-hidden', 'true');
 }
 
-// ===== Scroll Reveal Animation Function =====
 function setupScrollAnimations() {
     const revealElements = document.querySelectorAll('.reveal-on-scroll');
     if (!revealElements.length) return;
@@ -87,11 +83,6 @@ function setupScrollAnimations() {
     } else { revealElements.forEach(element => element.classList.add('active')); }
 }
 
-// ===== Particles Background Function (削除) =====
-// async function loadParticles() { ... }
-
-
-// ===== API Fetching Functions =====
 async function fetchCmcDataViaProxy() {
     const proxyUrl = '/api/cmc';
     const container = document.getElementById('cmc-data-container');
