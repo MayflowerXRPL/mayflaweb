@@ -1,4 +1,4 @@
-/* style.css (最終完全版 Ver.3 - bodyアニメーション背景を確実に適用) */
+/* style.css (最終完全版 Ver.4 - アニメーション有効化！) */
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=M+PLUS+Rounded+1c:wght@400;500;700&display=swap');
 
@@ -9,14 +9,12 @@
     --accent-green: #8BC34A;
     --text-color-dark: #37324d;
     --text-color-light: #f8f8ff;
-    /* --- 背景グラデーションの色を定義 --- */
     --bg-grad-1: #fdeff9; /* 淡いピンク */
     --bg-grad-2: #e8f5ff; /* 淡いブルー */
     --bg-grad-3: #f0fff0; /* Honeydew */
     --bg-grad-4: #e6e6fa; /* Lavender */
-    /* ------------------------------------ */
-    --bg-card: rgba(255, 255, 255, 0.8); /* カード背景を少し不透明に */
-    --bg-card-alt: rgba(240, 248, 255, 0.85); /* Altカード背景 */
+    --bg-card: rgba(255, 255, 255, 0.8);
+    --bg-card-alt: rgba(240, 248, 255, 0.85);
     --border-color: rgba(103, 58, 183, 0.15);
     --shadow-soft: 0 8px 24px rgba(103, 58, 183, 0.1);
     --shadow-strong: 0 12px 32px rgba(103, 58, 183, 0.15);
@@ -41,6 +39,9 @@
     50% { transform: translateY(-8px); }
     100% { transform: translateY(0px); }
 }
+/* main用のアニメーション定義は不要になったので削除 */
+/* @keyframes gradient-animation-main { ... } */
+
 
 /* ===== 基本設定 ===== */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -48,16 +49,20 @@ html { scroll-behavior: smooth; font-size: 16px; }
 body {
     font-family: var(--font-body);
     color: var(--text-color-dark);
-    /* --- ここでアニメーション背景を指定！ --- */
+    /* --- アニメーション背景を有効化！ --- */
     background: linear-gradient(-45deg, var(--bg-grad-1), var(--bg-grad-2), var(--bg-grad-3), var(--bg-grad-4));
-    background-size: 400% 400%; /* アニメーションのためにサイズを大きく */
-    animation: gradient-animation 25s ease infinite; /* アニメーションを適用 */
-    /* -------------------------------------- */
+    background-size: 400% 400%;
+    animation: gradient-animation 25s ease infinite;
+    /* ---------------------------------- */
     line-height: 1.8;
     overflow-x: hidden;
     padding-top: var(--header-height);
+    margin: 0; /* margin:0 を確実に追加 */
 }
 body.mobile-menu-active { overflow: hidden; }
+
+/* --- 以下、他のCSSルールは変更なし --- */
+/* ... (以前お渡ししたstyle.cssの残りの部分をここに貼り付け) ... */
 
 .container { width: 90%; max-width: 1140px; margin: 0 auto; padding: 30px 0; }
 h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; line-height: 1.3; margin-bottom: 0.7em; }
@@ -72,7 +77,7 @@ a:hover { color: var(--secondary-color); text-decoration: none; transform: trans
 .jp-part { font-family: var(--font-body); }
 
 /* ===== ヘッダー ===== */
-.site-header { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px) saturate(180%); -webkit-backdrop-filter: blur(12px) saturate(180%); border-bottom: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; height: var(--header-height); display: flex; align-items: center; transition: background var(--transition-main), box-shadow var(--transition-main); }
+.site-header { background: rgba(255, 255, 255, 0.75); backdrop-filter: blur(12px) saturate(180%); -webkit-backdrop-filter: blur(12px) saturate(180%); border-bottom: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; height: var(--header-height); display: flex; align-items: center; transition: background var(--transition-main), box-shadow var(--transition-main); }
 .header-content { display: flex; align-items: center; justify-content: space-between; padding: 0 25px; width: 100%; max-width: 1200px; margin: 0 auto; }
 .logo-container { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
 .header-logo { width: 40px; height: 40px; border-radius: 50%; transition: transform 0.5s ease-out; border: none; }
@@ -92,12 +97,12 @@ body.mobile-menu-active .mobile-nav { display: flex; transform: translateX(0); }
 .mobile-nav a:last-child { border-bottom: none; }
 .mobile-nav a:hover { color: var(--accent-pink); transform: scale(1.03); }
 
-/* ===== メインコンテンツ用背景 (削除) ===== */
-/* main { position: relative; overflow: hidden; } */
-/* main::before { ... } */ /* ← main::before のアニメーションは削除 */
+/* ===== メインコンテンツ用背景 (削除したのでコメントアウト) ===== */
+ main { position: relative; overflow: hidden; }
+/* main::before { ... } */ /* mainの個別背景は不要 */
 
 /* ===== ヒーローセクション ===== */
-.hero-section { padding: 80px 0 100px; text-align: center; position: relative; overflow: hidden; background-color: rgba(255,255,255,0.1); /* 背景を少し透過させて下のbodyアニメーションが見えるように */ }
+.hero-section { padding: 80px 0 100px; text-align: center; position: relative; overflow: hidden; background-color: rgba(255,255,255,0.1); }
 .hero-section::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: linear-gradient(45deg, rgba(103, 58, 183, 0.05) 25%, transparent 25%), linear-gradient(-45deg, rgba(103, 58, 183, 0.05) 25%, transparent 25%), linear-gradient(45deg, transparent 75%, rgba(103, 58, 183, 0.05) 75%), linear-gradient(-45deg, transparent 75%, rgba(103, 58, 183, 0.05) 75%); background-size: 30px 30px; background-position: 0 0, 0 15px, 15px -15px, -15px 0px; z-index: 0; opacity: 0.6; }
 .hero-content { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 30px; }
 .hero-text h2 { font-size: clamp(2.5rem, 7vw, 4rem); color: var(--primary-color); font-weight: 700; margin-bottom: 0.3em; text-shadow: none; }
@@ -117,9 +122,9 @@ body.mobile-menu-active .mobile-nav { display: flex; transform: translateX(0); }
 .btn .icon { margin-right: 8px; font-size: 1.1em; }
 
 /* ===== データセクション (CMC, DefiLlama TVL) ===== */
-.data-section { padding: 70px 0; position: relative; border-radius: var(--border-radius); margin-bottom: 50px; background-color: transparent; /* 背景色を削除して下のbodyアニメーションが見えるように */ }
-.data-section::before { display: none; /* 疑似要素背景も削除 */ }
-.data-section.alt-bg { background-color: rgba(240, 248, 255, 0.2); /* alt背景は少しだけ色をつける */ } /* alt背景調整 */
+.data-section { padding: 70px 0; position: relative; border-radius: var(--border-radius); margin-bottom: 50px; background-color: transparent; }
+.data-section::before { display: none; }
+.data-section.alt-bg { background-color: rgba(240, 248, 255, 0.2); }
 .api-data-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 30px; }
 .token-card { background: var(--bg-card); backdrop-filter: blur(10px) saturate(150%); -webkit-backdrop-filter: blur(10px) saturate(150%); padding: 30px; border-radius: var(--border-radius); box-shadow: var(--shadow-soft); border: 1px solid rgba(255, 255, 255, 0.3); transition: all var(--transition-main); text-align: center; perspective: 800px; }
 .token-card:hover { transform: translateY(-8px) rotateX(3deg) rotateY(-2deg); box-shadow: var(--shadow-strong); background: rgba(255, 255, 255, 0.85); }
@@ -139,10 +144,10 @@ body.mobile-menu-active .mobile-nav { display: flex; transform: translateX(0); }
 .current-tvl p { font-size: 1em; margin: 0; color: #4d4861; font-weight: 500; }
 
 /* ===== Content Section (XRP Cafe, XPMarket, Wallet) ===== */
-.content-section { padding: 80px 0; position: relative; overflow: hidden; background-color: transparent; /* 背景色削除 */ }
-.content-section.alt-bg { background-color: rgba(240, 248, 255, 0.2); border-radius: var(--border-radius); margin-bottom: 50px; box-shadow: var(--shadow-soft); } /* alt背景調整 */
-.content-section::before { display: none; /* ドットパターン削除 */ }
-.content-section.alt-bg::before { display: none; /* ドットパターン削除 */ }
+.content-section { padding: 80px 0; position: relative; overflow: hidden; background-color: transparent; }
+.content-section.alt-bg { background-color: rgba(240, 248, 255, 0.4); border-radius: var(--border-radius); margin-bottom: 50px; box-shadow: var(--shadow-soft); } /* alt背景調整 */
+.content-section::before { display:none; } /* ドット削除 */
+.content-section.alt-bg::before { display:none; } /* ドット削除 */
 .content-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 70px; align-items: center; }
 .content-text h2 { font-size: 2.2rem; text-align: left; border-bottom: 4px solid; border-image: linear-gradient(to right, var(--primary-color), var(--accent-blue)) 1; padding-bottom: 12px; display: inline-block; margin-bottom: 1em; }
 .content-image { text-align: center; perspective: 1000px; }
