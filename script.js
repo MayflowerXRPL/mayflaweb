@@ -1,4 +1,4 @@
-// script.js (プロ仕様デザイン対応版)
+// script.js (最終版 - ヘッダーナビなし、モバイルメニュー対応)
 
 let tvlChartInstance = null;
 
@@ -6,50 +6,52 @@ document.addEventListener('DOMContentLoaded', () => {
     fetchCmcDataViaProxy();
     fetchDefiLlamaTvl();
     setupSmoothScrolling();
-    setupMobileMenu();
-    setupScrollAnimations(); // スクロールアニメーションを追加
-    // setupHeaderScrollEffect(); // ヘッダースクロールエフェクト（オプション）
+    setupMobileMenu(); // モバイルメニュー機能を有効化
+    setupScrollAnimations();
 });
 
-// ===== Smooth Scrolling Function (微調整) =====
 function setupSmoothScrolling() {
-    const navLinks = document.querySelectorAll('.header-nav a[href^="#"], .mobile-nav a[href^="#"], .hero-buttons a[href^="#"], .footer-nav a[href^="#"]'); // フッターも対象に
+    // フッターとヒーローボタンのページ内リンクを対象
+    const navLinks = document.querySelectorAll('.footer-nav a[href^="#"], .hero-buttons a[href^="#"]');
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
             const targetId = this.getAttribute('href');
-            // 外部リンクや '#' だけのリンクは無視
-            if (!targetId || targetId === '#' || targetId.startsWith('http') || targetId.startsWith('mailto')) {
-                 // モバイルメニューが開いていたら閉じる（ページ内リンク以外でも）
-                 if(document.body.classList.contains('mobile-menu-active')){
-                     closeMobileMenu();
-                 }
-                 return; // 通常のリンク動作
+            if (!targetId || targetId === '#' || !document.querySelector(targetId)) {
+                 if(document.body.classList.contains('mobile-menu-active')){ closeMobileMenu(); }
+                 return;
             }
-
-            e.preventDefault(); // ページ内リンクの場合のみデフォルト動作を抑制
+            e.preventDefault();
             const targetElement = document.querySelector(targetId);
-
             if (targetElement) {
-                const headerOffset = document.querySelector('.site-header')?.offsetHeight || 70; // ヘッダーの高さを取得
+                const headerOffset = document.querySelector('.site-header')?.offsetHeight || 70;
                 const elementPosition = targetElement.getBoundingClientRect().top;
-                const offsetPosition = elementPosition + window.pageYOffset - headerOffset - 20; // オフセット調整
-
-                window.scrollTo({
-                    top: offsetPosition,
-                    behavior: 'smooth'
-                });
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset - 20;
+                window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
             }
-            closeMobileMenu(); // モバイルメニューを閉じる
+            closeMobileMenu();
         });
     });
+     // モバイルメニュー内のページ内リンクも対象にする
+     const mobileNavLinks = document.querySelectorAll('.mobile-nav a[href^="#"]');
+     mobileNavLinks.forEach(link => {
+         link.addEventListener('click', function(e) {
+             e.preventDefault();
+             const targetId = this.getAttribute('href');
+             const targetElement = document.querySelector(targetId);
+             if (targetElement) {
+                 const headerOffset = document.querySelector('.site-header')?.offsetHeight || 70;
+                 const elementPosition = targetElement.getBoundingClientRect().top;
+                 const offsetPosition = elementPosition + window.pageYOffset - headerOffset - 20;
+                 window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+             }
+             closeMobileMenu();
+         });
+     });
 }
 
-
-// ===== Mobile Menu Functions (変更なし) =====
 function setupMobileMenu() {
     const menuToggle = document.getElementById('mobile-menu-toggle');
     const mobileNav = document.getElementById('mobile-nav-menu');
-
     if (menuToggle && mobileNav) {
         menuToggle.addEventListener('click', () => {
             const isActive = document.body.classList.toggle('mobile-menu-active');
@@ -70,68 +72,19 @@ function closeMobileMenu() {
      document.getElementById('mobile-nav-menu')?.setAttribute('aria-hidden', 'true');
 }
 
-
-// ===== Scroll Reveal Animation Function =====
 function setupScrollAnimations() {
     const revealElements = document.querySelectorAll('.reveal-on-scroll');
-
-    if (!revealElements.length) return; // 対象要素がなければ何もしない
-
-    // Intersection Observer をサポートしているか確認
+    if (!revealElements.length) return;
     if ('IntersectionObserver' in window) {
         const revealObserver = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                     // 一度表示したら監視をやめる場合
-                     // observer.unobserve(entry.target);
-                } else {
-                    // 画面外に出たらクラスを削除して再度アニメーションさせる場合（オプション）
-                    // entry.target.classList.remove('active');
-                }
+                if (entry.isIntersecting) { entry.target.classList.add('active'); }
             });
-        }, {
-            threshold: 0.15, // 要素が15%見えたらトリガー
-            rootMargin: '0px 0px -50px 0px' // 画面下部から50px手前でトリガー開始
-        });
-
-        revealElements.forEach(element => {
-            revealObserver.observe(element);
-        });
-    } else {
-        // Intersection Observer 非対応ブラウザ向けのフォールバック（全表示など）
-        revealElements.forEach(element => element.classList.add('active'));
-    }
+        }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+        revealElements.forEach(element => { revealObserver.observe(element); });
+    } else { revealElements.forEach(element => element.classList.add('active')); }
 }
 
-// ===== Header Scroll Effect (Optional) =====
-// function setupHeaderScrollEffect() {
-//     const header = document.querySelector('.site-header');
-//     if (!header) return;
-//     let lastScrollTop = 0;
-//     window.addEventListener('scroll', () => {
-//         let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-//         if (scrollTop > lastScrollTop && scrollTop > header.offsetHeight) {
-//             // Scroll Down
-//             header.style.top = `-${header.offsetHeight}px`; // Hide header
-//             document.body.classList.remove('scrolled');
-//         } else {
-//             // Scroll Up or Top
-//             header.style.top = '0';
-//             if(scrollTop > 50) { // Add background after scrolling down a bit
-//                 document.body.classList.add('scrolled');
-//             } else {
-//                 document.body.classList.remove('scrolled');
-//             }
-//         }
-//         lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // For Mobile or negative scrolling
-//     }, false);
-// }
-
-
-// ===== API Fetching Functions (変更なし) =====
-
-// --- CoinMarketCap API (Vercel プロキシ経由 /api/cmc) ---
 async function fetchCmcDataViaProxy() {
     const proxyUrl = '/api/cmc';
     const container = document.getElementById('cmc-data-container');
@@ -139,7 +92,6 @@ async function fetchCmcDataViaProxy() {
     container.innerHTML = '<p class="loading-message">価格情報を読み込み中...</p>';
     try {
         const response = await fetch(proxyUrl);
-        // --- 省略 (前回のコードと同じ) ---
         if (!response.ok) {
             const errorData = await response.json().catch(() => ({ message: response.statusText }));
             console.error('CMC Proxy Response Error:', response.status, errorData);
@@ -170,7 +122,6 @@ async function fetchCmcDataViaProxy() {
     }
 }
 
-// --- DefiLlama API (XRPL TVL グラフ) ---
 async function fetchDefiLlamaTvl() {
     const url = 'https://api.llama.fi/charts/xrpl';
     const container = document.getElementById('defilama-tvl-container');
@@ -181,7 +132,6 @@ async function fetchDefiLlamaTvl() {
     chartContainer.innerHTML = ''; chartContainer.appendChild(canvas); currentTvlContainer.innerHTML = `<p class="loading-message">現在のTVL読み込み中...</p>`;
     try {
         const response = await fetch(url);
-         // --- 省略 (前回のコードと同じ) ---
         if (!response.ok) {
              const errorText = await response.text().catch(()=> response.statusText);
             console.error('DefiLlama API Error:', response.status, errorText);
