@@ -12,15 +12,12 @@
 <body>
 
     <!-- ===== ヘッダー ===== -->
-    <header class="site-header sticky"> {/* <!-- sticky クラスを追加して追従させる --> */}
+    <header class="site-header sticky">
         <div class="container header-content">
-            {/* <!-- ロゴ --> */}
-            <div class="logo-container"> {/* ロゴとタイトルをまとめるdiv */}
+            <div class="logo-container">
                 <img src="studio1.png" alt="メイフラちゃんアイコン" class="header-logo">
                 <h1>Welcome with Mayfla-chan! <span class="jp-part">XRPレジャーポータル</span></h1>
             </div>
-
-            {/* ===== ヘッダーナビゲーション ===== */}
             <nav class="header-nav">
                 <a href="#hero">ホーム</a>
                 <a href="#wallet-info">ウォレット</a>
@@ -28,14 +25,12 @@
                 <a href="#xpmarket-info">XPMarket</a>
                 <a href="hackathon.html" class="hackathon-link">ハッカソン2025</a>
             </nav>
-            {/* ===== モバイルメニュー用ボタン (CSSで表示/非表示制御) ===== */}
             <button id="mobile-menu-toggle" aria-label="メニューを開く">
                 <span></span>
                 <span></span>
                 <span></span>
             </button>
         </div>
-         {/* ===== モバイル用ナビゲーションメニュー (通常は非表示) ===== */}
          <nav class="mobile-nav" id="mobile-nav-menu">
              <a href="#hero">ホーム</a>
              <a href="#wallet-info">ウォレット</a>
@@ -47,7 +42,7 @@
     </header>
 
     <main>
-        {/* ===== ヒーローセクション ===== */}
+        <!-- ===== ヒーローセクション ===== -->
         <section id="hero" class="hero-section">
             <div class="container hero-content">
                 <div class="hero-text">
@@ -64,7 +59,7 @@
             </div>
         </section>
 
-        {/* ===== CoinMarketCap API セクション ===== */}
+        <!-- ===== CoinMarketCap API セクション ===== -->
         <section id="cmc-prices" class="data-section">
             <div class="container">
                 <h2><span class="icon">💖</span>トップ暗号通貨の価格<span class="icon">💖</span></h2>
@@ -75,7 +70,7 @@
             </div>
         </section>
 
-        {/* ===== XRPL DeFi TVL (DefiLlama) セクション ===== */}
+        <!-- ===== XRPL DeFi TVL (DefiLlama) セクション ===== -->
         <section id="xrpl-tvl" class="data-section alt-bg">
             <div class="container">
                 <h2><span class="icon">📊</span>XRPL DeFi TVL<span class="icon">📊</span></h2>
@@ -92,7 +87,7 @@
             </div>
         </section>
 
-        {/* ===== XRP Cafe 案内セクション ===== */}
+        <!-- ===== XRP Cafe 案内セクション ===== -->
         <section id="xrp-cafe" class="content-section">
              <div class="container content-grid reverse-grid">
                 <div class="content-image cafe-image">
@@ -107,7 +102,7 @@
             </div>
         </section>
 
-        {/* ===== XPMarket 案内セクション (AMM説明追記) ===== */}
+        <!-- ===== XPMarket 案内セクション (AMM説明追記) ===== -->
         <section id="xpmarket-info" class="content-section alt-bg">
             <div class="container content-grid">
                 <div class="content-image">
@@ -125,7 +120,7 @@
             </div>
         </section>
 
-        {/* ===== ウォレットセクション ===== */}
+        <!-- ===== ウォレットセクション ===== -->
         <section id="wallet-info" class="content-section">
             <div class="container content-grid reverse-grid">
                  <div class="content-image">
