@@ -7,6 +7,10 @@
     <link rel="icon" type="image/png" href="studio1.png">
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&display=swap" rel="stylesheet">
+    {/* Poppinsフォントも読み込む */}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 </head>
 <body>
@@ -105,6 +109,21 @@
                 </div>
             </div>
         </section>
+
+        <!-- ★★★ AMM風アニメーションセクションを追加 ★★★ -->
+        <section class="amm-animation-section">
+            <div class="container reveal-on-scroll fade-in"> {/* アニメーションクラス追加 */}
+                <h2><span class="icon">💫</span>これがXRPLのAMMパワー！<span class="icon">💫</span></h2>
+                <p class="section-intro">トークンがスムーズに交換できるのは、こんなイメージの仕組みが裏で動いているからなんだ！</p>
+                <div class="amm-animation-container">
+                    <div class="rotating-circle"></div>
+                    <div class="inner-element">
+                        {/* <span>AMM</span> 文字はCSSで非表示も可 */}
+                    </div>
+                </div>
+            </div>
+        </section>
+        {/* ★★★ 追加ここまで ★★★ */}
 
         <section id="wallet-info" class="content-section">
             <div class="container content-grid reverse-grid">
