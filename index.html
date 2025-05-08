@@ -12,13 +12,13 @@
 <body>
 
     <!-- ===== ヘッダー ===== -->
-    <header class="site-header sticky"> {/* <!-- スティッキーヘッダーのまま --> */}
+    <header class="site-header sticky">
         <div class="container header-content">
+            {/* <!-- ロゴとタイトルのみ（ナビゲーションなし） --> */}
             <div class="logo-container">
                 <img src="studio1.png" alt="メイフラちゃんアイコン" class="header-logo">
                 <h1>Welcome with Mayfla-chan! <span class="jp-part">XRPレジャーポータル</span></h1>
             </div>
-             {/* <!-- ヘッダーナビゲーションはここには無い --> */}
         </div>
     </header>
 
@@ -29,6 +29,7 @@
                 <div class="hero-text">
                     <h2>Hi there, I'm Mayfla-chan!</h2>
                     <p>Let's explore the super cool XRP Ledger together! It's fast, green, and full of possibilities! <span class="jp-part">一緒にXRPLの世界を探検しよう！</span></p>
+                    {/* ===== ヒーローボタン (XRP Cafe と XPMarket) ===== */}
                     <div class="hero-buttons">
                         <a href="#xrp-cafe" class="btn btn-secondary">XRPカフェを見る</a>
                         <a href="#xpmarket-info" class="btn btn-primary">XPMarketを見る</a>
@@ -45,7 +46,6 @@
             <div class="container">
                 <h2><span class="icon">💖</span>トップ暗号通貨の価格<span class="icon">💖</span></h2>
                 <p class="section-subtitle">CoinMarketCapからの最新情報だよ！ (via Proxy)</p>
-                {/* --- CMCデータを表示する場所 --- */}
                 <div id="cmc-data-container" class="api-data-grid">
                     <p class="loading-message">価格情報を読み込み中...</p>
                 </div>
@@ -123,7 +123,7 @@
     <footer class="site-footer-bottom">
         <div class="container footer-content">
             <img src="studio2.png" alt="リボンロゴ" class="footer-ribbon">
-            <nav class="footer-nav"> {/* <!-- フッターナビはそのまま --> */}
+            <nav class="footer-nav"> {/* <!-- フッターナビ --> */}
                 <a href="#hero">ホーム</a>
                 <a href="https://xrpl.org/ja/" target="_blank">XRPLについて</a>
                 <a href="#wallet-info">ウォレット</a>
@@ -136,7 +136,7 @@
         </div>
     </footer>
 
-    {/* <!-- メインのJavaScriptを読み込む --> */}
+    {/* <!-- メインのJavaScript --> */}
     <script src="script.js"></script>
 </body>
 </html>
