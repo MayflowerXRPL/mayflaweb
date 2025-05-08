@@ -5,8 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome with Mayfla-chan! XRPレジャーポータル</title>
     <link rel="icon" type="image/png" href="studio1.png">
+    {/* <!-- 元のサイトのCSSを読み込む --> */}
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&display=swap" rel="stylesheet">
+    {/* <!-- Chart.jsライブラリ (TVLグラフ用) --> */}
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 </head>
 <body>
@@ -80,7 +82,7 @@
             </div>
         </section>
 
-        <!-- ===== XPMarket 案内セクション ===== -->
+        <!-- ===== XPMarket 案内セクション (AMM説明追記) ===== -->
         <section id="xpmarket-info" class="content-section alt-bg">
             <div class="container content-grid">
                 <div class="content-image">
@@ -90,6 +92,13 @@
                     <h2><span class="icon">📈</span>XRPLのトークンを探検！XPMarket</h2>
                     <p>XPMarketは、XRPレジャー上の色々なトークン（XRPL DEXで取引されているもの）の価格や取引量を見ることができる便利なサイトだよ！</p>
                     <p>どんなトークンが人気なのか、どんな価格で取引されているのかチェックしてみよう！チャートも見られて、市場の動きを知るのに役立つよ。色々なDEX（分散型取引所）の情報をまとめて見られるのがポイント！</p>
+
+                    {/* <!-- ★★★ ここにAMMの説明を追記 ★★★ --> */}
+                    <h3 style="margin-top: 2em; font-size: 1.6em; color: var(--accent-purple);">💡 AMMって何？</h3>
+                    <p>AMM (自動マーケットメーカー) は、XRPLでトークンを簡単に交換できる仕組みのことだよ。XPMarketで見ているトークンも、このAMMなどを使って交換できるんだ。<br>
+                    難しい注文板を見なくても、流動性プールという場所にトークンを預けた人たちのおかげで、スムーズにトレードできるんだ。便利だね！</p>
+                    {/* <!-- ★★★ 追記ここまで ★★★ --> */}
+
                     <a href="https://xpmarket.com/" target="_blank" class="btn btn-secondary">XPMarketへ行く</a>
                 </div>
             </div>
@@ -122,11 +131,14 @@
                 <a href="#wallet-info">ウォレット</a>
                  <a href="#xrp-cafe">XRPカフェ</a>
                  <a href="#xpmarket-info">XPMarket</a>
+                 {/* <!-- ★★★ ここにハッカソンページへのリンクを追加 ★★★ --> */}
+                 <a href="hackathon.html" class="hackathon-link">ハッカソン2025特設ページ</a>
             </nav>
             <p>© 2024 Welcome with Mayfla-chan! <span class="jp-part">XRPレジャーポータル</span>. All rights reserved.</p>
         </div>
     </footer>
 
+    {/* <!-- 元のサイトのJavaScriptを読み込む --> */}
     <script src="script.js"></script>
 </body>
 </html>
