@@ -1,53 +1,135 @@
-// script.js (モバイルメニューなしの最終版)
+// script.js (プロ仕様デザイン対応版)
 
-// グローバルスコープでChartインスタンスを保持する変数
 let tvlChartInstance = null;
 
 document.addEventListener('DOMContentLoaded', () => {
-    // --- APIデータ取得 ---
     fetchCmcDataViaProxy();
     fetchDefiLlamaTvl();
-
-    // --- スムーススクロール設定 ---
     setupSmoothScrolling();
+    setupMobileMenu();
+    setupScrollAnimations(); // スクロールアニメーションを追加
+    // setupHeaderScrollEffect(); // ヘッダースクロールエフェクト（オプション）
+});
 
-    // --- モバイルメニュー設定は削除 ---
-    // setupMobileMenu();
-
-}); // End of DOMContentLoaded
-
-// ===== Smooth Scrolling Function =====
+// ===== Smooth Scrolling Function (微調整) =====
 function setupSmoothScrolling() {
-    // スクロール対象のリンクをヒーローボタンとフッターナビに限定
-    const navLinks = document.querySelectorAll('.hero-buttons a[href^="#"], .footer-nav a[href^="#"]');
+    const navLinks = document.querySelectorAll('.header-nav a[href^="#"], .mobile-nav a[href^="#"], .hero-buttons a[href^="#"], .footer-nav a[href^="#"]'); // フッターも対象に
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
-            e.preventDefault();
             const targetId = this.getAttribute('href');
+            // 外部リンクや '#' だけのリンクは無視
+            if (!targetId || targetId === '#' || targetId.startsWith('http') || targetId.startsWith('mailto')) {
+                 // モバイルメニューが開いていたら閉じる（ページ内リンク以外でも）
+                 if(document.body.classList.contains('mobile-menu-active')){
+                     closeMobileMenu();
+                 }
+                 return; // 通常のリンク動作
+            }
+
+            e.preventDefault(); // ページ内リンクの場合のみデフォルト動作を抑制
             const targetElement = document.querySelector(targetId);
 
             if (targetElement) {
-                const headerHeight = document.querySelector('.site-header')?.offsetHeight || 0;
+                const headerOffset = document.querySelector('.site-header')?.offsetHeight || 70; // ヘッダーの高さを取得
                 const elementPosition = targetElement.getBoundingClientRect().top;
-                const offsetPosition = elementPosition + window.pageYOffset - headerHeight - 20;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset - 20; // オフセット調整
 
                 window.scrollTo({
                     top: offsetPosition,
                     behavior: 'smooth'
                 });
             }
-            // モバイルメニューを閉じる処理は不要
-            // closeMobileMenu();
+            closeMobileMenu(); // モバイルメニューを閉じる
         });
     });
 }
 
-// ===== Mobile Menu Functions は削除 =====
-// function setupMobileMenu() { ... }
-// function closeMobileMenu() { ... }
+
+// ===== Mobile Menu Functions (変更なし) =====
+function setupMobileMenu() {
+    const menuToggle = document.getElementById('mobile-menu-toggle');
+    const mobileNav = document.getElementById('mobile-nav-menu');
+
+    if (menuToggle && mobileNav) {
+        menuToggle.addEventListener('click', () => {
+            const isActive = document.body.classList.toggle('mobile-menu-active');
+            menuToggle.classList.toggle('active', isActive);
+            menuToggle.setAttribute('aria-expanded', isActive ? 'true' : 'false');
+            mobileNav.setAttribute('aria-hidden', !isActive);
+        });
+    }
+}
+
+function closeMobileMenu() {
+     const menuToggle = document.getElementById('mobile-menu-toggle');
+     document.body.classList.remove('mobile-menu-active');
+     if (menuToggle) {
+        menuToggle.classList.remove('active');
+        menuToggle.setAttribute('aria-expanded', 'false');
+     }
+     document.getElementById('mobile-nav-menu')?.setAttribute('aria-hidden', 'true');
+}
 
 
-// ===== API Fetching Functions =====
+// ===== Scroll Reveal Animation Function =====
+function setupScrollAnimations() {
+    const revealElements = document.querySelectorAll('.reveal-on-scroll');
+
+    if (!revealElements.length) return; // 対象要素がなければ何もしない
+
+    // Intersection Observer をサポートしているか確認
+    if ('IntersectionObserver' in window) {
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                     // 一度表示したら監視をやめる場合
+                     // observer.unobserve(entry.target);
+                } else {
+                    // 画面外に出たらクラスを削除して再度アニメーションさせる場合（オプション）
+                    // entry.target.classList.remove('active');
+                }
+            });
+        }, {
+            threshold: 0.15, // 要素が15%見えたらトリガー
+            rootMargin: '0px 0px -50px 0px' // 画面下部から50px手前でトリガー開始
+        });
+
+        revealElements.forEach(element => {
+            revealObserver.observe(element);
+        });
+    } else {
+        // Intersection Observer 非対応ブラウザ向けのフォールバック（全表示など）
+        revealElements.forEach(element => element.classList.add('active'));
+    }
+}
+
+// ===== Header Scroll Effect (Optional) =====
+// function setupHeaderScrollEffect() {
+//     const header = document.querySelector('.site-header');
+//     if (!header) return;
+//     let lastScrollTop = 0;
+//     window.addEventListener('scroll', () => {
+//         let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+//         if (scrollTop > lastScrollTop && scrollTop > header.offsetHeight) {
+//             // Scroll Down
+//             header.style.top = `-${header.offsetHeight}px`; // Hide header
+//             document.body.classList.remove('scrolled');
+//         } else {
+//             // Scroll Up or Top
+//             header.style.top = '0';
+//             if(scrollTop > 50) { // Add background after scrolling down a bit
+//                 document.body.classList.add('scrolled');
+//             } else {
+//                 document.body.classList.remove('scrolled');
+//             }
+//         }
+//         lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // For Mobile or negative scrolling
+//     }, false);
+// }
+
+
+// ===== API Fetching Functions (変更なし) =====
 
 // --- CoinMarketCap API (Vercel プロキシ経由 /api/cmc) ---
 async function fetchCmcDataViaProxy() {
@@ -57,6 +139,7 @@ async function fetchCmcDataViaProxy() {
     container.innerHTML = '<p class="loading-message">価格情報を読み込み中...</p>';
     try {
         const response = await fetch(proxyUrl);
+        // --- 省略 (前回のコードと同じ) ---
         if (!response.ok) {
             const errorData = await response.json().catch(() => ({ message: response.statusText }));
             console.error('CMC Proxy Response Error:', response.status, errorData);
@@ -75,16 +158,12 @@ async function fetchCmcDataViaProxy() {
                 const change24h = crypto.quote.USD.percent_change_24h;
                 const card = document.createElement('div');
                 card.className = 'token-card';
-                card.innerHTML = `
-                    <h3>${crypto.name} (${crypto.symbol})</h3>
-                    <p>価格: <span class="price">$${price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: price < 0.01 ? 8 : (price < 1 ? 4 : 2) })}</span></p>
-                    <p>24時間変動: <span class="${change24h >= 0 ? 'change-positive' : 'change-negative'}">${change24h?.toFixed(2) ?? 'N/A'}%</span></p>
-                `;
+                card.innerHTML = `<h3>${crypto.name} (${crypto.symbol})</h3><p>価格: <span class="price">$${price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: price < 0.01 ? 8 : (price < 1 ? 4 : 2) })}</span></p><p>24時間変動: <span class="${change24h >= 0 ? 'change-positive' : 'change-negative'}">${change24h?.toFixed(2) ?? 'N/A'}%</span></p>`;
                 container.appendChild(card);
             });
-        } else if (data?.error) { throw new Error(`プロキシエラー: ${data.error}`);
-        } else if (data?.status?.error_message) { throw new Error(`CMC APIエラー: ${data.status.error_message}`);
-        } else { console.warn("CMC APIからの予期せぬデータ構造:", data); throw new Error('CMC API: 無効なデータ構造です。'); }
+        } else if (data?.error) { throw new Error(`プロキシエラー: ${data.error}`); }
+        else if (data?.status?.error_message) { throw new Error(`CMC APIエラー: ${data.status.error_message}`); }
+        else { console.warn("CMC APIからの予期せぬデータ構造:", data); throw new Error('CMC API: 無効なデータ構造です。'); }
     } catch (error) {
         console.error('CoinMarketCapデータ(プロキシ経由)の取得エラー:', error);
         container.innerHTML = `<p class="error-message">あらら！価格情報が取れなかったみたい…<br>(詳細: ${error.message})</p>`;
@@ -98,15 +177,11 @@ async function fetchDefiLlamaTvl() {
     const currentTvlContainer = document.getElementById('current-tvl-display');
     const canvas = document.getElementById('tvlChart');
     const chartContainer = container?.querySelector('.chart-container');
-
     if (!container || !currentTvlContainer || !canvas || !chartContainer) { console.error("TVL表示に必要なHTML要素が見つかりません。"); return; }
-
-    chartContainer.innerHTML = '';
-    chartContainer.appendChild(canvas);
-    currentTvlContainer.innerHTML = `<p class="loading-message">現在のTVL読み込み中...</p>`;
-
+    chartContainer.innerHTML = ''; chartContainer.appendChild(canvas); currentTvlContainer.innerHTML = `<p class="loading-message">現在のTVL読み込み中...</p>`;
     try {
         const response = await fetch(url);
+         // --- 省略 (前回のコードと同じ) ---
         if (!response.ok) {
              const errorText = await response.text().catch(()=> response.statusText);
             console.error('DefiLlama API Error:', response.status, errorText);
