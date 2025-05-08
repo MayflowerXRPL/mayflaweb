@@ -1,422 +1,88 @@
+/* style.css (既存のスタイルに以下を追加・修正) */
+
 :root {
-    --pastel-pink: #FFECF5; /* Sakura Pink */
-    --pastel-purple: #E6E6FA; /* Lavender */
-    --pastel-blue: #E0F7FA; /* Light Cyan */
-    --accent-pink: #FFB6C1; /* LightPink */
-    --accent-purple: #D8BFD8; /* Thistle */
-    --accent-blue: #ADD8E6; /* LightBlue */
-    --text-color: #5D5D5D; /* Darker Gray for readability */
-    --heading-color: #C71585; /* MediumVioletRed - cute and strong */
-    --card-bg: #FFFFFF;
-    --border-color: #F0D9E7; /* Soft pinkish border */
-    --shadow-color: rgba(200, 150, 180, 0.15);
-    --font-family: 'M PLUS Rounded 1c', 'Rounded Mplus 1c', sans-serif;
-    --border-radius: 15px;
-    --button-bg: var(--accent-pink);
-    --button-hover-bg: #FFC0CB; /* Pink */
-    --button-secondary-bg: var(--accent-blue);
-    --button-secondary-hover-bg: #B0E0E6; /* PowderBlue */
+    /* ... (既存の変数はそのまま) ... */
+    --chart-line-color: #DB7093; /* PaleVioletRed */
+    --chart-bg-color: rgba(255, 182, 193, 0.1); /* LightPink Transparent */
+    --chart-grid-color: rgba(221, 160, 221, 0.2); /* Plum Transparent */
 }
 
-body {
-    margin: 0;
-    font-family: var(--font-family);
-    background-color: var(--pastel-pink);
-    color: var(--text-color);
-    line-height: 1.7;
-    font-size: 16px;
-}
+/* ... (既存のbody, headerなどのスタイルはほぼそのまま) ... */
 
-.container {
-    width: 90%;
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 20px 0;
-}
-
-h1, h2, h3, h4 {
-    color: var(--heading-color);
-    margin-bottom: 0.7em;
-    font-weight: 700;
-}
-
-h1 { font-size: 2.2em; }
-h2 { 
-    font-size: 1.8em; 
-    text-align: center;
-    margin-bottom: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-}
-h2 .icon { font-size: 1.2em; }
-h3 { font-size: 1.3em; }
-h4 { font-size: 1.1em; color: var(--accent-pink); }
-
-
-p { margin-bottom: 1em; }
-.section-subtitle {
-    text-align: center;
-    font-size: 1.1em;
-    color: var(--text-color);
-    margin-top: -20px;
-    margin-bottom: 30px;
-}
-
-a {
-    color: var(--accent-pink);
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-a:hover {
-    color: var(--heading-color);
-    text-decoration: underline;
-}
-
-img {
-    max-width: 100%;
-    height: auto;
-    border-radius: var(--border-radius);
-}
-
-/* ===== ヘッダー ===== */
-.site-header {
-    background: linear-gradient(135deg, var(--pastel-blue), var(--pastel-pink));
-    padding: 10px 0;
-    border-bottom: 3px solid var(--accent-pink);
-    box-shadow: 0 2px 5px var(--shadow-color);
-}
-.header-content {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;
-}
-.header-logo {
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-}
+/* ヘッダータイトルの調整 */
 .site-header h1 {
-    color: var(--heading-color);
-    font-size: 1.6em;
-    margin: 0;
-    text-shadow: 1px 1px 2px rgba(255,255,255,0.7);
+    font-size: 1.6em; /* 少し調整 */
+}
+/* 日本語部分のスタイル（オプション） */
+.jp-part {
+    /* 必要ならフォントサイズなどを微調整 */
+    /* font-size: 0.9em; */
 }
 
-/* ===== ヒーローセクション ===== */
-.hero-section {
-    background: var(--pastel-blue);
-    background-image: radial-gradient(circle, var(--pastel-blue) 0%, var(--pastel-purple) 100%);
-    color: var(--heading-color);
-    padding: 50px 0;
-    text-align: center;
-}
-.hero-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 30px;
-}
+/* ヒーローセクション調整 */
 .hero-text h2 {
-    font-size: 2.8em;
-    color: var(--heading-color);
-    text-shadow: 2px 2px 4px rgba(255,255,255,0.5);
-    margin-bottom: 10px;
+    font-size: 2.8em; /* 英語に合わせて調整 */
 }
 .hero-text p {
-    font-size: 1.25em;
-    margin-bottom: 25px;
-    color: #6a5acd; /* SlateBlue for contrast */
-}
-.hero-image img {
-    max-width: 280px;
-    border: 5px solid white;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-    border-radius: 25px;
-}
-.hero-buttons {
-    display: flex;
-    gap: 15px;
-    justify-content: center;
-    flex-wrap: wrap;
-}
-.btn {
-    display: inline-block;
-    padding: 12px 28px;
-    border-radius: 30px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: all 0.3s ease;
-    border: none;
-    cursor: pointer;
-    box-shadow: 0 4px 8px var(--shadow-color);
-}
-.btn-primary {
-    background-color: var(--button-bg);
-    color: white;
-}
-.btn-primary:hover {
-    background-color: var(--button-hover-bg);
-    transform: translateY(-3px) scale(1.03);
-    box-shadow: 0 6px 12px var(--shadow-color);
-}
-.btn-secondary {
-    background-color: var(--button-secondary-bg);
-    color: white;
-}
-.btn-secondary:hover {
-    background-color: var(--button-secondary-hover-bg);
-    transform: translateY(-3px) scale(1.03);
-    box-shadow: 0 6px 12px var(--shadow-color);
+    font-size: 1.25em; /* 英語に合わせて調整 */
+    line-height: 1.6;
 }
 
-/* ===== データセクション (CMC, Bithomp) ===== */
-.data-section {
-    padding: 50px 0;
-    background-color: var(--card-bg);
+/* DefiLlama TVL セクションのグラフ用スタイル */
+.tvl-display {
+    padding: 20px; /* 内側のパディングを少し減らす */
 }
-.data-section.alt-bg {
-    background-color: var(--pastel-purple);
-}
-.api-data-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 25px;
-}
-.token-card {
-    background-color: white;
-    padding: 20px;
+.chart-container {
+    position: relative;
+    /* height: 300px; */ /* 高さはJS側 or 親要素で調整も可 */
+    width: 100%;
+    max-width: 800px; /* グラフの最大幅 */
+    margin: 20px auto; /* 中央寄せ */
+    background: rgba(255, 255, 255, 0.3); /* グラフ背景 */
     border-radius: var(--border-radius);
-    box-shadow: 0 5px 15px var(--shadow-color);
-    border: 1px solid var(--border-color);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    text-align: center;
-}
-.token-card:hover {
-    transform: translateY(-5px) rotate(1deg);
-    box-shadow: 0 8px 20px var(--shadow-color);
-}
-.token-card h3 {
-    font-size: 1.2em;
-    margin-top: 0;
-    color: var(--heading-color);
-}
-.token-card p { margin-bottom: 0.5em; font-size: 0.95em; }
-.token-card .price { font-weight: bold; color: #483d8b; /* DarkSlateBlue */ }
-.token-card .change-positive { color: #32CD32; /* LimeGreen */ }
-.token-card .change-negative { color: #FF6347; /* Tomato */ }
-.loading-message, .error-message, .gallery-placeholder {
-    text-align: center;
-    font-size: 1.1em;
-    color: var(--text-color);
-    padding: 20px;
-    grid-column: 1 / -1; /* Span all columns if in grid */
-    background-color: rgba(255,255,255,0.5);
-    border-radius: var(--border-radius);
-}
-.error-message { color: #FF0000; }
-
-/* Bithomp Specific */
-.address-input-container {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 30px;
-    align-items: center;
-    justify-content: center;
-}
-#xrpl-address-input {
-    padding: 12px 15px;
-    border-radius: 20px;
-    border: 2px solid var(--accent-purple);
-    font-size: 1em;
-    width: 60%;
-    max-width: 400px;
-    font-family: var(--font-family);
-}
-#xrpl-address-input:focus {
-    outline: none;
-    border-color: var(--accent-pink);
-    box-shadow: 0 0 8px var(--accent-pink);
-}
-.bithomp-results {
-    background-color: rgba(255, 255, 255, 0.8);
-    padding: 25px;
-    border-radius: var(--border-radius);
+    padding: 15px;
     box-shadow: 0 4px 10px var(--shadow-color);
 }
-.bithomp-results h3 {
-    border-bottom: 2px dashed var(--accent-pink);
-    padding-bottom: 5px;
-    margin-bottom: 15px;
-}
-.bithomp-results p, .transaction-item { margin-bottom: 8px; }
-.transaction-item {
-    padding: 10px;
-    background-color: var(--pastel-blue);
-    border-radius: 10px;
-    margin-bottom: 10px;
-    font-size: 0.9em;
-}
-.transaction-item strong { color: var(--heading-color); }
-
-/* ===== NFTギャラリー ===== */
-.nft-gallery-section {
-    padding: 50px 0;
-    background-color: var(--card-bg);
-}
-.nft-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 25px;
-    perspective: 1000px; /* For 3D effect on children */
-}
-.nft-item {
-    background-color: var(--pastel-blue);
+.current-tvl {
+    margin-top: 25px; /* グラフとの間隔 */
     padding: 15px;
+    background-color: rgba(255, 255, 255, 0.6);
     border-radius: var(--border-radius);
-    text-align: center;
-    box-shadow: 0 6px 12px var(--shadow-color);
-    transition: transform 0.4s ease-in-out, box-shadow 0.4s ease;
-    border: 2px solid white;
+    display: inline-block; /* 幅を内容に合わせる */
+    box-shadow: 0 4px 10px var(--shadow-color);
 }
-.nft-item:hover {
-    transform: translateZ(20px) rotateY(5deg) scale(1.05);
-    box-shadow: 0 10px 25px var(--shadow-color);
-}
-.nft-item img {
-    width: 100%;
-    height: 180px; /* Fixed height for consistency */
-    object-fit: cover;
-    margin-bottom: 10px;
-    border-radius: 10px;
-    border: 3px solid var(--accent-pink);
-}
-.nft-item p {
-    font-weight: bold;
-    color: var(--heading-color);
-    margin: 0;
-    font-size: 0.9em;
-    word-break: break-word;
-}
-.nft-item .nft-uri {
-    font-size: 0.7em;
-    color: var(--text-color);
-    word-break: break-all;
-    margin-top: 5px;
-}
-
-/* ===== コンテンツセクション (AMM, Wallet) ===== */
-.content-section {
-    padding: 50px 0;
-}
-.content-section.alt-bg {
-    background-color: var(--pastel-purple);
-}
-.content-grid {
-    display: grid;
-    grid-template-columns: 1fr 1.5fr; /* Image | Text */
-    gap: 40px;
-    align-items: center;
-}
-.content-grid.reverse-grid {
-    grid-template-columns: 1.5fr 1fr; /* Text | Image */
-}
-.content-grid.reverse-grid .content-text { order: 1; }
-.content-grid.reverse-grid .content-image { order: 2; }
-
-.content-text h2 { text-align: left; }
-.content-image { text-align: center; }
-.content-icon {
-    max-width: 250px;
-    box-shadow: 0 6px 15px var(--shadow-color);
-    border: 4px solid white;
-}
-.info-card-container {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    margin-top: 20px;
-}
-.info-card {
-    background-color: var(--card-bg);
-    padding: 15px;
-    border-radius: var(--border-radius);
-    box-shadow: 0 3px 8px var(--shadow-color);
-    border-left: 5px solid var(--accent-blue);
-}
-.info-card h4 { margin-top: 0; }
-
-/* ===== フッター ===== */
-.site-footer-bottom {
-    background: linear-gradient(135deg, var(--pastel-pink), var(--pastel-blue));
-    color: var(--text-color);
-    text-align: center;
-    padding: 20px 0;
-    margin-top: 40px;
-    border-top: 3px solid var(--accent-pink);
-}
-.footer-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-}
-.footer-ribbon {
-    width: 80px;
-    height: auto;
-    margin-bottom: 10px;
-}
-.footer-nav { margin-bottom: 10px; }
-.footer-nav a {
-    color: var(--heading-color);
-    margin: 0 12px;
-    font-weight: bold;
-}
-.footer-nav a:hover { color: var(--accent-pink); }
-.site-footer-bottom p {
+.current-tvl h3 {
+    font-size: 2em; /* 少し小さめに */
     margin-bottom: 5px;
-    font-size: 0.9em;
+    color: #483d8b;
+}
+.current-tvl p {
+    font-size: 1.1em;
+    margin: 0;
+    opacity: 0.8;
 }
 
-/* ===== レスポンシブデザイン ===== */
-@media (max-width: 992px) {
-    .hero-content { flex-direction: column; }
-    .hero-image img { max-width: 220px; }
-    .content-grid, .content-grid.reverse-grid {
-        grid-template-columns: 1fr;
-    }
-    .content-grid .content-image, .content-grid.reverse-grid .content-image {
-        order: initial; /* Reset order for stacking */
-        margin-bottom: 20px;
-    }
-    .content-text h2 { text-align: center; }
-    .content-icon { max-width: 200px; }
+/* コンテンツセクションのレイアウト調整 */
+.content-grid {
+    gap: 60px; /* 少し広げる */
+}
+.content-text h2 {
+    font-size: 1.9em; /* 少し調整 */
 }
 
+/* レスポンシブ調整 */
 @media (max-width: 768px) {
-    body { font-size: 15px; }
-    h1 { font-size: 1.8em; }
-    .site-header h1 { font-size: 1.4em; }
-    h2 { font-size: 1.6em; }
-    .hero-text h2 { font-size: 2.2em; }
-    .hero-text p { font-size: 1.1em; }
-    
-    .address-input-container { flex-direction: column; }
-    #xrpl-address-input { width: 90%; }
-    .api-data-grid { grid-template-columns: 1fr; } /* Stack cards */
-    .nft-grid { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
-    .nft-item img { height: 150px; }
+    .tvl-display h3 { font-size: 2em; }
+    .current-tvl h3 { font-size: 1.8em; }
+    .current-tvl p { font-size: 1em; }
+    .chart-container { padding: 10px; }
 }
 
 @media (max-width: 480px) {
-    body { font-size: 14px; }
-    .site-header h1 { font-size: 1.2em; }
-    .hero-text h2 { font-size: 1.9em; }
-    .hero-buttons { flex-direction: column; gap: 10px; }
-    .btn { padding: 10px 20px; width: 80%; margin: 0 auto; }
-    .nft-grid { grid-template-columns: 1fr; }
-    .nft-item img { height: auto; aspect-ratio: 1/1; }
-    .footer-nav a { display: block; margin: 8px 0; }
+     .site-header h1 { font-size: 1.2em; }
+     .hero-text h2 { font-size: 1.8em; }
+     .hero-text p { font-size: 1.05em; }
+     .tvl-display h3 { font-size: 1.6em; }
+     .current-tvl h3 { font-size: 1.5em; }
+     .chart-container { width: 95%; padding: 5px;} /* スマホで幅を広く */
 }

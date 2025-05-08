@@ -3,10 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>メイフラちゃん XRPレジャーポータル</title>
-    <link rel="icon" type="image/png" href="studio1.png">
+    <!-- 変更: タイトル -->
+    <title>Welcome with Mayfla-chan! XRPレジャーポータル</title>
+    <link rel="icon" type="image/png" href="studio1.png"> <!-- ファビコン -->
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Chart.jsライブラリの読み込み -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 </head>
 <body>
 
@@ -14,7 +17,8 @@
     <header class="site-header">
         <div class="container header-content">
             <img src="studio1.png" alt="メイフラちゃんアイコン" class="header-logo">
-            <h1>メイフラちゃん XRPレジャーポータル</h1>
+             <!-- 変更: ヘッダータイトル -->
+            <h1>Welcome with Mayfla-chan! <span class="jp-part">XRPレジャーポータル</span></h1>
         </div>
     </header>
 
@@ -23,15 +27,16 @@
         <section id="hero" class="hero-section">
             <div class="container hero-content">
                 <div class="hero-text">
-                    <h2>メイフラちゃんと一緒に</h2>
-                    <p>一緒にXRPレジャーの世界を探検しよう！<br>ドキドキわくわくがいっぱい待ってるよ！</p>
+                     <!-- 変更: ヒーロー見出し -->
+                    <h2>Hi there, I'm Mayfla-chan!</h2>
+                     <!-- 変更: ヒーロー説明文 -->
+                    <p>Let's explore the super cool XRP Ledger together! It's fast, green, and full of possibilities! <span class="jp-part">一緒にXRPLの世界を探検しよう！</span></p>
                     <div class="hero-buttons">
-                        <button id="hero-btn-address" class="btn btn-primary">アドレスを入力する</button>
-                        <button id="hero-btn-nft" class="btn btn-secondary">NFTギャラリーを見る</button>
+                        <a href="#xrp-cafe" class="btn btn-secondary">XRPカフェを見る</a>
                     </div>
                 </div>
                 <div class="hero-image">
-                    <img src="studio6.jpg" alt="メイフラちゃん">
+                    <img src="studio7.png" alt="メイフラちゃんと友達">
                 </div>
             </div>
         </section>
@@ -40,61 +45,68 @@
         <section id="cmc-prices" class="data-section">
             <div class="container">
                 <h2><span class="icon">💖</span>トップ暗号通貨の価格<span class="icon">💖</span></h2>
-                <p class="section-subtitle">CoinMarketCapからの最新情報だよ！</p>
+                <p class="section-subtitle">CoinMarketCapからの最新情報だよ！ (via Proxy)</p>
                 <div id="cmc-data-container" class="api-data-grid">
                     <p class="loading-message">価格情報を読み込み中...</p>
                 </div>
             </div>
         </section>
 
-        <!-- ===== XRPレジャーアドレス情報 (Bithomp) ===== -->
-        <section id="xrpl-address-info" class="data-section alt-bg">
+        <!-- ===== XRPL DeFi TVL (DefiLlama) セクション ===== -->
+        <section id="xrpl-tvl" class="data-section alt-bg">
             <div class="container">
-                <h2><span class="icon">✨</span>XRPレジャー アカウント情報<span class="icon">✨</span></h2>
-                <p class="section-subtitle">Bithompでアカウントの詳細を見てみよう！</p>
-                <div class="address-input-container">
-                    <input type="text" id="xrpl-address-input" placeholder="XRP Ledger アドレスを入力 (例: rXXXX...)">
-                    <button id="fetch-xrpl-data-btn" class="btn">検索</button>
-                </div>
-                <div id="bithomp-data-container" class="bithomp-results">
-                    <!-- データはJSで表示 -->
+                <h2><span class="icon">📊</span>XRPL DeFi TVL<span class="icon">📊</span></h2>
+                <p class="section-subtitle">DefiLlamaからの最新情報だよ！</p>
+                <div id="defilama-tvl-container" class="tvl-display">
+                     <!-- 変更: グラフ表示用のCanvasと現在のTVL表示エリアを追加 -->
+                    <p class="loading-message">TVL情報を読み込み中...</p>
+                    <div class="chart-container">
+                        <canvas id="tvlChart"></canvas>
+                    </div>
+                    <div id="current-tvl-display" class="current-tvl">
+                        <!-- 現在のTVLをJSで表示 -->
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- ===== NFTギャラリー (Bithomp) ===== -->
-        <section id="nft-gallery" class="nft-gallery-section">
-            <div class="container">
-                <h2><span class="icon">🎨</span>メイフラちゃんのNFTコレクション！<span class="icon">🎨</span></h2>
-                <p class="section-subtitle">あなたのアカウントにある素敵なNFTを見てみよう！</p>
-                <div id="nft-items-container" class="nft-grid">
-                    <p class="gallery-placeholder">アドレスを入力してNFTを表示してね！</p>
-                    <!-- NFTはJSで表示 -->
+        <!-- ===== XRP Cafe 案内セクション ===== -->
+        <section id="xrp-cafe" class="content-section">
+             <div class="container content-grid reverse-grid"> {/* レイアウト反転 */}
+                <div class="content-image cafe-image">
+                    <img src="studio4.jpg" alt="XRP Cafe アイコン" class="content-icon">
+                </div>
+                <div class="content-text">
+                    <h2><span class="icon">☕</span>NFTを探すならXRPカフェ！</h2>
+                    <p>XRPカフェは、XRPレジャー上のNFTを簡単に見つけたり、売買したりできる、初心者にも優しいマーケットプレイスだよ！</p>
+                    <p>可愛いアートや素敵なコレクションがたくさん出品されているから、あなただけのお気に入りを見つけてみてね！Xamanウォレットを接続すればすぐに始められるよ。</p>
+                    <a href="https://xrp.cafe/ja" target="_blank" class="btn btn-primary">XRPカフェへ行く</a>
                 </div>
             </div>
         </section>
 
         <!-- ===== AMMとは？セクション ===== -->
         <section id="amm-info" class="content-section alt-bg">
+            {/* レイアウト反転解除 */}
             <div class="container content-grid">
                 <div class="content-image">
                     <img src="studio3.jpg" alt="AMMアイコン" class="content-icon">
                 </div>
                 <div class="content-text">
-                    <h2><span class="icon">💡</span>XRPLのAMM（自動マーケットメーカー）とは？</h2>
-                    <p>AMMは、XRPレジャーでトークンを簡単に交換できる魔法みたいな仕組みだよ！</p>
+                    <h2><span class="icon">💡</span>XRPLのAMMとは？</h2>
+                    <p>AMMは、XRPレジャーでトークンを簡単に交換できる魔法みたいな仕組みだよ！難しい注文をしなくても、自動でスムーズに取引できるんだ。</p>
                     <div class="info-card-container">
                         <div class="info-card">
-                            <h4>🚀 スピーディーな取引</h4>
-                            <p>伝統的な取引所みたいに複雑な注文ブックがなくても、すぐにトークンを交換できるんだ。</p>
+                            <h4>🚀 スピーディーな交換</h4>
+                            <p>銀行や取引所を通さずに、トークン同士を直接、素早く交換できる！</p>
                         </div>
                         <div class="info-card">
-                            <h4>💧 流動性を提供</h4>
-                            <p>誰でも流動性を提供して、手数料の一部を報酬として受け取ることができるよ。</p>
+                            <h4>💧 流動性プール</h4>
+                            <p>みんながトークンを預け合う「プール」があって、そこから交換が行われるよ。預けると報酬も！</p>
                         </div>
-                        <div class="info-card">
-                            <h4>🌐 分散型</h4>
-                            <p>中央管理者がいないから、より公平で透明性の高い取引が期待できるんだ。</p>
+                         <div class="info-card">
+                            <h4>🤖 自動価格調整</h4>
+                            <p>需要と供給に応じて、プログラムが自動で価格を調整してくれるから公平！</p>
                         </div>
                     </div>
                 </div>
@@ -103,15 +115,16 @@
 
         <!-- ===== ウォレットセクション ===== -->
         <section id="wallet-info" class="content-section">
-            <div class="container content-grid reverse-grid">
+            <div class="container content-grid reverse-grid"> {/* レイアウト反転 */}
                  <div class="content-image">
                     <img src="studio5.jpg" alt="Xamanウォレットアイコン" class="content-icon">
                 </div>
                 <div class="content-text">
                     <h2><span class="icon">👛</span>おすすめウォレット：Xaman</h2>
-                    <p>XRPレジャーを安全に使うなら、<strong>Xaman (旧XUMM) ウォレット</strong>がおすすめだよ！</p>
-                    <p>Xamanは、XRPL専用の非管理型ウォレットで、自分の資産を自分で管理できるんだ。NFTを見たり、トークンを送ったり、XRPLの楽しい機能をたくさん体験できるよ！</p>
-                    <a href="https://xaman.app/" target="_blank" class="btn">Xaman公式サイトへ</a>
+                    <p>XRPLの冒険には、安全な「おさいふ」が必要だよね！メイフラちゃんのおすすめは **Xaman (旧XUMM) ウォレット**だよ！</p>
+                    <p>Xamanは、XRPL専用に作られた、とっても安全で使いやすい非管理型ウォレット。「非管理型」っていうのは、あなた自身が完全に資産を管理できるってこと！誰かに預けるんじゃなくて、自分だけの金庫を持つ感じ。</p>
+                    <p>これがあれば、トークンを送ったり、NFTを見たり、XRPLの楽しい機能を安心して楽しめるよ！まずはインストールしてみよう！</p>
+                    <a href="https://xaman.app/" target="_blank" class="btn btn-secondary">Xaman公式サイトへ</a>
                 </div>
             </div>
         </section>
@@ -125,8 +138,11 @@
                 <a href="#hero">ホーム</a>
                 <a href="https://xrpl.org/ja/" target="_blank">XRPLについて</a>
                 <a href="#wallet-info">ウォレット</a>
+                 <a href="#xrp-cafe">XRPカフェ</a>
+                 <a href="#amm-info">AMM</a>
             </nav>
-            <p>© 2024 メイフラちゃん XRPレジャーポータル. 無断複写・転載を禁じます。</p>
+             <!-- 変更: 日本語部分をspanで囲む -->
+            <p>© 2024 Welcome with Mayfla-chan! <span class="jp-part">XRPレジャーポータル</span>. All rights reserved.</p>
         </div>
     </footer>
 
