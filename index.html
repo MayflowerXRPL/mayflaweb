@@ -5,33 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome with Mayfla-chan! XRPレジャーポータル</title>
     <link rel="icon" type="image/png" href="studio1.png">
-    <link rel="stylesheet" href="style.css"> {/* <!-- メインのCSS --> */}
+    <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 </head>
 <body>
 
-    <!-- ===== ヘッダー ===== -->
     <header class="site-header sticky">
         <div class="container header-content">
             <div class="logo-container">
                 <img src="studio1.png" alt="メイフラちゃんアイコン" class="header-logo">
                 <h1>Welcome with Mayfla-chan! <span class="jp-part">XRPレジャーポータル</span></h1>
             </div>
-             {/* <!-- ヘッダーナビゲーションは無し --> */}
         </div>
     </header>
 
     <main>
-        {/* ===== ヒーローセクション ===== */}
         <section id="hero" class="hero-section">
             <div class="container hero-content">
                 <div class="hero-text">
                     <h2>Hi there, I'm Mayfla-chan!</h2>
                     <p>Let's explore the super cool XRP Ledger together! It's fast, green, and full of possibilities! <span class="jp-part">一緒にXRPLの世界を探検しよう！</span></p>
-                    {/* ===== ヒーローボタン (3つ！) ===== */}
                     <div class="hero-buttons">
-                        {/* ★★★ ハッカソンボタンを追加 ★★★ */}
                         <a href="hackathon.html" class="btn btn-primary hackathon-hero-btn">ハッカソン2025詳細！</a>
                         <a href="#xrp-cafe" class="btn btn-secondary">XRPカフェを見る</a>
                         <a href="#xpmarket-info" class="btn btn-secondary">XPMarketを見る</a>
@@ -43,7 +38,6 @@
             </div>
         </section>
 
-        {/* ===== CoinMarketCap API セクション ===== */}
         <section id="cmc-prices" class="data-section">
             <div class="container">
                 <h2><span class="icon">💖</span>トップ暗号通貨の価格<span class="icon">💖</span></h2>
@@ -54,7 +48,6 @@
             </div>
         </section>
 
-        {/* ===== XRPL DeFi TVL (DefiLlama) セクション ===== */}
         <section id="xrpl-tvl" class="data-section alt-bg">
             <div class="container">
                 <h2><span class="icon">📊</span>XRPL DeFi TVL<span class="icon">📊</span></h2>
@@ -71,7 +64,6 @@
             </div>
         </section>
 
-        {/* ===== XRP Cafe 案内セクション ===== */}
         <section id="xrp-cafe" class="content-section">
              <div class="container content-grid reverse-grid">
                 <div class="content-image cafe-image">
@@ -86,7 +78,6 @@
             </div>
         </section>
 
-        {/* ===== XPMarket 案内セクション (AMM説明追記) ===== */}
         <section id="xpmarket-info" class="content-section alt-bg">
             <div class="container content-grid">
                 <div class="content-image">
@@ -104,7 +95,6 @@
             </div>
         </section>
 
-        {/* ===== ウォレットセクション ===== */}
         <section id="wallet-info" class="content-section">
             <div class="container content-grid reverse-grid">
                  <div class="content-image">
@@ -121,7 +111,6 @@
         </section>
     </main>
 
-    <!-- ===== フッター ===== -->
     <footer class="site-footer-bottom">
         <div class="container footer-content">
             <img src="studio2.png" alt="リボンロゴ" class="footer-ribbon">
@@ -137,7 +126,6 @@
         </div>
     </footer>
 
-    <!-- メインのJavaScript -->
     <script src="script.js"></script>
 </body>
 </html>
