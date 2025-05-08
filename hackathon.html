@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XRPL Japan Hackathon 2025 - 未来を創造する開発者の祭典</title>
+    <meta name="description" content="XRPL Japan主催のハッカソン2025開催！XRP Ledgerの未来を共に創造しませんか？詳細はNotionで、参加登録はLumaで！">
+    <meta name="keywords" content="XRPL, XRP Ledger, Hackathon, ハッカソン, 日本, 開発, イベント, 2025, ブロックチェーン, Web3">
+    <!-- Stylish Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Hackathon Page CSS (スタイルは既存のものを流用) -->
+    <link rel="stylesheet" href="hackathon_style.css">
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="studio1.png">
+</head>
+<body>
+
+    <!-- ===== Header ===== -->
+    <header class="site-header sticky">
+        <div class="container header-content">
+            <div class="logo">
+                <span class="logo-text">XRPL Japan Hackathon 2025</span>
+            </div>
+            <nav class="main-nav">
+                {/* <!-- ナビゲーションはシンプルに --> */}
+                <a href="index.html" class="nav-back-link">← メイフラちゃんポータルへ</a>
+                <a href="https://lu.ma/f6sqrx4j" target="_blank" class="btn btn-primary nav-cta">参加登録 (Luma)</a>
+            </nav>
+            {/* <!-- モバイルメニューボタンは念のため残す --> */}
+            <button id="mobile-menu-toggle" aria-label="メニューを開く">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <!-- ===== Hero Section ===== -->
+        <section id="hero" class="hero-section">
+            <div class="hero-background-animation"></div>
+            <div class="container hero-content reveal-on-scroll fade-in-up">
+                <h1 class="hero-title">XRPL Japan Hackathon <span class="year">2025</span></h1>
+                <p class="hero-subtitle">未来を創造する開発者の祭典 (Create the Future!)</p>
+                {/* <!-- 日程と場所 --> */}
+                <p class="hero-date-location">🗓️ <span class="update-target">2025年2月15日(土) - 16日(日)</span> | 📍 <span class="update-target">CARATO71 (渋谷) & オンライン</span></p>
+                <div class="hero-buttons-simple"> {/* ボタンエリアをシンプルに */}
+                    <a href="https://lu.ma/f6sqrx4j" target="_blank" class="btn btn-hero">今すぐLumaで参加登録！</a>
+                    <a href="https://xrpljapan.notion.site/XRPL-Japan-Hackathon-2025-1dc905d7f5848053887dc4515bd43c03" target="_blank" class="btn btn-secondary">Notionで詳細を見る</a>
+                </div>
+                <div class="hero-social-links">
+                    <a href="https://twitter.com/XRPLJapan" target="_blank" aria-label="XRPL Japan Twitter">X(Twitter)で最新情報をチェック</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== About Section (さらに簡略化) ===== -->
+        <section id="about" class="content-section alt-bg">
+            <div class="container reveal-on-scroll fade-in">
+                <h2 class="section-title">Hackathonへようこそ！</h2>
+                <p class="section-intro">XRPL Japan Community と Ripple が共催する、オフライン・オンライン同時開催ハッカソンへようこそ！<br>
+                XRP Ledgerの可能性を探求し、日本の開発コミュニティを盛り上げましょう！<br>
+                テーマは自由。賞金総額は$20,000 USD相当！初心者の方も大歓迎です。</p>
+                <p class="section-intro"><strong>もっと詳しい情報やスケジュール、参加方法は以下のリンクからご確認ください！</strong></p>
+                <div class="about-links">
+                     <a href="https://xrpljapan.notion.site/XRPL-Japan-Hackathon-2025-1dc905d7f5848053887dc4515bd43c03" target="_blank" class="btn btn-primary">Notionで詳細を見る</a>
+                     <a href="https://lu.ma/f6sqrx4j" target="_blank" class="btn btn-secondary">Lumaで参加登録する</a>
+                </div>
+            </div>
+        </section>
+
+        {/* ===== 他のセクション (Schedule, Themes, Prizes, Judges, Sponsors, FAQ, CTA) は削除 ===== */}
+
+    </main>
+
+    <!-- ===== Footer ===== -->
+    <footer class="site-footer-bottom">
+        <div class="container footer-content">
+             <div class="footer-links">
+                <a href="https://twitter.com/XRPLJapan" target="_blank">Twitter</a> |
+                <a href="https://xrpljapan.notion.site/XRPL-Japan-Hackathon-2025-1dc905d7f5848053887dc4515bd43c03" target="_blank">Notion</a> |
+                <a href="https://lu.ma/f6sqrx4j" target="_blank">Luma (登録)</a> |
+                <a href="mailto:info@xrpljapan.org">お問い合わせ</a>
+                 | <a href="index.html">メイフラちゃんポータルへ</a> {/* 戻るリンク */}
+            </div>
+            <p>© 2024 XRPL Japan Community. All rights reserved.</p>
+        </div>
+    </footer>
+
+    {/* このページはAPIを使わないので、Chart.jsやメインのscript.jsは不要 */}
+    {/* アニメーション用のJavaScriptのみ読み込む */}
+    <script src="hackathon_script.js"></script>
+</body>
+</html>
