@@ -1,4 +1,4 @@
-/* style.css (最終FIX Ver.7 - スマホヘッダータイトルはみ出し修正) */
+/* style.css (最終FIX Ver.8 - スマホヘッダータイトル二段対応) */
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=M+PLUS+Rounded+1c:wght@400;500;700&display=swap');
 
@@ -49,11 +49,10 @@ h4 { font-size: 1.1rem; color: var(--primary-color); font-weight: 600; }
 p { margin-bottom: 1.3em; color: #5a5372; font-size: 1.05rem; }
 a { color: var(--primary-color); text-decoration: none; transition: all var(--transition-main); }
 a:hover { color: var(--secondary-color); text-decoration: none; transform: translateY(-2px); }
-/* .jp-part の基本指定は削除し、必要な箇所で個別に指定 */
 
 .site-header { background-color: var(--header-bg-pink) !important; backdrop-filter: blur(10px) saturate(150%); -webkit-backdrop-filter: blur(10px) saturate(150%); border-bottom: 1px solid rgba(233, 30, 99, 0.2); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; height: var(--header-height); display: flex; align-items: center; transition: background-color var(--transition-main), box-shadow var(--transition-main); }
 .header-content { display: flex; align-items: center; justify-content: center; padding: 0 25px; width: 100%; max-width: 1200px; margin: 0 auto; position: relative; }
-.logo-title-container { display: flex; align-items: center; gap: 12px; margin: 0 auto; flex-grow: 1; justify-content: center; }
+.logo-title-container { display: flex; align-items: center; gap: 12px; margin: 0 auto; flex-grow: 1; justify-content: center; text-align: center; /* タイトルも中央に */ }
 .header-logo { width: 40px; height: 40px; border-radius: 50%; transition: transform 0.5s ease-out; border: none; flex-shrink: 0; }
 .header-logo:hover { transform: rotate(360deg); }
 
@@ -131,46 +130,34 @@ body.mobile-menu-active .mobile-nav { display: flex; transform: translateX(0); }
 .footer-nav a:hover { color: var(--primary-color); transform: scale(1.1); }
 .site-footer-bottom p { margin-bottom: 5px; font-size: 0.9rem; color: #5a5372; }
 
-/* ===== Responsive Design ===== */
-@media (max-width: 992px) {
-    #mobile-menu-toggle { display: flex; }
-    .content-grid, .content-grid.reverse-grid { grid-template-columns: 1fr; gap: 40px; }
-    .content-grid .content-image, .content-grid.reverse-grid .content-image { order: initial; margin-bottom: 30px; }
-    .content-text h2 { text-align: center; display: block; border-image: none; border-bottom: 3px solid var(--primary-color); }
-    .content-icon { max-width: 200px; }
-}
-@media (max-width: 768px) {
-    body { font-size: 15px; }
-    /* h1 { font-size: 1.4em; } */ /* ヘッダータイトルサイズはスマホで別途調整 */
-    h2 { font-size: 1.9em; }
-    .hero-text h2 { font-size: 2.8em; }
-    .hero-text p { font-size: 1.15em; }
-    .api-data-grid { grid-template-columns: 1fr; gap: 25px; }
-    .chart-container { height: 300px; padding: 15px; }
-    .btn { padding: 12px 30px; font-size: 0.95rem;}
-}
-@media (max-width: 480px) { /* スマホ表示 */
-    body { font-size: 14px; padding-top: 65px; --header-height: 65px; }
+@media (max-width: 992px) { #mobile-menu-toggle { display: flex; } .content-grid, .content-grid.reverse-grid { grid-template-columns: 1fr; gap: 40px; } .content-grid .content-image, .content-grid.reverse-grid .content-image { order: initial; margin-bottom: 30px; } .content-text h2 { text-align: center; display: block; border-image: none; border-bottom: 3px solid var(--primary-color); } .content-icon { max-width: 200px; } }
+@media (max-width: 768px) { body { font-size: 15px; } /* h1 { font-size: 1.4em; } */ h2 { font-size: 1.9em; } .hero-text h2 { font-size: 2.8em; } .hero-text p { font-size: 1.15em; } .api-data-grid { grid-template-columns: 1fr; gap: 25px; } .chart-container { height: 300px; padding: 15px; } .btn { padding: 12px 30px; font-size: 0.95rem;} }
+
+/* ===== スマホ表示のヘッダータイトル修正 ===== */
+@media (max-width: 480px) {
+    body { font-size: 14px; padding-top: var(--header-height); /* ヘッダー高さは固定なので65pxは不要 */ }
     .header-content {
-        justify-content: center; /* ロゴとタイトルを中央に、ボタンは絶対位置 */
+        /* justify-content: center; は維持 */
+        /* padding: 0 15px; スマホで左右余白少し減らす */
     }
     .logo-title-container {
-        margin: 0; /* ボタンが絶対位置なので不要 */
-        /* 必要であれば、ボタンと重ならないように少し左に寄せるなどの微調整 */
-        /* padding-right: 40px; */ /* ハンバーガーボタンのスペース分 */
+        /* margin: 0 auto; は維持 */
+        text-align: center; /* テキストも中央に */
     }
     .logo-title-container h1 {
-        font-size: 1.05em; /* ★★★ スマホでタイトルがはみ出ないように少し小さく ★★★ */
-        white-space: normal; /* ★★★ 必要なら折り返し許可 ★★★ */
-        text-align: center;
+        font-size: 0.9em; /* ★★★ さらにフォントサイズを小さく ★★★ */
+        white-space: normal; /* 折り返しを許可 */
+        line-height: 1.2; /* 行間を少し詰める */
+        display: block; /* ブロック要素にして改行しやすく */
     }
-    .header-logo {
-        width: 35px; /* スマホでロゴ少し小さく */
-        height: 35px;
+    .logo-title-container h1 .jp-part {
+        display: block; /* 日本語部分を改行させる */
+        font-size: 0.85em; /* 日本語部分を少し小さく */
     }
     #mobile-menu-toggle {
-        right: 15px; /* ボタンの位置微調整 */
+        right: 15px; /* 位置はそのまま */
     }
+
     .hero-text h2 { font-size: 2.2em; }
     .hero-text p { font-size: 1rem; font-family: var(--font-display); }
     .hero-text p span.jp-part { font-family: var(--font-body) !important; color: var(--secondary-color) !important; font-weight: 700 !important; }
