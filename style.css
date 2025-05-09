@@ -1,10 +1,10 @@
-/* style.css (最終調整版 Ver.4 - ヘッダータイトル色修正) */
+/* style.css (最終FIX Ver.5 - 「一緒に...」の色を確実に元に戻す) */
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=M+PLUS+Rounded+1c:wght@400;500;700&display=swap');
 
 :root {
     --primary-color: #E91E63;
-    --secondary-color: #673AB7; /* ★★★ ヘッダータイトル用の色 ★★★ */
+    --secondary-color: #673AB7;
     --accent-blue: #03A9F4;
     --accent-green: #8BC34A;
     --text-color-dark: #37324d;
@@ -39,9 +39,8 @@ body.mobile-menu-active { overflow: hidden; }
 
 .container { width: 90%; max-width: 1140px; margin: 0 auto; padding: 30px 0; position: relative; z-index: 1; }
 h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; line-height: 1.3; margin-bottom: 0.7em; }
-/* ★★★ ヘッダータイトルの文字色を元に戻す ★★★ */
-h1 { font-size: clamp(1.5rem, 4vw, 1.8rem); color: var(--secondary-color); text-shadow: 1px 1px 2px rgba(0,0,0,0.1); margin: 0; white-space: nowrap;}
-h1 .jp-part { color: var(--secondary-color); } /* 日本語部分も合わせる */
+h1 { font-size: clamp(1.5rem, 4vw, 1.8rem); color: var(--primary-color); text-shadow: 1px 1px 2px rgba(0,0,0,0.1); margin: 0; white-space: nowrap;} /* ヘッダータイトル色を元に戻す */
+h1 .jp-part { color: var(--primary-color); } /* ヘッダー日本語部分も元に戻す */
 
 h2 { font-size: clamp(1.8rem, 5vw, 2.5rem); color: var(--primary-color); text-align: center; margin-bottom: 1.5em; display: flex; align-items: center; justify-content: center; gap: 15px; }
 h2 .icon { font-size: 1.1em; animation: float 3s ease-in-out infinite; }
@@ -50,16 +49,15 @@ h4 { font-size: 1.1rem; color: var(--primary-color); font-weight: 600; }
 p { margin-bottom: 1.3em; color: #5a5372; font-size: 1.05rem; }
 a { color: var(--primary-color); text-decoration: none; transition: all var(--transition-main); }
 a:hover { color: var(--secondary-color); text-decoration: none; transform: translateY(-2px); }
-.jp-part { font-family: var(--font-body); } /* これはヒーローテキスト内の日本語部分用 */
+.jp-part { font-family: var(--font-body); } /* 基本の日本語フォント指定 */
 
 .site-header { background-color: var(--header-bg-pink) !important; backdrop-filter: blur(10px) saturate(150%); -webkit-backdrop-filter: blur(10px) saturate(150%); border-bottom: 1px solid rgba(233, 30, 99, 0.2); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; height: var(--header-height); display: flex; align-items: center; transition: background-color var(--transition-main), box-shadow var(--transition-main); }
 .header-content { display: flex; align-items: center; justify-content: center; padding: 0 25px; width: 100%; max-width: 1200px; margin: 0 auto; position: relative; }
 .logo-title-container { display: flex; align-items: center; gap: 12px; margin: 0 auto; flex-grow: 1; justify-content: center; }
 .header-logo { width: 40px; height: 40px; border-radius: 50%; transition: transform 0.5s ease-out; border: none; flex-shrink: 0; }
 .header-logo:hover { transform: rotate(360deg); }
-/* ヘッダーのH1のスタイルは上でまとめて指定しているのでここでは不要 */
-/* .site-header h1 { ... } */
-/* .site-header h1 .jp-part { ... } */
+/* .site-header h1 は上でまとめて指定 */
+/* .site-header h1 .jp-part は上でまとめて指定 */
 
 #mobile-menu-toggle { display: none; position: absolute; right: 25px; top: 50%; transform: translateY(-50%); flex-direction: column; justify-content: space-around; width: 28px; height: 22px; background: transparent; border: none; cursor: pointer; padding: 0; z-index: 1010; margin-left: auto; }
 #mobile-menu-toggle span { width: 100%; height: 3px; background-color: var(--primary-color); border-radius: 10px; transition: all 0.3s linear; position: relative; transform-origin: 1px; }
@@ -79,7 +77,12 @@ body.mobile-menu-active .mobile-nav { display: flex; transform: translateX(0); }
 .hero-content { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 30px; background: rgba(255,255,255,0.2); backdrop-filter: blur(2px); padding: 40px 20px; border-radius: var(--border-radius); }
 .hero-text h2 { font-size: clamp(2.5rem, 7vw, 4rem); color: var(--primary-color); font-weight: 700; margin-bottom: 0.3em; text-shadow: 1px 1px 3px rgba(0,0,0,0.1); }
 .hero-text p { font-size: clamp(1.1rem, 3vw, 1.3rem); max-width: 650px; margin-bottom: 1.5em; color: var(--primary-color); font-weight: 500; font-family: var(--font-display); background: none; padding: 0; border-radius: 0; }
-.hero-text p .jp-part { font-family: var(--font-body) !important; color: #5a5372 !important; font-weight: 400 !important; }
+/* ★★★ 「一緒にXRPLの〜」のスタイルを最も具体的に指定！ ★★★ */
+section#hero div.hero-content div.hero-text p span.jp-part {
+    font-family: var(--font-body) !important;
+    color: #5a5372 !important;
+    font-weight: 400 !important;
+}
 .hero-image { margin-top: 30px; perspective: 1000px; }
 .hero-image img { max-width: 350px; border-radius: 24px; border: none; box-shadow: 0 15px 40px rgba(103, 58, 183, 0.2); transition: transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.8s cubic-bezier(0.165, 0.84, 0.44, 1); transform: rotateY(0deg) rotateX(0deg); }
 .hero-image img:hover { box-shadow: 0 25px 50px rgba(103, 58, 183, 0.3); transform: rotateY(10deg) rotateX(5deg) scale(1.05); }
@@ -136,4 +139,4 @@ body.mobile-menu-active .mobile-nav { display: flex; transform: translateX(0); }
 .site-footer-bottom p { margin-bottom: 5px; font-size: 0.9rem; color: #5a5372; }
 @media (max-width: 992px) { #mobile-menu-toggle { display: flex; } .content-grid, .content-grid.reverse-grid { grid-template-columns: 1fr; gap: 40px; } .content-grid .content-image, .content-grid.reverse-grid .content-image { order: initial; margin-bottom: 30px; } .content-text h2 { text-align: center; display: block; border-image: none; border-bottom: 3px solid var(--primary-color); } .content-icon { max-width: 200px; } }
 @media (max-width: 768px) { body { font-size: 15px; } h1 { font-size: 1.4em; } h2 { font-size: 1.9em; } .hero-text h2 { font-size: 2.8em; } .hero-text p { font-size: 1.15em; } .api-data-grid { grid-template-columns: 1fr; gap: 25px; } .chart-container { height: 300px; padding: 15px; } .btn { padding: 12px 30px; font-size: 0.95rem;} }
-@media (max-width: 480px) { body { font-size: 14px; padding-top: 65px; --header-height: 65px; } h1 { font-size: 1.1em; } .header-content { justify-content: center; } #mobile-menu-toggle { position: absolute; right: 15px; } .logo-title-container { margin: 0 auto; } .logo-container h1 { display: block; font-size: 1.1em;} .hero-text h2 { font-size: 2.2em; } .hero-text p { font-size: 1rem; font-family: var(--font-display); } .hero-text p .jp-part { font-family: var(--font-body); color: #5a5372 !important; } .hero-buttons { flex-direction: column; gap: 15px; } .btn { width: 95%; margin: 0 auto; } .content-icon { max-width: 180px; } .chart-container { height: 250px;} .footer-nav a { margin: 5px 10px; font-size: 0.95em; } }
+@media (max-width: 480px) { body { font-size: 14px; padding-top: 65px; --header-height: 65px; } h1 { font-size: 1.1em; } .header-content { justify-content: center; } #mobile-menu-toggle { position: absolute; right: 15px; } .logo-title-container { margin: 0 auto; } .logo-container h1 { display: block; font-size: 1.1em;} .hero-text h2 { font-size: 2.2em; } .hero-text p { font-size: 1rem; font-family: var(--font-display); } .hero-text p span.jp-part { font-family: var(--font-body) !important; color: #5a5372 !important; /* スマホでも色を強制 */ font-weight: 400 !important; } .hero-buttons { flex-direction: column; gap: 15px; } .btn { width: 95%; margin: 0 auto; } .content-icon { max-width: 180px; } .chart-container { height: 250px;} .footer-nav a { margin: 5px 10px; font-size: 0.95em; } }
