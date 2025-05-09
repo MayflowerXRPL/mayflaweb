@@ -1,15 +1,20 @@
-/* style.css (最終FIX Ver.6 - 「一緒に...」のスタイル変更) */
+/* style.css (最終調整版 - ヘッダー背景水色、全体グラデーションアニメ) */
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=M+PLUS+Rounded+1c:wght@400;500;700&display=swap');
 
 :root {
     --primary-color: #E91E63;
     --secondary-color: #673AB7;
-    --accent-blue: #03A9F4;
+    --accent-blue: #03A9F4; /* 水色 */
     --accent-green: #8BC34A;
     --text-color-dark: #37324d;
     --text-color-light: #f8f8ff;
-    --bg-main: linear-gradient(135deg, #fdeff9 0%, #e8f5ff 100%);
+    /* --- body背景用グラデーションの色 --- */
+    --bg-grad-1: #ffdde1; /* 淡いピンク */
+    --bg-grad-2: #ddf1ff; /* 淡いブルー */
+    --bg-grad-3: #eafff0; /* 淡いグリーン */
+    --bg-grad-4: #f1eaff; /* 淡いパープル */
+    /* ------------------------------------ */
     --bg-card: rgba(255, 255, 255, 0.85);
     --bg-card-alt: rgba(240, 248, 255, 0.9);
     --border-color: rgba(103, 58, 183, 0.1);
@@ -25,16 +30,36 @@
     --chart-grid-color: rgba(103, 58, 183, 0.1);
 }
 
+/* ===== アニメーション定義 ===== */
 @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-8px); } 100% { transform: translateY(0px); } }
+/* ★★★ 全体背景用グラデーションアニメーション ★★★ */
+@keyframes body-gradient-animation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
 
+/* ===== 基本設定 ===== */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; font-size: 16px; }
-body { font-family: var(--font-body); color: var(--text-color-dark); background: var(--bg-main); line-height: 1.8; overflow-x: hidden; padding-top: var(--header-height); margin: 0; }
+body {
+    font-family: var(--font-body);
+    color: var(--text-color-dark);
+    /* ★★★ 全体背景アニメーション適用 ★★★ */
+    background: linear-gradient(-45deg, var(--bg-grad-1), var(--bg-grad-2), var(--bg-grad-3), var(--bg-grad-4));
+    background-size: 400% 400%;
+    animation: body-gradient-animation 20s ease infinite; /* 時間調整 */
+    line-height: 1.8;
+    overflow-x: hidden;
+    padding-top: var(--header-height);
+    margin: 0;
+}
 body.mobile-menu-active { overflow: hidden; }
 
 .container { width: 90%; max-width: 1140px; margin: 0 auto; padding: 30px 0; position: relative; z-index: 1; }
 h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; line-height: 1.3; margin-bottom: 0.7em; }
-h1 { font-size: clamp(1.5rem, 4vw, 1.8rem); color: var(--secondary-color); text-shadow: 1px 1px 2px rgba(255,255,255,0.5); margin: 0; white-space: nowrap;}
+h1 { font-size: clamp(1.5rem, 4vw, 1.8rem); color: var(--secondary-color); text-shadow: 1px 1px 2px rgba(0,0,0,0.1); margin: 0; white-space: nowrap;} /* 文字色変更 */
+
 h2 { font-size: clamp(1.8rem, 5vw, 2.5rem); color: var(--primary-color); text-align: center; margin-bottom: 1.5em; display: flex; align-items: center; justify-content: center; gap: 15px; }
 h2 .icon { font-size: 1.1em; animation: float 3s ease-in-out infinite; }
 h3 { font-size: clamp(1.2rem, 3vw, 1.5rem); color: var(--secondary-color); }
@@ -45,38 +70,50 @@ a:hover { color: var(--secondary-color); text-decoration: none; transform: trans
 .jp-part { font-family: var(--font-body); }
 
 /* ===== ヘッダー ===== */
-.site-header { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px) saturate(180%); -webkit-backdrop-filter: blur(12px) saturate(180%); border-bottom: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; height: var(--header-height); display: flex; align-items: center; transition: background var(--transition-main), box-shadow var(--transition-main); }
+.site-header {
+    /* ★★★ ヘッダー全体の背景を水色に変更 ★★★ */
+    background-color: var(--accent-blue) !important; /* 強制的に水色 */
+    backdrop-filter: blur(10px) saturate(150%);
+    -webkit-backdrop-filter: blur(10px) saturate(150%);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* 少し濃いボーダー */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); /* 影も少し調整 */
+    position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+    height: var(--header-height); display: flex; align-items: center;
+    transition: background-color var(--transition-main), box-shadow var(--transition-main); /* background-color をトランジション対象に */
+}
 .header-content { display: flex; align-items: center; justify-content: center; padding: 0 25px; width: 100%; max-width: 1200px; margin: 0 auto; position: relative; }
 .logo-title-container { display: flex; align-items: center; gap: 12px; margin: 0 auto; flex-grow: 1; justify-content: center; }
 .header-logo { width: 40px; height: 40px; border-radius: 50%; transition: transform 0.5s ease-out; border: none; flex-shrink: 0; }
 .header-logo:hover { transform: rotate(360deg); }
+/* ★★★ ヘッダータイトルの文字色を暗めに変更（水色背景とのコントラストのため） ★★★ */
+.site-header h1 { color: var(--text-color-dark); text-shadow: none; }
+.site-header h1 .jp-part { color: var(--text-color-dark); }
+
+
+/* ===== モバイルメニュー用ボタン ===== */
 #mobile-menu-toggle { display: none; position: absolute; right: 25px; top: 50%; transform: translateY(-50%); flex-direction: column; justify-content: space-around; width: 28px; height: 22px; background: transparent; border: none; cursor: pointer; padding: 0; z-index: 1010; margin-left: auto; }
-#mobile-menu-toggle span { width: 100%; height: 3px; background-color: var(--secondary-color); border-radius: 10px; transition: all 0.3s linear; position: relative; transform-origin: 1px; }
+#mobile-menu-toggle span { width: 100%; height: 3px; background-color: var(--text-color-dark); border-radius: 10px; transition: all 0.3s linear; position: relative; transform-origin: 1px; } /* ボタンの色も変更 */
 #mobile-menu-toggle.active span:nth-child(1) { transform: rotate(45deg); }
 #mobile-menu-toggle.active span:nth-child(2) { opacity: 0; transform: translateX(20px); }
 #mobile-menu-toggle.active span:nth-child(3) { transform: rotate(-45deg); }
-.mobile-nav { display: none; position: fixed; top: var(--header-height); left: 0; width: 100%; height: calc(100vh - var(--header-height)); background-color: rgba(255, 240, 245, 0.98); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); flex-direction: column; align-items: center; justify-content: center; padding: 20px; padding-top: 20px; z-index: 999; overflow-y: auto; transform: translateX(100%); transition: transform 0.4s ease-in-out; }
+
+/* ===== モバイル用ナビゲーションメニュー ===== */
+.mobile-nav { display: none; position: fixed; top: var(--header-height); left: 0; width: 100%; height: calc(100vh - var(--header-height)); background-color: rgba(224, 247, 250, 0.98); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); flex-direction: column; align-items: center; justify-content: center; padding: 20px; padding-top: 20px; z-index: 999; overflow-y: auto; transform: translateX(100%); transition: transform 0.4s ease-in-out; } /* 背景色を水色系に */
 body.mobile-menu-active .mobile-nav { display: flex; transform: translateX(0); }
-.mobile-nav a { font-size: 1.4em; font-weight: bold; color: var(--heading-color); padding: 15px 0; text-decoration: none; width: 80%; text-align: center; border-bottom: 1px solid var(--border-color); }
+.mobile-nav a { font-size: 1.4em; font-weight: bold; color: var(--secondary-color); padding: 15px 0; text-decoration: none; width: 80%; text-align: center; border-bottom: 1px solid rgba(3, 169, 244, 0.3); } /* リンク色、ボーダー色調整 */
 .mobile-nav a:last-child { border-bottom: none; }
-.mobile-nav a:hover { color: var(--accent-pink); transform: scale(1.03); }
+.mobile-nav a:hover { color: var(--primary-color); transform: scale(1.03); }
 
 /* ===== メインコンテンツ ===== */
- main { position: relative; z-index: 1; overflow: hidden; }
+ main { position: relative; z-index: 1; overflow: hidden; } /* 背景指定削除 */
 
 /* ===== ヒーローセクション ===== */
 .hero-section { padding: 80px 0 100px; text-align: center; position: relative; overflow: hidden; background-color: transparent; }
 .hero-section::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: linear-gradient(45deg, rgba(103, 58, 183, 0.07) 25%, transparent 25%), linear-gradient(-45deg, rgba(103, 58, 183, 0.07) 25%, transparent 25%), linear-gradient(45deg, transparent 75%, rgba(103, 58, 183, 0.07) 75%), linear-gradient(-45deg, transparent 75%, rgba(103, 58, 183, 0.07) 75%); background-size: 40px 40px; background-position: 0 0, 0 20px, 20px -20px, -20px 0px; z-index: 0; opacity: 0.8; }
-.hero-content { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 30px; background: none; backdrop-filter: none; padding: 0 20px; border-radius: 0; }
+.hero-content { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 30px; background: rgba(255,255,255,0.3); backdrop-filter: blur(3px); padding: 40px 20px; border-radius: var(--border-radius); }
 .hero-text h2 { font-size: clamp(2.5rem, 7vw, 4rem); color: var(--primary-color); font-weight: 700; margin-bottom: 0.3em; text-shadow: 1px 1px 3px rgba(255,255,255,0.5); }
 .hero-text p { font-size: clamp(1.1rem, 3vw, 1.3rem); max-width: 650px; margin-bottom: 1.5em; color: var(--primary-color); font-weight: 500; font-family: var(--font-display); background: none; padding: 0; border-radius: 0; }
-/* ★★★ 「一緒にXRPLの〜」の部分だけスタイル変更 ★★★ */
-.hero-text p .jp-part {
-    font-family: var(--font-body); /* 日本語フォント */
-    color: var(--secondary-color);  /* ★★★ 色をパープル系に変更 ★★★ */
-    font-weight: 700; /* ★★★ 少し太字に ★★★ */
-    /* font-size: 1.1em; */ /* 必要ならサイズ調整 */
-}
+.hero-text p .jp-part { font-family: var(--font-body); color: #5a5372; }
 .hero-image { margin-top: 30px; perspective: 1000px; }
 .hero-image img { max-width: 350px; border-radius: 24px; border: none; box-shadow: 0 15px 40px rgba(103, 58, 183, 0.2); transition: transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.8s cubic-bezier(0.165, 0.84, 0.44, 1); transform: rotateY(0deg) rotateX(0deg); }
 .hero-image img:hover { box-shadow: 0 25px 50px rgba(103, 58, 183, 0.3); transform: rotateY(10deg) rotateX(5deg) scale(1.05); }
@@ -134,4 +171,4 @@ body.mobile-menu-active .mobile-nav { display: flex; transform: translateX(0); }
 .site-footer-bottom p { margin-bottom: 5px; font-size: 0.9rem; color: #5a5372; }
 @media (max-width: 992px) { #mobile-menu-toggle { display: flex; } .content-grid, .content-grid.reverse-grid { grid-template-columns: 1fr; gap: 40px; } .content-grid .content-image, .content-grid.reverse-grid .content-image { order: initial; margin-bottom: 30px; } .content-text h2 { text-align: center; display: block; border-image: none; border-bottom: 3px solid var(--primary-color); } .content-icon { max-width: 200px; } }
 @media (max-width: 768px) { body { font-size: 15px; } h1 { font-size: 1.4em; } h2 { font-size: 1.9em; } .hero-text h2 { font-size: 2.8em; } .hero-text p { font-size: 1.15em; } .api-data-grid { grid-template-columns: 1fr; gap: 25px; } .chart-container { height: 300px; padding: 15px; } .btn { padding: 12px 30px; font-size: 0.95rem;} }
-@media (max-width: 480px) { body { font-size: 14px; padding-top: 65px; --header-height: 65px; } h1 { font-size: 1.1em; } .header-content { justify-content: center; /* スマホでは中央揃え */ } #mobile-menu-toggle { position: absolute; right: 15px; } .logo-container { margin: 0 auto; /* 中央寄せ */ } .logo-container h1 { display: block; font-size: 1.1em;} .hero-text h2 { font-size: 2.2em; } .hero-text p { font-size: 1rem; font-family: var(--font-display); } .hero-text p .jp-part { font-family: var(--font-body); color: #5a5372; } .hero-buttons { flex-direction: column; gap: 15px; } .btn { width: 95%; margin: 0 auto; } .content-icon { max-width: 180px; } .chart-container { height: 250px;} .footer-nav a { margin: 5px 10px; font-size: 0.95em; } }
+@media (max-width: 480px) { body { font-size: 14px; padding-top: 65px; --header-height: 65px; } h1 { font-size: 1.1em; } .header-content { justify-content: center; /* スマホでは中央揃え */ } #mobile-menu-toggle { position: absolute; right: 15px; } .logo-title-container { margin: 0 auto; } .logo-container h1 { display: block; font-size: 1.1em;} .hero-text h2 { font-size: 2.2em; } .hero-text p { font-size: 1rem; font-family: var(--font-display); } .hero-text p .jp-part { font-family: var(--font-body); color: #5a5372; } .hero-buttons { flex-direction: column; gap: 15px; } .btn { width: 95%; margin: 0 auto; } .content-icon { max-width: 180px; } .chart-container { height: 250px;} .footer-nav a { margin: 5px 10px; font-size: 0.95em; } }
