@@ -1,4 +1,4 @@
-/* style.css (最終FIX - チェック柄ヒーロー、静的グラデ背景、テキスト背景修正) */
+/* style.css (最終FIX Ver.2 - ヘッダー修正、チェック柄、フッターアイコン) */
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=M+PLUS+Rounded+1c:wght@400;500;700&display=swap');
 
@@ -55,10 +55,35 @@ a:hover { color: var(--secondary-color); text-decoration: none; transform: trans
 .jp-part { font-family: var(--font-body); }
 
 /* ===== ヘッダー ===== */
-.site-header { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px) saturate(180%); -webkit-backdrop-filter: blur(12px) saturate(180%); border-bottom: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; height: var(--header-height); display: flex; align-items: center; transition: background var(--transition-main), box-shadow var(--transition-main); }
-.header-content { display: flex; align-items: center; justify-content: space-between; padding: 0 25px; width: 100%; max-width: 1200px; margin: 0 auto; }
-.logo-container { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
-.header-logo { width: 40px; height: 40px; border-radius: 50%; transition: transform 0.5s ease-out; border: none; }
+.site-header {
+    background: rgba(255, 255, 255, 0.85); /* ★★★ 半透明背景を確実に ★★★ */
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+    height: var(--header-height); display: flex; align-items: center;
+    transition: background var(--transition-main), box-shadow var(--transition-main);
+}
+.header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* ★★★ 両端揃えに戻す ★★★ */
+    padding: 0 25px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+}
+.header-logo {
+    width: 40px; height: 40px; border-radius: 50%;
+    transition: transform 0.5s ease-out; border: none;
+}
 .header-logo:hover { transform: rotate(360deg); }
 
 /* ===== モバイルメニュー用ボタン ===== */
@@ -78,9 +103,24 @@ body.mobile-menu-active .mobile-nav { display: flex; transform: translateX(0); }
 /* ===== メインコンテンツ ===== */
  main { position: relative; z-index: 1; overflow: hidden; }
 
-/* ===== ヒーローセクション ===== */
-.hero-section { padding: 80px 0 100px; text-align: center; position: relative; overflow: hidden; background-color: transparent; }
-.hero-section::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: linear-gradient(45deg, rgba(103, 58, 183, 0.07) 25%, transparent 25%), linear-gradient(-45deg, rgba(103, 58, 183, 0.07) 25%, transparent 25%), linear-gradient(45deg, transparent 75%, rgba(103, 58, 183, 0.07) 75%), linear-gradient(-45deg, transparent 75%, rgba(103, 58, 183, 0.07) 75%); background-size: 40px 40px; background-position: 0 0, 0 20px, 20px -20px, -20px 0px; z-index: 0; opacity: 0.8; }
+/* ===== ヒーローセクション (チェック柄適用) ===== */
+.hero-section { padding: 80px 0 100px; text-align: center; position: relative; overflow: hidden; background-color: transparent; /* 背景透明 */ }
+/* ★★★ チェック柄背景を ::before で適用 ★★★ */
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-image:
+        linear-gradient(45deg, rgba(103, 58, 183, 0.07) 25%, transparent 25%),
+        linear-gradient(-45deg, rgba(103, 58, 183, 0.07) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, rgba(103, 58, 183, 0.07) 75%),
+        linear-gradient(-45deg, transparent 75%, rgba(103, 58, 183, 0.07) 75%);
+    background-size: 40px 40px;
+    background-position: 0 0, 0 20px, 20px -20px, -20px 0px;
+    z-index: 0; /* コンテンツの後ろ */
+    opacity: 0.8;
+}
 .hero-content { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 30px; background: none; backdrop-filter: none; padding: 0 20px; border-radius: 0; }
 .hero-text h2 { font-size: clamp(2.5rem, 7vw, 4rem); color: var(--primary-color); font-weight: 700; margin-bottom: 0.3em; text-shadow: 1px 1px 3px rgba(255,255,255,0.5); }
 /* ★★★ ヒーローテキストpの背景を削除 ★★★ */
@@ -140,7 +180,7 @@ body.mobile-menu-active .mobile-nav { display: flex; transform: translateX(0); }
 /* ===== フッター ===== */
 .site-footer-bottom { background: #e8eaf6; color: var(--text-color-dark); text-align: center; padding: 40px 0; margin-top: 60px; border-top: 1px solid var(--border-color); position: relative; z-index: 1; }
 .footer-content { display: flex; flex-direction: column; align-items: center; gap: 18px; }
-.footer-ribbon { width: 60px; height: auto; margin-bottom: 8px; opacity: 0.7; transition: transform var(--transition-main); }
+.footer-ribbon { width: 60px; height: auto; margin-bottom: 8px; opacity: 0.7; transition: transform var(--transition-main); background: transparent; /* ★★★ 背景透過確認 ★★★ */ }
 .footer-ribbon:hover { transform: scale(1.1); }
 .footer-nav { margin-bottom: 12px; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 25px; }
 .footer-nav a { color: var(--secondary-color); font-weight: 600; font-size: 1rem; }
