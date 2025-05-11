@@ -1,0 +1,129 @@
+/* interview_style.css (記事内容差し替え対応) */
+
+:root {
+    --primary-color: #E91E63;
+    --secondary-color: #673AB7;
+    --text-color-dark: #333;
+    --text-color-light: #f8f9fa;
+    --bg-color-light: #fff9fc;
+    --border-color: #e0c4d4;
+    --font-primary: 'Poppins', sans-serif;
+    --font-secondary: 'Noto Sans JP', sans-serif;
+    --border-radius-md: 12px;
+    --transition-speed: 0.3s;
+    --header-height: 65px;
+}
+
+/* ===== Base & Reset ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body { font-family: var(--font-secondary); color: var(--text-color-dark); background-color: var(--bg-color-light); line-height: 1.8; overflow-x: hidden; padding-top: var(--header-height); }
+body.mobile-menu-active { overflow: hidden; }
+
+.container { width: 90%; max-width: 800px; margin: 0 auto; padding: 20px 0; }
+
+h1, h2, h3 { font-family: var(--font-primary); font-weight: 700; color: var(--primary-color); line-height: 1.3; margin-bottom: 0.8em; }
+h1 { font-size: 1.8rem; text-align: center; margin-top: 0.5em; color: var(--text-color-dark); }
+h2.section-title { /* もし汎用的なセクションタイトルがあれば */
+    font-size: 2rem; margin-bottom: 1.2em; border-bottom: 2px solid var(--primary-color); padding-bottom: 0.3em; display: inline-block;
+}
+h2.interview-question { /* インタビューの質問用のスタイル */
+    font-size: 1.4em; /* 少し小さめ */
+    color: var(--secondary-color); /* 紫色 */
+    margin-top: 2.5em;
+    margin-bottom: 0.8em;
+    padding-bottom: 0.2em;
+    border-bottom: none; /* 下線はなし */
+}
+
+p { margin-bottom: 1.5em; font-size: 1.05rem; color: #444; }
+a { color: var(--primary-color); text-decoration: none; font-weight: bold; }
+a:hover { text-decoration: underline; color: var(--secondary-color); }
+
+/* ===== Header ===== */
+.site-header { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); padding: 0; border-bottom: 1px solid var(--border-color); box-shadow: 0 2px 5px rgba(0,0,0,0.05); position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; height: var(--header-height); display: flex; align-items: center; }
+.header-content { display: flex; justify-content: space-between; align-items: center; padding: 0 20px; width: 100%; max-width: 960px; margin: 0 auto; }
+.logo .logo-text { font-family: var(--font-primary); font-size: 1.3rem; font-weight: 700; color: var(--primary-color); }
+.main-nav { display: flex; gap: 20px; align-items: center; }
+.main-nav a { font-family: var(--font-primary); font-weight: 600; color: var(--secondary-color); text-decoration: none; font-size: 0.9rem; }
+.main-nav a:hover { color: var(--primary-color); }
+.nav-back-link { opacity: 0.9; }
+.nav-back-link:hover { opacity: 1; }
+.btn-primary.nav-cta { background-color: var(--primary-color); color: white; padding: 8px 18px; border-radius: 20px; font-size: 0.9rem; }
+.btn-primary.nav-cta:hover { background-color: var(--secondary-color); }
+#mobile-menu-toggle { display: none; }
+
+/* ===== Interview Article Styles ===== */
+.interview-page { padding-top: 30px; padding-bottom: 50px; }
+.article-header { text-align: center; margin-bottom: 40px; }
+.header-image { width: 100%; max-width: 450px; height: auto; border-radius: var(--border-radius-md); margin: 0 auto 25px; box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+.article-header .main-title { font-size: 1.4em; color: var(--text-color-dark); margin-top: 0.5em; margin-bottom: 0; font-weight: 500; line-height: 1.5; }
+.introduction p { font-size: 1.1em; color: #555; margin-bottom: 1.5em; }
+.divider { border: none; border-top: 1px dashed var(--border-color); margin: 40px auto; width: 80%; } /* 少し目立つように調整 */
+
+.interview-answer {
+    margin-left: 1em; /* 回答を少しインデント */
+    padding-left: 1.5em;
+    border-left: 3px solid var(--primary-color); /* 回答の左にアクセントライン */
+    margin-bottom: 2em;
+}
+.interview-answer p.speaker {
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: 0.3em;
+}
+.interview-answer p {
+    margin-bottom: 0.8em; /* 段落間のマージン調整 */
+}
+.interview-answer p:last-child {
+    margin-bottom: 0;
+}
+
+.article-footer { margin-top: 40px; padding-top: 30px; border-top: 2px solid var(--primary-color); text-align: center; }
+.article-footer p { font-style: italic; color: #666; }
+.twitter-link { margin-top: 1.5em; font-weight: bold; }
+.twitter-link a { color: #1DA1F2; }
+
+/* ===== Footer ===== */
+.site-footer-bottom { background-color: #f8f8f8; color: #6C757D; text-align: center; padding: 25px 0; margin-top: 0; border-top: 1px solid var(--border-color); }
+.footer-content { padding: 0 20px; gap: 10px; }
+.footer-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 5px 15px; margin-bottom: 10px; }
+.footer-links a { color: var(--secondary-color); font-weight: 600; font-size: 0.9rem; }
+.footer-links a:hover { color: var(--primary-color); }
+.site-footer-bottom p { margin-bottom: 0; font-size: 0.85rem; }
+
+/* ===== Scroll Reveal Animation ===== */
+.reveal-on-scroll { opacity: 0; transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+.reveal-on-scroll.fade-in { transform: translateY(0); }
+.reveal-on-scroll.fade-in-up { transform: translateY(30px); }
+.reveal-on-scroll.active { opacity: 1; transform: translateY(0); }
+
+/* ===== Responsive Design ===== */
+@media (max-width: 768px) {
+    .main-nav { display: none; }
+    #mobile-menu-toggle { display: flex; flex-direction: column; justify-content: space-around; width: 28px; height: 22px; background: transparent; border: none; cursor: pointer; padding: 0; z-index: 1010; }
+    #mobile-menu-toggle span { width: 100%; height: 3px; background-color: var(--primary-color); border-radius: 10px; transition: all 0.3s linear; position: relative; transform-origin: 1px; }
+    #mobile-menu-toggle.active span:nth-child(1) { transform: rotate(45deg); }
+    #mobile-menu-toggle.active span:nth-child(2) { opacity: 0; transform: translateX(20px); }
+    #mobile-menu-toggle.active span:nth-child(3) { transform: rotate(-45deg); }
+
+    h1 { font-size: 1.6rem; }
+    .article-header .main-title { font-size: 1.2em; }
+    h2.interview-question { font-size: 1.3em; }
+}
+@media (max-width: 480px) {
+    body { padding-top: 65px; --header-height: 65px; }
+    .logo .logo-text { font-size: 1.1rem; }
+    h1 { font-size: 1.4rem; }
+    .article-header .main-title { font-size: 1.1em; }
+    h2.interview-question { font-size: 1.2em; }
+    p { font-size: 1rem; }
+    .interview-answer { margin-left: 0.5em; padding-left: 1em; }
+}
+
+body.mobile-menu-active { overflow: hidden; }
+.mobile-nav { display: none; position: fixed; top: var(--header-height); left: 0; width: 100%; height: calc(100vh - var(--header-height)); background-color: rgba(255, 240, 245, 0.99); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); flex-direction: column; align-items: center; justify-content: center; padding: 20px; padding-top: 20px; z-index: 999; overflow-y: auto; transform: translateX(100%); transition: transform 0.4s ease-in-out; }
+body.mobile-menu-active .mobile-nav { display: flex; transform: translateX(0); }
+.mobile-nav a { font-size: 1.3em; font-weight: bold; color: var(--primary-color); padding: 15px 0; text-decoration: none; width: 80%; text-align: center; border-bottom: 1px solid var(--border-color); }
+.mobile-nav a:last-child { border-bottom: none; }
+.mobile-nav a:hover { color: var(--secondary-color); transform: scale(1.03); }
