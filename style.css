@@ -1,4 +1,4 @@
-/* style.css (最終FIX Ver.10 - ヘッダーレイアウト最優先修正) */
+/* style.css (最終FIX Ver.9 - 全体背景アニメーション復活、他は維持) */
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=M+PLUS+Rounded+1c:wght@400;500;700&display=swap');
 
@@ -9,7 +9,12 @@
     --accent-green: #8BC34A;
     --text-color-dark: #37324d;
     --text-color-light: #f8f8ff;
-    --bg-main: linear-gradient(135deg, #fdeff9 0%, #e8f5ff 100%);
+    /* --- body背景用グラデーションの色 (より明確な色) --- */
+    --bg-grad-1: #ff9a9e;
+    --bg-grad-2: #a1c4fd;
+    --bg-grad-3: #c2e9fb;
+    --bg-grad-4: #d4a0fc;
+    /* ------------------------------------ */
     --bg-card: rgba(255, 255, 255, 0.85);
     --bg-card-alt: rgba(240, 248, 255, 0.9);
     --border-color: rgba(103, 58, 183, 0.1);
@@ -26,30 +31,36 @@
     --header-bg-pink: #FFF0F5;
 }
 
+/* ===== アニメーション定義 ===== */
 @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-8px); } 100% { transform: translateY(0px); } }
-@keyframes body-gradient-animation { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+/* ★★★ 全体背景用グラデーションアニメーション定義 ★★★ */
+@keyframes body-gradient-animation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
 
+/* ===== 基本設定 ===== */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; font-size: 16px; }
-body { font-family: var(--font-body); color: var(--text-color-dark); background: linear-gradient(-45deg, var(--bg-grad-1), var(--bg-grad-2), var(--bg-grad-3), var(--bg-grad-4)); background-size: 400% 400%; animation: body-gradient-animation 18s ease infinite; line-height: 1.8; overflow-x: hidden; padding-top: var(--header-height); margin: 0; }
+body {
+    font-family: var(--font-body);
+    color: var(--text-color-dark);
+    /* ★★★ 全体背景アニメーション適用 ★★★ */
+    background: linear-gradient(-45deg, var(--bg-grad-1), var(--bg-grad-2), var(--bg-grad-3), var(--bg-grad-4));
+    background-size: 400% 400%;
+    animation: body-gradient-animation 18s ease infinite;
+    line-height: 1.8;
+    overflow-x: hidden;
+    padding-top: var(--header-height);
+    margin: 0;
+}
 body.mobile-menu-active { overflow: hidden; }
 
 .container { width: 90%; max-width: 1140px; margin: 0 auto; padding: 30px 0; position: relative; z-index: 1; }
 h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; line-height: 1.3; margin-bottom: 0.7em; }
-/* ヘッダータイトルスタイル */
-.site-header h1 {
-    font-size: clamp(1.2rem, 3.5vw, 1.6rem); /* サイズ微調整 */
-    color: var(--primary-color);
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.05); /* 影を薄く */
-    margin: 0;
-    white-space: nowrap;
-}
-.site-header h1 .jp-part {
-    color: var(--primary-color);
-    font-family: var(--font-body);
-    font-size: 0.9em; /* 日本語部分を少し小さく */
-}
-
+h1 { font-size: clamp(1.5rem, 4vw, 1.8rem); color: var(--primary-color); text-shadow: 1px 1px 2px rgba(0,0,0,0.1); margin: 0; white-space: nowrap;}
+h1 .jp-part { color: var(--primary-color); font-family: var(--font-body); }
 h2 { font-size: clamp(1.8rem, 5vw, 2.5rem); color: var(--primary-color); text-align: center; margin-bottom: 1.5em; display: flex; align-items: center; justify-content: center; gap: 15px; }
 h2 .icon { font-size: 1.1em; animation: float 3s ease-in-out infinite; }
 h3 { font-size: clamp(1.2rem, 3vw, 1.5rem); color: var(--secondary-color); }
@@ -58,36 +69,16 @@ p { margin-bottom: 1.3em; color: #5a5372; font-size: 1.05rem; }
 a { color: var(--primary-color); text-decoration: none; transition: all var(--transition-main); }
 a:hover { color: var(--secondary-color); text-decoration: none; transform: translateY(-2px); }
 
-/* ===== ヘッダー ===== */
 .site-header { background-color: var(--header-bg-pink) !important; backdrop-filter: blur(10px) saturate(150%); -webkit-backdrop-filter: blur(10px) saturate(150%); border-bottom: 1px solid rgba(233, 30, 99, 0.2); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; height: var(--header-height); display: flex; align-items: center; transition: background-color var(--transition-main), box-shadow var(--transition-main); }
-.header-content {
-    display: flex; /* これが必須 */
-    align-items: center; /* 上下中央 */
-    justify-content: center; /* ★★★ 全体を中央揃え ★★★ */
-    padding: 0 20px; /* 左右に少し余白 */
-    width: 100%;
-    max-width: 1200px; /* 最大幅は維持 */
-    margin: 0 auto; /* コンテナ自体も中央に */
-    position: relative;
-}
-.logo-title-container {
-    display: flex; /* ★★★ アイコンとタイトルを横並びにするために必須 ★★★ */
-    align-items: center; /* 上下中央 */
-    gap: 10px; /* アイコンとタイトルの間隔 */
-    /* margin: 0 auto; は親の .header-content で中央揃えするので不要 */
-    /* flex-grow: 1; は不要 */
-    /* justify-content: center; は不要 */
-}
-.header-logo { width: 38px; height: 38px; border-radius: 50%; transition: transform 0.5s ease-out; border: none; flex-shrink: 0; } /* サイズ少し調整 */
+.header-content { display: flex; align-items: center; justify-content: center; padding: 0 25px; width: 100%; max-width: 1200px; margin: 0 auto; position: relative; }
+.logo-title-container { display: flex; align-items: center; gap: 12px; margin: 0 auto; flex-grow: 1; justify-content: center; text-align: center; }
+.header-logo { width: 40px; height: 40px; border-radius: 50%; transition: transform 0.5s ease-out; border: none; flex-shrink: 0; }
 .header-logo:hover { transform: rotate(360deg); }
-
-/* モバイルボタン (位置は絶対指定で右端) */
-#mobile-menu-toggle { display: none; position: absolute; right: 20px; top: 50%; transform: translateY(-50%); flex-direction: column; justify-content: space-around; width: 28px; height: 22px; background: transparent; border: none; cursor: pointer; padding: 0; z-index: 1010; }
+#mobile-menu-toggle { display: none; position: absolute; right: 25px; top: 50%; transform: translateY(-50%); flex-direction: column; justify-content: space-around; width: 28px; height: 22px; background: transparent; border: none; cursor: pointer; padding: 0; z-index: 1010; margin-left: auto; }
 #mobile-menu-toggle span { width: 100%; height: 3px; background-color: var(--primary-color); border-radius: 10px; transition: all 0.3s linear; position: relative; transform-origin: 1px; }
 #mobile-menu-toggle.active span:nth-child(1) { transform: rotate(45deg); }
 #mobile-menu-toggle.active span:nth-child(2) { opacity: 0; transform: translateX(20px); }
 #mobile-menu-toggle.active span:nth-child(3) { transform: rotate(-45deg); }
-
 .mobile-nav { display: none; position: fixed; top: var(--header-height); left: 0; width: 100%; height: calc(100vh - var(--header-height)); background-color: rgba(255, 240, 245, 0.99); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); flex-direction: column; align-items: center; justify-content: center; padding: 20px; padding-top: 20px; z-index: 999; overflow-y: auto; transform: translateX(100%); transition: transform 0.4s ease-in-out; }
 body.mobile-menu-active .mobile-nav { display: flex; transform: translateX(0); }
 .mobile-nav a { font-size: 1.4em; font-weight: bold; color: var(--heading-color); padding: 15px 0; text-decoration: none; width: 80%; text-align: center; border-bottom: 1px solid rgba(3, 169, 244, 0.3); }
@@ -96,7 +87,8 @@ body.mobile-menu-active .mobile-nav { display: flex; transform: translateX(0); }
 
  main { position: relative; z-index: 1; overflow: hidden; }
 
-.hero-section { padding: 80px 0 100px; text-align: center; position: relative; overflow: hidden; background-color: transparent; }
+/* ===== ヒーローセクション (チェック柄適用) ===== */
+.hero-section { padding: 80px 0 100px; text-align: center; position: relative; overflow: hidden; background-color: transparent; } /* 背景はbodyのものが透ける */
 .hero-section::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%), linear-gradient(-45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%), linear-gradient(45deg, transparent 75%, rgba(255, 255, 255, 0.15) 75%), linear-gradient(-45deg, transparent 75%, rgba(255, 255, 255, 0.15) 75%); background-size: 40px 40px; background-position: 0 0, 0 20px, 20px -20px, -20px 0px; z-index: 0; opacity: 0.5; }
 .hero-content { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 30px; background: rgba(255,255,255,0.2); backdrop-filter: blur(2px); padding: 40px 20px; border-radius: var(--border-radius); }
 .hero-text h2 { font-size: clamp(2.5rem, 7vw, 4rem); color: var(--primary-color); font-weight: 700; margin-bottom: 0.3em; text-shadow: 1px 1px 3px rgba(0,0,0,0.1); }
@@ -116,6 +108,18 @@ body.mobile-menu-active .mobile-nav { display: flex; transform: translateX(0); }
 .hackathon-hero-btn:hover { background: linear-gradient(45deg, #9c27b0, var(--secondary-color)); transform: translateY(-4px) scale(1.1); }
 .btn .icon { margin-right: 8px; font-size: 1.1em; }
 
+.hero-extra-links { margin-top: 30px; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; width: 100%; max-width: 800px; }
+.btn-feature { padding: 12px 25px; font-size: 0.95rem; text-align: center; color: white !important; text-shadow: 1px 1px 1px rgba(0,0,0,0.2); }
+.btn-feature.color-1 { background: linear-gradient(45deg, #ff7e5f, #feb47b); }
+.btn-feature.color-1:hover { background: linear-gradient(45deg, #feb47b, #ff7e5f); }
+.btn-feature.color-2 { background: linear-gradient(45deg, #43cea2, #185a9d); }
+.btn-feature.color-2:hover { background: linear-gradient(45deg, #185a9d, #43cea2); }
+.btn-feature.color-3 { background: linear-gradient(45deg, #89f7fe, #66a6ff); }
+.btn-feature.color-3:hover { background: linear-gradient(45deg, #66a6ff, #89f7fe); }
+.btn-feature.color-4 { background: linear-gradient(45deg, #6a11cb, #2575fc); }
+.btn-feature.color-4:hover { background: linear-gradient(45deg, #2575fc, #6a11cb); }
+
+/* --- 以下、Data Section, Content Section, Footer, Responsive は変更なし --- */
 .data-section { padding: 70px 0; position: relative; z-index: 1; border-radius: var(--border-radius); margin-bottom: 50px; background-color: rgba(255, 255, 255, 0.7); backdrop-filter: blur(5px); }
 .data-section::before { display: none; }
 .data-section.alt-bg { background-color: rgba(240, 248, 255, 0.8); }
@@ -156,48 +160,6 @@ body.mobile-menu-active .mobile-nav { display: flex; transform: translateX(0); }
 .footer-nav a { color: var(--secondary-color); font-weight: 600; font-size: 1rem; }
 .footer-nav a:hover { color: var(--primary-color); transform: scale(1.1); }
 .site-footer-bottom p { margin-bottom: 5px; font-size: 0.9rem; color: #5a5372; }
-
 @media (max-width: 992px) { #mobile-menu-toggle { display: flex; } .content-grid, .content-grid.reverse-grid { grid-template-columns: 1fr; gap: 40px; } .content-grid .content-image, .content-grid.reverse-grid .content-image { order: initial; margin-bottom: 30px; } .content-text h2 { text-align: center; display: block; border-image: none; border-bottom: 3px solid var(--primary-color); } .content-icon { max-width: 200px; } }
-@media (max-width: 768px) { body { font-size: 15px; } /* h1 { font-size: 1.4em; } */ /* ヘッダータイトルはスマホで個別に調整 */ h2 { font-size: 1.9em; } .hero-text h2 { font-size: 2.8em; } .hero-text p { font-size: 1.15em; } .api-data-grid { grid-template-columns: 1fr; gap: 25px; } .chart-container { height: 300px; padding: 15px; } .btn { padding: 12px 30px; font-size: 0.95rem;} }
-
-/* ===== スマホ表示のヘッダータイトル修正 ===== */
-@media (max-width: 480px) {
-    body { font-size: 14px; padding-top: var(--header-height); /* ヘッダー高さは固定なので65pxは不要 */ }
-    .header-content {
-        justify-content: center; /* ロゴとタイトルを中央に、ボタンは絶対位置 */
-        padding: 0 15px; /* スマホで左右余白少し減らす */
-    }
-    .logo-title-container {
-        /* margin: 0 auto; は親が中央揃えなので不要 */
-        text-align: center;
-        /* モバイルボタンと重ならないように、少し右にマージンを持たせる */
-        margin-right: 30px; /* ハンバーガーボタンのスペース確保 */
-        /* もしこれでも重なるなら、さらに調整 */
-    }
-    .logo-title-container h1 {
-        font-size: 0.85em; /* ★★★ さらに小さくして確実に収める ★★★ */
-        white-space: normal; /* 折り返しを許可 */
-        line-height: 1.25; /* 行間を少し詰める */
-        display: block;
-    }
-    .logo-title-container h1 .jp-part {
-        display: block;
-        font-size: 0.9em; /* 日本語部分を親に対して調整 */
-    }
-    #mobile-menu-toggle {
-        right: 15px; /* ボタンの位置 */
-        width: 26px; /* ボタンサイズ微調整 */
-        height: 20px;
-    }
-    #mobile-menu-toggle span { height: 2.5px; }
-
-
-    .hero-text h2 { font-size: 2.2em; }
-    .hero-text p { font-size: 1rem; font-family: var(--font-display); }
-    .hero-text p span.jp-part { font-family: var(--font-body) !important; color: var(--secondary-color) !important; font-weight: 700 !important; }
-    .hero-buttons { flex-direction: column; gap: 15px; }
-    .btn { width: 95%; margin: 0 auto; }
-    .content-icon { max-width: 180px; }
-    .chart-container { height: 250px;}
-    .footer-nav a { margin: 5px 10px; font-size: 0.95em; }
-}
+@media (max-width: 768px) { body { font-size: 15px; } h1 { font-size: 1.4em; } h2 { font-size: 1.9em; } .hero-text h2 { font-size: 2.8em; } .hero-text p { font-size: 1.15em; } .api-data-grid { grid-template-columns: 1fr; gap: 25px; } .chart-container { height: 300px; padding: 15px; } .btn { padding: 12px 30px; font-size: 0.95rem;} .hero-extra-links { grid-template-columns: 1fr; max-width: 400px; } }
+@media (max-width: 480px) { body { font-size: 14px; padding-top: 65px; --header-height: 65px; } h1 { font-size: 1.1em; } .header-content { justify-content: center; } #mobile-menu-toggle { position: absolute; right: 15px; } .logo-title-container { margin: 0 auto; margin-right: 30px; } .logo-title-container h1 { display: block; font-size: 1.05em; white-space: normal; line-height: 1.2; } .logo-title-container h1 .jp-part {display: block; font-size: 0.9em;} .hero-text h2 { font-size: 2.2em; } .hero-text p { font-size: 1rem; font-family: var(--font-display); } .hero-text p span.jp-part { font-family: var(--font-body) !important; color: var(--secondary-color) !important; font-weight: 700 !important; } .hero-buttons { flex-direction: column; gap: 15px; } .hero-extra-links { max-width: 95%; } .btn { width: 95%; margin: 0 auto; } .btn-feature {font-size: 0.9rem; padding: 10px 20px;} .content-icon { max-width: 180px; } .chart-container { height: 250px;} .footer-nav a { margin: 5px 10px; font-size: 0.95em; } }
