@@ -6,7 +6,7 @@
     <title>Welcome with Mayfla-chan! XRPレジャーポータル</title>
     <link rel="icon" type="image/png" href="studio1.png">
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&family=Yomogi&display=swap" rel="stylesheet"> {/* Yomogiフォント追加 */}
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
@@ -15,7 +15,6 @@
 <body>
 
     <header class="site-header sticky">
-        {/* ... (ヘッダー内容は変更なし) ... */}
         <div class="container header-content">
             <div class="logo-title-container">
                 <img src="studio1.png" alt="メイフラちゃんアイコン" class="header-logo">
@@ -29,7 +28,6 @@
         </div>
          <nav class="mobile-nav" id="mobile-nav-menu">
              <a href="#hero">ホーム</a>
-             <a href="#mayfla-news">メイフラニュース</a> {/* モバイルナビにも追加 */}
              <a href="#wallet-info">ウォレット</a>
              <a href="#xrp-cafe">XRPカフェ</a>
              <a href="#xpmarket-info">XPMarket</a>
@@ -48,8 +46,6 @@
                     <div class="hero-buttons">
                         <a href="hackathon.html" class="btn btn-primary hackathon-hero-btn">ハッカソン2025詳細！</a>
                         <a href="interview.html" class="btn btn-primary">メイフラちゃんインタビュー！</a>
-                        {/* ★★★ メイフラニュースへのボタンを追加 ★★★ */}
-                        <a href="#mayfla-news" class="btn btn-feature color-news">メイフラニュースを見る！</a>
                         <a href="#xrp-cafe" class="btn btn-secondary">XRPカフェを見る</a>
                         <a href="#xpmarket-info" class="btn btn-secondary">XPMarketを見る</a>
                     </div>
@@ -66,46 +62,74 @@
             </div>
         </section>
 
-        {/* --- CMC Section (変更なし) --- */}
         <section id="cmc-prices" class="data-section">
-            {/* ... */}
-        </section>
-
-        {/* --- TVL Section (変更なし) --- */}
-        <section id="xrpl-tvl" class="data-section alt-bg">
-            {/* ... */}
-        </section>
-
-        {/* ===== ★★★ メイフラニュース セクション (新規追加) ★★★ ===== */}
-        <section id="mayfla-news" class="content-section news-section">
             <div class="container">
-                <div class="news-header">
-                    <img src="studio10.jpg" alt="メイフラちゃんニュースアイコン" class="mayfla-news-icon">
-                    <h2><span class="icon">📰</span>メイフラニュース<span class="icon">📰</span></h2>
-                </div>
-                <p class="section-subtitle">soso VALUEからNFTやクリプトの最新ニュースをお届けするよ！</p>
-                <div id="soso-news-container" class="news-grid">
-                    <p class="loading-message">ニュースを読み込み中...</p>
-                    {/* <!-- ニュース記事はJSでここに表示 --> */}
+                <h2><span class="icon">💖</span>トップ暗号通貨の価格<span class="icon">💖</span></h2>
+                <p class="section-subtitle">CoinMarketCapからの最新情報だよ！ (via Proxy)</p>
+                <div id="cmc-data-container" class="api-data-grid">
+                    <p class="loading-message">価格情報を読み込み中...</p>
                 </div>
             </div>
         </section>
-        {/* ===== ★★★ 追加ここまで ★★★ ===== */}
 
+        <section id="xrpl-tvl" class="data-section alt-bg">
+            <div class="container">
+                <h2><span class="icon">📊</span>XRPL DeFi TVL<span class="icon">📊</span></h2>
+                <p class="section-subtitle">DefiLlamaからの最新情報だよ！</p>
+                <div id="defilama-tvl-container" class="tvl-display">
+                    <p class="loading-message">TVL情報を読み込み中...</p>
+                    <div class="chart-container">
+                        <canvas id="tvlChart"></canvas>
+                    </div>
+                    <div id="current-tvl-display" class="current-tvl"></div>
+                </div>
+            </div>
+        </section>
 
-        {/* --- XRP Cafe Section (変更なし) --- */}
         <section id="xrp-cafe" class="content-section">
-            {/* ... */}
+             <div class="container content-grid reverse-grid">
+                <div class="content-image cafe-image">
+                    <img src="studio4.jpg" alt="XRP Cafe アイコン" class="content-icon">
+                </div>
+                <div class="content-text">
+                    <h2><span class="icon">☕</span>NFTを探すならXRPカフェ！</h2>
+                    <p>XRPカフェは、XRPレジャー上のNFTを簡単に見つけたり、売買したりできる、初心者にも優しいマーケットプレイスだよ！</p>
+                    <p>可愛いアートや素敵なコレクションがたくさん出品されているから、あなただけのお気に入りを見つけてみてね！Xamanウォレットを接続すればすぐに始められるよ。</p>
+                    <a href="https://xrp.cafe/ja" target="_blank" class="btn btn-primary">XRPカフェへ行く</a>
+                </div>
+            </div>
         </section>
 
-        {/* --- XPMarket Section (変更なし) --- */}
         <section id="xpmarket-info" class="content-section alt-bg">
-            {/* ... */}
+            <div class="container content-grid">
+                <div class="content-image">
+                    <img src="studio8.jpg" alt="XPMarket アイコン" class="content-icon">
+                </div>
+                <div class="content-text">
+                    <h2><span class="icon">📈</span>XRPLのトークンを探検！XPMarket</h2>
+                    <p>XPMarketは、XRPレジャー上の色々なトークン（XRPL DEXで取引されているもの）の価格や取引量を見ることができる便利なサイトだよ！</p>
+                    <p>どんなトークンが人気なのか、どんな価格で取引されているのかチェックしてみよう！チャートも見られて、市場の動きを知るのに役立つよ。色々なDEX（分散型取引所）の情報をまとめて見られるのがポイント！</p>
+                    <h3 style="margin-top: 2em; font-size: 1.6em; color: var(--accent-purple);">💡 AMMって何？</h3>
+                    <p>AMM (自動マーケットメーカー) は、XRPLでトークンを簡単に交換できる仕組みのことだよ。XPMarketで見ているトークンも、このAMMなどを使って交換できるんだ。<br>
+                    難しい注文板を見なくても、流動性プールという場所にトークンを預けた人たちのおかげで、スムーズにトレードできるんだ。便利だね！</p>
+                    <a href="https://xpmarket.com/" target="_blank" class="btn btn-secondary">XPMarketへ行く</a>
+                </div>
+            </div>
         </section>
 
-        {/* --- Wallet Section (変更なし) --- */}
         <section id="wallet-info" class="content-section">
-            {/* ... */}
+            <div class="container content-grid reverse-grid">
+                 <div class="content-image">
+                    <img src="studio5.jpg" alt="Xamanウォレットアイコン" class="content-icon">
+                </div>
+                <div class="content-text">
+                    <h2><span class="icon">👛</span>おすすめウォレット：Xaman</h2>
+                    <p>XRPLの冒険には、安全な「おさいふ」が必要だよね！メイフラちゃんのおすすめは **Xaman (旧XUMM) ウォレット**だよ！</p>
+                    <p>Xamanは、XRPL専用に作られた、とっても安全で使いやすい非管理型ウォレット。「非管理型」っていうのは、あなた自身が完全に資産を管理できるってこと！誰かに預けるんじゃなくて、自分だけの金庫を持つ感じ。</p>
+                    <p>これがあれば、トークンを送ったり、NFTを見たり、XRPLの楽しい機能を安心して楽しめるよ！まずはインストールしてみよう！</p>
+                    <a href="https://xaman.app/" target="_blank" class="btn btn-secondary">Xaman公式サイトへ</a>
+                </div>
+            </div>
         </section>
     </main>
 
@@ -114,7 +138,6 @@
             <img src="studio2.png" alt="リボンロゴ" class="footer-ribbon">
             <nav class="footer-nav">
                 <a href="#hero">ホーム</a>
-                <a href="#mayfla-news">メイフラニュース</a> {/* フッターにも追加 */}
                 <a href="https://xrpl.org/ja/" target="_blank">XRPLについて</a>
                 <a href="#wallet-info">ウォレット</a>
                  <a href="#xrp-cafe">XRPカフェ</a>
