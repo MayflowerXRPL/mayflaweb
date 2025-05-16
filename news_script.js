@@ -1,16 +1,15 @@
-// news_script.js (メイフラニュース専用ページ用)
+// news_script.js (soso VALUE APIを直接呼び出す)
 
 document.addEventListener('DOMContentLoaded', () => {
-    fetchSosoValueNewsForNewsPage(); // ニュースページ用の関数を呼び出し
-    setupMobileMenuNews(); // ニュースページ用モバイルメニュー
-    setupScrollAnimationsNews(); // スクロールアニメーション
+    fetchSosoValueNewsDirectly(); // 直接APIを叩く関数に変更
+    setupMobileMenuNews();
+    setupScrollAnimationsNews();
 });
 
-// ===== Mobile Menu Functions (ニュースページ用) =====
+// ===== Mobile Menu Functions (変更なし) =====
 function setupMobileMenuNews() {
-    const menuToggle = document.getElementById('mobile-menu-toggle-news'); // IDを変更
-    const mobileNav = document.getElementById('mobile-nav-menu-news'); // IDを変更
-
+    const menuToggle = document.getElementById('mobile-menu-toggle-news');
+    const mobileNav = document.getElementById('mobile-nav-menu-news');
     if (menuToggle && mobileNav) {
         menuToggle.addEventListener('click', () => {
             const isActive = document.body.classList.toggle('mobile-menu-active');
@@ -21,7 +20,7 @@ function setupMobileMenuNews() {
     }
 }
 
-function closeMobileMenuNews() { // ニュースページ用
+function closeMobileMenuNews() {
      const menuToggle = document.getElementById('mobile-menu-toggle-news');
      document.body.classList.remove('mobile-menu-active');
      if (menuToggle) {
@@ -30,14 +29,12 @@ function closeMobileMenuNews() { // ニュースページ用
      }
      document.getElementById('mobile-nav-menu-news')?.setAttribute('aria-hidden', 'true');
 }
-// モバイルナビ内のリンクがクリックされたらメニューを閉じる
 const mobileNavLinksNews = document.querySelectorAll('#mobile-nav-menu-news a');
 mobileNavLinksNews.forEach(link => {
     link.addEventListener('click', closeMobileMenuNews);
 });
 
-
-// ===== Scroll Reveal Animation Function (ニュースページ用) =====
+// ===== Scroll Reveal Animation Function (変更なし) =====
 function setupScrollAnimationsNews() {
     const revealElements = document.querySelectorAll('.reveal-on-scroll');
     if (!revealElements.length) return;
@@ -52,10 +49,13 @@ function setupScrollAnimationsNews() {
 }
 
 
-// --- soso VALUE News API (ニュースページ用) ---
-async function fetchSosoValueNewsForNewsPage() {
-    const proxyUrl = '/api/soso-proxy'; // プロキシは共通
-    const container = document.getElementById('soso-news-container-page'); // ニュースページのコンテナID
+// --- soso VALUE News API (直接呼び出し) ---
+async function fetchSosoValueNewsDirectly() {
+    // ★★★ 直接 soso VALUE APIのエンドポイントを叩く ★★★
+    const lang = 'ja';
+    const pageSize = 12; // 表示件数
+    const apiUrl = `https://pro-api.sosovalue.xyz/api/v1/news/list?page=1&page_size=${pageSize}&lang=${lang}`;
+    const container = document.getElementById('soso-news-container-page');
 
     if (!container) {
         console.error("soso VALUE news container (news page) not found!");
@@ -64,12 +64,31 @@ async function fetchSosoValueNewsForNewsPage() {
     container.innerHTML = '<p class="loading-message">ニュースを読み込み中...</p>';
 
     try {
-        // ニュースページではより多くの記事を表示する例 (例: 12件)
-        const response = await fetch(`${proxyUrl}?page_size=12&lang=ja`);
+        console.log(`[news_script.js] Fetching soso VALUE URL directly: ${apiUrl}`);
+        const response = await fetch(apiUrl, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                // ★★★ APIキーは不要なのでヘッダーもなし ★★★
+            }
+        });
+
         if (!response.ok) {
-            const errorData = await response.json().catch(() => ({ message: `Error ${response.status}` }));
-            throw new Error(`soso VALUEニュース取得エラー: ${response.status} - ${errorData.message || errorData.error || '詳細不明'}`);
+            const errorText = await response.text().catch(() => `HTTP error! status: ${response.status}`);
+            console.error('soso VALUE API Direct Error:', response.status, errorText);
+            // APIからのエラーメッセージを具体的に表示しようと試みる
+            let errorDetail = errorText;
+            try {
+                const errorJson = JSON.parse(errorText);
+                if (errorJson && errorJson.message) {
+                    errorDetail = errorJson.message;
+                }
+            } catch (e) {
+                // JSONパース失敗時は元のテキストを使用
+            }
+            throw new Error(`soso VALUEニュース取得エラー: ${response.status} - ${errorDetail}`);
         }
+
         const newsApiResponse = await response.json();
         const articles = newsApiResponse?.data?.list;
 
@@ -78,7 +97,7 @@ async function fetchSosoValueNewsForNewsPage() {
             articles.forEach(article => {
                 const card = document.createElement('div');
                 card.className = 'news-card';
-                const imageUrl = article.image_url || 'studio4.jpg'; // studio4.jpg を代替画像に
+                const imageUrl = article.image_url || 'studio4.jpg';
                 const title = article.title || 'タイトルなし';
                 const description = article.description || article.content_summary || '概要なし...';
                 const sourceName = article.source_name || '提供元不明';
@@ -100,7 +119,7 @@ async function fetchSosoValueNewsForNewsPage() {
             container.innerHTML = '<p>新しいニュースは見つかりませんでした。</p>';
         }
     } catch (error) {
-        console.error('soso VALUE ニュースの取得エラー (news page):', error);
+        console.error('soso VALUE ニュースの取得エラー (direct):', error);
         container.innerHTML = `<p class="error-message">あらら！ニュースが取れなかったみたい…<br>(詳細: ${error.message})</p>`;
     }
 }
