@@ -1,4 +1,4 @@
-// api/soso-proxy.js (APIキー処理を完全に削除)
+// api/soso-proxy.js (APIキー関連の処理を完全に削除 - 最終FIX)
 const fetch = require('node-fetch');
 
 export default async function handler(request, response) {
@@ -20,12 +20,14 @@ export default async function handler(request, response) {
         console.log(`[soso-proxy.js] Fetching soso VALUE (general news) URL: ${API_ENDPOINT}`);
     }
 
+    // ★★★ APIキーに関するチェックとヘッダーへの追加は完全に削除 ★★★
+
     try {
         const apiResponse = await fetch(API_ENDPOINT, {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
-                // ★★★ X-API-KEY ヘッダーは不要なので削除 ★★★
+                // 'X-API-KEY' ヘッダーは不要なので完全に削除
             },
         });
 
