@@ -1,60 +1,24 @@
-// news_script.js (soso VALUE APIを直接呼び出す)
+// news_script.js (プロキシ経由に戻す)
 
 document.addEventListener('DOMContentLoaded', () => {
-    fetchSosoValueNewsDirectly(); // 直接APIを叩く関数に変更
+    fetchSosoValueNewsViaProxy(); // ★★★ プロキシ経由の関数名に変更 ★★★
     setupMobileMenuNews();
     setupScrollAnimationsNews();
 });
 
 // ===== Mobile Menu Functions (変更なし) =====
-function setupMobileMenuNews() {
-    const menuToggle = document.getElementById('mobile-menu-toggle-news');
-    const mobileNav = document.getElementById('mobile-nav-menu-news');
-    if (menuToggle && mobileNav) {
-        menuToggle.addEventListener('click', () => {
-            const isActive = document.body.classList.toggle('mobile-menu-active');
-            menuToggle.classList.toggle('active', isActive);
-            menuToggle.setAttribute('aria-expanded', isActive ? 'true' : 'false');
-            mobileNav.setAttribute('aria-hidden', !isActive);
-        });
-    }
-}
-
-function closeMobileMenuNews() {
-     const menuToggle = document.getElementById('mobile-menu-toggle-news');
-     document.body.classList.remove('mobile-menu-active');
-     if (menuToggle) {
-        menuToggle.classList.remove('active');
-        menuToggle.setAttribute('aria-expanded', 'false');
-     }
-     document.getElementById('mobile-nav-menu-news')?.setAttribute('aria-hidden', 'true');
-}
+function setupMobileMenuNews() { /* ... 前回のコードと同じ ... */ }
+function closeMobileMenuNews() { /* ... 前回のコードと同じ ... */ }
 const mobileNavLinksNews = document.querySelectorAll('#mobile-nav-menu-news a');
-mobileNavLinksNews.forEach(link => {
-    link.addEventListener('click', closeMobileMenuNews);
-});
+mobileNavLinksNews.forEach(link => { link.addEventListener('click', closeMobileMenuNews); });
 
 // ===== Scroll Reveal Animation Function (変更なし) =====
-function setupScrollAnimationsNews() {
-    const revealElements = document.querySelectorAll('.reveal-on-scroll');
-    if (!revealElements.length) return;
-    if ('IntersectionObserver' in window) {
-        const revealObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) { entry.target.classList.add('active'); }
-            });
-        }, { threshold: 0.1 });
-        revealElements.forEach(element => { revealObserver.observe(element); });
-    } else { revealElements.forEach(element => element.classList.add('active')); }
-}
+function setupScrollAnimationsNews() { /* ... 前回のコードと同じ ... */ }
 
 
-// --- soso VALUE News API (直接呼び出し) ---
-async function fetchSosoValueNewsDirectly() {
-    // ★★★ 直接 soso VALUE APIのエンドポイントを叩く ★★★
-    const lang = 'ja';
-    const pageSize = 12; // 表示件数
-    const apiUrl = `https://pro-api.sosovalue.xyz/api/v1/news/list?page=1&page_size=${pageSize}&lang=${lang}`;
+// --- soso VALUE News API (★ Vercel プロキシ経由に戻す ★) ---
+async function fetchSosoValueNewsViaProxy() { // ★★★ 関数名を変更 ★★★
+    const proxyUrl = '/api/soso-proxy'; // Vercelのapiフォルダ内のsoso-proxy.jsを指す
     const container = document.getElementById('soso-news-container-page');
 
     if (!container) {
@@ -64,31 +28,13 @@ async function fetchSosoValueNewsDirectly() {
     container.innerHTML = '<p class="loading-message">ニュースを読み込み中...</p>';
 
     try {
-        console.log(`[news_script.js] Fetching soso VALUE URL directly: ${apiUrl}`);
-        const response = await fetch(apiUrl, {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-                // ★★★ APIキーは不要なのでヘッダーもなし ★★★
-            }
-        });
-
+        // ニュースページではより多くの記事を表示する例 (例: 12件)
+        // プロキシにパラメータを渡す
+        const response = await fetch(`${proxyUrl}?page_size=12&lang=ja`);
         if (!response.ok) {
-            const errorText = await response.text().catch(() => `HTTP error! status: ${response.status}`);
-            console.error('soso VALUE API Direct Error:', response.status, errorText);
-            // APIからのエラーメッセージを具体的に表示しようと試みる
-            let errorDetail = errorText;
-            try {
-                const errorJson = JSON.parse(errorText);
-                if (errorJson && errorJson.message) {
-                    errorDetail = errorJson.message;
-                }
-            } catch (e) {
-                // JSONパース失敗時は元のテキストを使用
-            }
-            throw new Error(`soso VALUEニュース取得エラー: ${response.status} - ${errorDetail}`);
+            const errorData = await response.json().catch(() => ({ message: `Error ${response.status}` }));
+            throw new Error(`soso VALUEニュース取得エラー: ${response.status} - ${errorData.message || errorData.error || '詳細不明'}`);
         }
-
         const newsApiResponse = await response.json();
         const articles = newsApiResponse?.data?.list;
 
@@ -119,7 +65,12 @@ async function fetchSosoValueNewsDirectly() {
             container.innerHTML = '<p>新しいニュースは見つかりませんでした。</p>';
         }
     } catch (error) {
-        console.error('soso VALUE ニュースの取得エラー (direct):', error);
+        console.error('soso VALUE ニュースの取得エラー (via proxy):', error);
         container.innerHTML = `<p class="error-message">あらら！ニュースが取れなかったみたい…<br>(詳細: ${error.message})</p>`;
     }
 }
+
+// 省略部分は前回のコードをそのままコピーしてください
+function setupMobileMenuNews() { const menuToggle = document.getElementById('mobile-menu-toggle-news'); const mobileNav = document.getElementById('mobile-nav-menu-news'); if (menuToggle && mobileNav) { menuToggle.addEventListener('click', () => { const isActive = document.body.classList.toggle('mobile-menu-active'); menuToggle.classList.toggle('active', isActive); menuToggle.setAttribute('aria-expanded', isActive ? 'true' : 'false'); mobileNav.setAttribute('aria-hidden', !isActive); }); } }
+function closeMobileMenuNews() { const menuToggle = document.getElementById('mobile-menu-toggle-news'); document.body.classList.remove('mobile-menu-active'); if (menuToggle) { menuToggle.classList.remove('active'); menuToggle.setAttribute('aria-expanded', 'false'); } document.getElementById('mobile-nav-menu-news')?.setAttribute('aria-hidden', 'true'); }
+function setupScrollAnimationsNews() { const revealElements = document.querySelectorAll('.reveal-on-scroll'); if (!revealElements.length) return; if ('IntersectionObserver' in window) { const revealObserver = new IntersectionObserver((entries, observer) => { entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('active'); } }); }, { threshold: 0.1 }); revealElements.forEach(element => { revealObserver.observe(element); }); } else { revealElements.forEach(element => element.classList.add('active')); } }
