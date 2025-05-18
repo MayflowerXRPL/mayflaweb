@@ -1,76 +1,107 @@
-// news_script.js (プロキシ経由に戻す)
+// news_script.js
+document.addEventListener('DOMContentLoaded', async () => {
+    const newsContainer = document.getElementById('news-container');
+    const loadingIndicator = document.getElementById('loading-indicator');
+    const errorMessageContainer = document.getElementById('error-message'); // ID修正
 
-document.addEventListener('DOMContentLoaded', () => {
-    fetchSosoValueNewsViaProxy(); // ★★★ プロキシ経由の関数名に変更 ★★★
-    setupMobileMenuNews();
-    setupScrollAnimationsNews();
-});
+    // APIプロキシのエンドポイントURL
+    const proxyApiUrl = '/api/sosoProxy'; 
+    // もしクエリパラメータで取得件数などを変えたい場合は、ここでURLを組み立てる
+    // 例: const proxyApiUrl = '/api/sosoProxy?lang=ja&page_size=10';
 
-// ===== Mobile Menu Functions (変更なし) =====
-function setupMobileMenuNews() { /* ... 前回のコードと同じ ... */ }
-function closeMobileMenuNews() { /* ... 前回のコードと同じ ... */ }
-const mobileNavLinksNews = document.querySelectorAll('#mobile-nav-menu-news a');
-mobileNavLinksNews.forEach(link => { link.addEventListener('click', closeMobileMenuNews); });
-
-// ===== Scroll Reveal Animation Function (変更なし) =====
-function setupScrollAnimationsNews() { /* ... 前回のコードと同じ ... */ }
-
-
-// --- soso VALUE News API (★ Vercel プロキシ経由に戻す ★) ---
-async function fetchSosoValueNewsViaProxy() { // ★★★ 関数名を変更 ★★★
-    const proxyUrl = '/api/soso-proxy'; // Vercelのapiフォルダ内のsoso-proxy.jsを指す
-    const container = document.getElementById('soso-news-container-page');
-
-    if (!container) {
-        console.error("soso VALUE news container (news page) not found!");
-        return;
+    function displayLoading(show) {
+        if (loadingIndicator) {
+            loadingIndicator.style.display = show ? 'block' : 'none';
+        }
     }
-    container.innerHTML = '<p class="loading-message">ニュースを読み込み中...</p>';
+
+    function displayError(message) {
+        if (errorMessageContainer) {
+            errorMessageContainer.textContent = message;
+            errorMessageContainer.style.display = 'block';
+        }
+        if (newsContainer) { // エラー時はニュースコンテナをクリア
+            newsContainer.innerHTML = '';
+        }
+        console.error('ニュース表示エラー:', message); // コンソールにもエラー出力
+    }
+
+    displayLoading(true);
+    errorMessageContainer.style.display = 'none'; // 初期はエラー非表示
 
     try {
-        // ニュースページではより多くの記事を表示する例 (例: 12件)
-        // プロキシにパラメータを渡す
-        const response = await fetch(`${proxyUrl}?page_size=12&lang=ja`);
-        if (!response.ok) {
-            const errorData = await response.json().catch(() => ({ message: `Error ${response.status}` }));
-            throw new Error(`soso VALUEニュース取得エラー: ${response.status} - ${errorData.message || errorData.error || '詳細不明'}`);
+        const response = await fetch(proxyApiUrl);
+        const result = await response.json(); // プロキシからのレスポンスは常にJSONと期待
+
+        displayLoading(false);
+
+        if (!response.ok || !result.success) {
+            // プロキシ自体がエラーを返したか、プロキシ経由でAPIエラーが発生した場合
+            throw new Error(result.error || `ニュースの取得に失敗しました (Status: ${response.status})`);
         }
-        const newsApiResponse = await response.json();
-        const articles = newsApiResponse?.data?.list;
+        
+        const articles = result.data && result.data.list ? result.data.list : [];
 
-        if (articles && Array.isArray(articles) && articles.length > 0) {
-            container.innerHTML = '';
-            articles.forEach(article => {
-                const card = document.createElement('div');
-                card.className = 'news-card';
-                const imageUrl = article.image_url || 'studio4.jpg';
-                const title = article.title || 'タイトルなし';
-                const description = article.description || article.content_summary || '概要なし...';
-                const sourceName = article.source_name || '提供元不明';
-                const publishedAt = article.publish_ts ? new Date(article.publish_ts * 1000).toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' }) : '日付不明';
-                const articleUrl = article.source_url || '#';
+        if (articles.length > 0) {
+            if (newsContainer) {
+                newsContainer.innerHTML = ''; // 既存の内容をクリア
+                articles.forEach(article => {
+                    const newsItem = document.createElement('div');
+                    // クラス名は mayfla_news.html の CSS 定義や Tailwind CSS に合わせる
+                    newsItem.className = 'news-item'; 
+                    
+                    let imageHtml = '';
+                    if (article.cover_image) {
+                        // alt属性のテキストをエスケープ (簡易的)
+                        const safeTitle = article.title.replace(/"/g, '"').replace(/</g, '<').replace(/>/g, '>');
+                        imageHtml = `<img src="${article.cover_image}" alt="${safeTitle}" loading="lazy">`;
+                    }
 
-                card.innerHTML = `
-                    ${imageUrl ? `<img src="${imageUrl}" alt="${title}" class="news-image" onerror="this.style.display='none'; this.src='studio4.jpg';">` : ''}
-                    <h3><a href="${articleUrl}" target="_blank">${title}</a></h3>
-                    <p class="news-source">${sourceName} - ${publishedAt}</p>
-                    <p class="news-description">${description.substring(0, 150)}${description.length > 150 ? '...' : ''}</p>
-                    <a href="${articleUrl}" target="_blank" class="read-more">続きを読む →</a>
-                `;
-                container.appendChild(card);
-            });
-        } else if (newsApiResponse.code !== 0 && newsApiResponse.message) {
-            throw new Error(`soso VALUE APIエラー: ${newsApiResponse.message} (code: ${newsApiResponse.code})`);
+                    // 記事コンテンツ部分 (XSSに注意し、textContentを優先する)
+                    const contentDiv = document.createElement('div');
+                    contentDiv.className = 'news-content';
+
+                    const titleElement = document.createElement('h3');
+                    titleElement.className = 'news-title text-mayfblue-500'; // 既存のクラスを参考に
+                    titleElement.textContent = article.title;
+
+                    const dateElement = document.createElement('p');
+                    dateElement.className = 'news-date';
+                    dateElement.textContent = `公開日: ${new Date(article.published_at * 1000).toLocaleDateString('ja-JP')}`;
+                    
+                    const summaryElement = document.createElement('p');
+                    summaryElement.className = 'news-summary';
+                    summaryElement.textContent = article.summary || '概要はありません。';
+
+                    const linkElement = document.createElement('a');
+                    linkElement.className = 'news-link bg-mayfblue-500 hover:bg-mayfblue-600'; // 既存のクラスを参考に
+                    linkElement.href = article.url;
+                    linkElement.target = '_blank';
+                    linkElement.rel = 'noopener noreferrer';
+                    linkElement.textContent = '続きを読む';
+
+                    contentDiv.appendChild(titleElement);
+                    contentDiv.appendChild(dateElement);
+                    contentDiv.appendChild(summaryElement);
+                    contentDiv.appendChild(linkElement);
+                    
+                    if (imageHtml) {
+                        newsItem.innerHTML = imageHtml; // 画像はinnerHTMLで先に追加
+                    }
+                    newsItem.appendChild(contentDiv); // テキストコンテンツはappendChildで
+
+                    newsContainer.appendChild(newsItem);
+                });
+            } else {
+                console.error('HTML内に news-container 要素が見つかりません。');
+                displayError('ニュースを表示するためのコンテナが見つかりません。');
+            }
         } else {
-            container.innerHTML = '<p>新しいニュースは見つかりませんでした。</p>';
+            displayError('表示できるニュース記事がありません。');
         }
-    } catch (error) {
-        console.error('soso VALUE ニュースの取得エラー (via proxy):', error);
-        container.innerHTML = `<p class="error-message">あらら！ニュースが取れなかったみたい…<br>(詳細: ${error.message})</p>`;
-    }
-}
 
-// 省略部分は前回のコードをそのままコピーしてください
-function setupMobileMenuNews() { const menuToggle = document.getElementById('mobile-menu-toggle-news'); const mobileNav = document.getElementById('mobile-nav-menu-news'); if (menuToggle && mobileNav) { menuToggle.addEventListener('click', () => { const isActive = document.body.classList.toggle('mobile-menu-active'); menuToggle.classList.toggle('active', isActive); menuToggle.setAttribute('aria-expanded', isActive ? 'true' : 'false'); mobileNav.setAttribute('aria-hidden', !isActive); }); } }
-function closeMobileMenuNews() { const menuToggle = document.getElementById('mobile-menu-toggle-news'); document.body.classList.remove('mobile-menu-active'); if (menuToggle) { menuToggle.classList.remove('active'); menuToggle.setAttribute('aria-expanded', 'false'); } document.getElementById('mobile-nav-menu-news')?.setAttribute('aria-hidden', 'true'); }
-function setupScrollAnimationsNews() { const revealElements = document.querySelectorAll('.reveal-on-scroll'); if (!revealElements.length) return; if ('IntersectionObserver' in window) { const revealObserver = new IntersectionObserver((entries, observer) => { entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('active'); } }); }, { threshold: 0.1 }); revealElements.forEach(element => { revealObserver.observe(element); }); } else { revealElements.forEach(element => element.classList.add('active')); } }
+    } catch (error) {
+        displayLoading(false);
+        displayError(error.message || 'ニュースの読み込み中に予期せぬエラーが発生しました。');
+    }
+});
