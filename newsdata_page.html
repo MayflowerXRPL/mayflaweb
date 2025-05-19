@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>日本語ニュース (NewsData.io)</title>
+    <link rel="stylesheet" href="style.css"> 
+    <link rel="stylesheet" href="news_style.css">
+    <style>
+        /* crypto_news_page.html と同様のスタイル */
+        #newsdata-loading-indicator, #newsdata-error-message { text-align: center; padding: 20px; font-size: 1.2em; }
+        #newsdata-error-message { color: red; border: 1px solid red; background-color: #ffebeb; margin: 10px auto; max-width: 600px; border-radius: 5px; }
+        .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; padding: 1rem; }
+        .news-item { border: 1px solid #e5e7eb; border-radius: 0.5rem; background-color: white; box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); overflow: hidden; }
+        .news-item img { width: 100%; height: 200px; object-fit: cover; }
+        .news-content { padding: 1rem; }
+        .news-title { font-size: 1.25rem; font-weight: bold; margin-bottom: 0.5rem; }
+        .news-date, .news-source-info { font-size: 0.875rem; color: #6b7280; margin-bottom: 0.25rem; }
+        .news-summary { font-size: 0.875rem; color: #374151; margin-bottom: 0.75rem; line-height: 1.4; }
+        .news-link { display: inline-block; color: white; font-weight: 600; padding: 0.5rem 1rem; border-radius: 0.25rem; text-decoration: none; font-size: 0.875rem; }
+        .text-mayfblue-500 { color: #3b82f6; }
+        .bg-mayfblue-500 { background-color: #3b82f6; }
+        .hover\:bg-mayfblue-600:hover { background-color: #2563eb; }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <header class="bg-white shadow p-4 mb-4 text-center">
+        <h1 class="text-3xl font-bold text-mayfblue-500">日本語ニュース</h1>
+        <p class="text-gray-600">NewsData.io提供</p>
+    </header>
+
+    <main class="container mx-auto px-4">
+        <div id="newsdata-loading-indicator" style="display: none;">読み込んでいます...</div>
+        <div id="newsdata-error-message" style="display: none;"></div>
+        <div id="newsdata-container" class="news-grid">
+            <!-- ニュース記事がここに挿入されます -->
+        </div>
+    </main>
+
+    <footer class="text-center p-4 mt-8 text-gray-600 text-sm">
+        <p>© 2024 Mayflowerプロジェクト. News provided by NewsData.io.</p>
+    </footer>
+
+    <script src="newsdata_script.js"></script>
+</body>
+</html>
