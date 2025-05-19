@@ -1,4 +1,4 @@
-/* style.css (最終FIX - 静的グラデ背景、ヒーローチェック柄、他修正なし) */
+/* style.css (テキストずれ修正版) */
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=M+PLUS+Rounded+1c:wght@400;500;700&display=swap');
 
@@ -9,7 +9,7 @@
     --accent-green: #8BC34A;
     --text-color-dark: #37324d;
     --text-color-light: #f8f8ff;
-    --bg-main: linear-gradient(135deg, #fdeff9 0%, #e8f5ff 100%); /* ★★★ 静的なグラデーション背景 ★★★ */
+    --bg-main: linear-gradient(135deg, #fdeff9 0%, #e8f5ff 100%);
     --bg-card: rgba(255, 255, 255, 0.85);
     --bg-card-alt: rgba(240, 248, 255, 0.9);
     --border-color: rgba(103, 58, 183, 0.1);
@@ -28,7 +28,6 @@
 
 /* ===== アニメーション定義 (floatのみ) ===== */
 @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-8px); } 100% { transform: translateY(0px); } }
-/* bodyのグラデーションアニメーション定義は削除 */
 
 /* ===== 基本設定 ===== */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -36,8 +35,7 @@ html { scroll-behavior: smooth; font-size: 16px; }
 body {
     font-family: var(--font-body);
     color: var(--text-color-dark);
-    background: var(--bg-main); /* ★★★ 静的なグラデーション背景を適用 ★★★ */
-    /* background-size と animation は削除 */
+    background: var(--bg-main);
     line-height: 1.8;
     overflow-x: hidden;
     padding-top: var(--header-height);
@@ -45,7 +43,6 @@ body {
 }
 body.mobile-menu-active { overflow: hidden; }
 
-/* --- 他のCSSルールは変更なし --- */
 .container { width: 90%; max-width: 1140px; margin: 0 auto; padding: 30px 0; position: relative; z-index: 1; }
 h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; line-height: 1.3; margin-bottom: 0.7em; }
 h1 { font-size: clamp(1.5rem, 4vw, 1.8rem); color: var(--primary-color); text-shadow: 1px 1px 2px rgba(0,0,0,0.1); margin: 0; white-space: nowrap;}
@@ -76,16 +73,111 @@ body.mobile-menu-active .mobile-nav { display: flex; transform: translateX(0); }
 
  main { position: relative; z-index: 1; overflow: hidden; }
 
-.hero-section { padding: 80px 0 100px; text-align: center; position: relative; overflow: hidden; background-color: transparent; }
-.hero-section::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%), linear-gradient(-45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%), linear-gradient(45deg, transparent 75%, rgba(255, 255, 255, 0.15) 75%), linear-gradient(-45deg, transparent 75%, rgba(255, 255, 255, 0.15) 75%); background-size: 40px 40px; background-position: 0 0, 0 20px, 20px -20px, -20px 0px; z-index: 0; opacity: 0.5; }
-.hero-content { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 30px; background: rgba(255,255,255,0.2); backdrop-filter: blur(2px); padding: 40px 20px; border-radius: var(--border-radius); }
-.hero-text h2 { font-size: clamp(2.5rem, 7vw, 4rem); color: var(--primary-color); font-weight: 700; margin-bottom: 0.3em; text-shadow: 1px 1px 3px rgba(0,0,0,0.1); }
-.hero-text p { font-size: clamp(1.1rem, 3vw, 1.3rem); max-width: 650px; margin-bottom: 1.5em; color: var(--primary-color); font-weight: 500; font-family: var(--font-display); background: none; padding: 0; border-radius: 0; }
-.hero-text p span.jp-part { font-family: var(--font-body) !important; color: var(--secondary-color) !important; font-weight: 700 !important; }
-.hero-image { margin-top: 30px; perspective: 1000px; }
-.hero-image img { max-width: 350px; border-radius: 24px; border: none; box-shadow: 0 15px 40px rgba(103, 58, 183, 0.2); transition: transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.8s cubic-bezier(0.165, 0.84, 0.44, 1); transform: rotateY(0deg) rotateX(0deg); }
-.hero-image img:hover { box-shadow: 0 25px 50px rgba(103, 58, 183, 0.3); transform: rotateY(10deg) rotateX(5deg) scale(1.05); }
-.hero-buttons { display: flex; gap: 18px; flex-wrap: wrap; justify-content: center; margin-top: 25px; }
+.hero-section { 
+    padding: 80px 0 100px; 
+    text-align: center; /* このセクション内のテキストは基本的に中央揃え */
+    position: relative; 
+    overflow: hidden; 
+    background-color: transparent; 
+}
+.hero-section::before { 
+    content: ''; 
+    position: absolute; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%; 
+    background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%), linear-gradient(-45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%), linear-gradient(45deg, transparent 75%, rgba(255, 255, 255, 0.15) 75%), linear-gradient(-45deg, transparent 75%, rgba(255, 255, 255, 0.15) 75%); 
+    background-size: 40px 40px; 
+    background-position: 0 0, 0 20px, 20px -20px, -20px 0px; 
+    z-index: 0; 
+    opacity: 0.5; 
+}
+
+.hero-content { 
+    position: relative; 
+    z-index: 1; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; /* Flexアイテム (hero-textなど) を中央揃え */
+    gap: 30px; 
+    background: rgba(255,255,255,0.2); 
+    backdrop-filter: blur(2px); 
+    padding: 40px 20px; 
+    border-radius: var(--border-radius); 
+}
+
+.hero-text {
+    text-align: center; /* この中のテキストとインライン要素を中央揃え */
+    width: 100%; /* 親要素いっぱいに広がる */
+    max-width: 700px; /* hero-text全体の最大幅 (必要に応じて調整) */
+    /* margin-left: auto; と margin-right: auto; は、
+       親の .hero-content が display:flex と align-items:center; なので、
+       .hero-text ブロック自体の中央揃えはそちらで担保されます。 */
+}
+
+.hero-text h2 { 
+    font-size: clamp(2.5rem, 7vw, 4rem); 
+    color: var(--primary-color); 
+    font-weight: 700; 
+    margin-bottom: 0.3em; 
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.1); 
+    /* text-align は親の .hero-text から継承 */
+}
+
+.hero-text p { 
+    font-size: clamp(1.1rem, 3vw, 1.3rem); 
+    max-width: 650px; /* p要素の最大幅 */
+    margin-bottom: 1.5em; 
+    color: var(--primary-color); 
+    font-weight: 500; 
+    font-family: var(--font-display); 
+    background: none; 
+    padding: 0; 
+    border-radius: 0; 
+    margin-left: auto;   /* ★max-widthが設定されたブロック要素を中央揃え */
+    margin-right: auto;  /* ★max-widthが設定されたブロック要素を中央揃え */
+    /* text-align は親の .hero-text から継承。
+       もしこのpタグ内のテキストも強制的に中央揃えにしたい場合は、
+       text-align: center; をここに追加。
+       現状は親の .hero-text の text-align: center; が効く想定。*/
+}
+.hero-text p span.jp-part { 
+    font-family: var(--font-body) !important; 
+    color: var(--secondary-color) !important; 
+    font-weight: 700 !important; 
+}
+
+.hero-image { 
+    margin-top: 30px; 
+    perspective: 1000px; 
+}
+.hero-image img { 
+    max-width: 350px; 
+    border-radius: 24px; 
+    border: none; 
+    box-shadow: 0 15px 40px rgba(103, 58, 183, 0.2); 
+    transition: transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.8s cubic-bezier(0.165, 0.84, 0.44, 1); 
+    transform: rotateY(0deg) rotateX(0deg); 
+}
+.hero-image img:hover { 
+    box-shadow: 0 25px 50px rgba(103, 58, 183, 0.3); 
+    transform: rotateY(10deg) rotateX(5deg) scale(1.05); 
+}
+
+.hero-buttons { 
+    display: flex; 
+    gap: 18px; 
+    flex-wrap: wrap; 
+    justify-content: center; 
+    margin-top: 25px; 
+}
+/* ... (以降の .btn, .data-sectionなどのスタイルは変更なし) ... */
+/* ... (メディアクエリも変更なし) ... */
+
+/* --- ここから下は、既存のコードの続きをそのまま記述してください --- */
+/* (前のメッセージで提示されたコードの残りの部分) */
+
 .btn { display: inline-flex; align-items: center; justify-content: center; padding: 15px 35px; border-radius: 50px; font-family: var(--font-display); font-weight: 600; text-decoration: none; border: none; cursor: pointer; transition: all var(--transition-main); box-shadow: var(--shadow-soft); color: white; font-size: 1rem; letter-spacing: 0.8px; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); position: relative; overflow: hidden; z-index: 1; }
 .btn::before { content: ''; position: absolute; top: 0; left: 0; width: 0; height: 100%; background: rgba(255, 255, 255, 0.2); transition: width var(--transition-main); border-radius: 50px; z-index: -1; }
 .btn:hover::before { width: 100%; }
