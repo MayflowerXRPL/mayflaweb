@@ -1,4 +1,4 @@
-/* style.css (テキストずれ修正版 + 動画セクションスタイル追加) */
+/* style.css (テキストずれ修正版 + 動画セクションスタイル確定版) */
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=M+PLUS+Rounded+1c:wght@400;500;700&display=swap');
 
@@ -17,7 +17,7 @@
     --shadow-strong: 0 10px 28px rgba(103, 58, 183, 0.12);
     --font-display: 'Poppins', sans-serif;
     --font-body: 'M PLUS Rounded 1c', sans-serif;
-    --border-radius: 16px;
+    --border-radius: 16px; /* ★動画コンテナの角丸にも使う */
     --header-height: 70px;
     --transition-main: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
     --chart-line-color: var(--primary-color);
@@ -164,6 +164,11 @@ body.mobile-menu-active .mobile-nav { display: flex; transform: translateX(0); }
     justify-content: center; 
     margin-top: 25px; 
 }
+/* ... (既存の .btn, .data-sectionなどのスタイルは変更なし) ... */
+/* ... (メディアクエリも変更なし) ... */
+
+/* --- ここから下は、既存のコードの続きをそのまま記述してください --- */
+/* (前のメッセージで提示されたコードの残りの部分) */
 
 .btn { display: inline-flex; align-items: center; justify-content: center; padding: 15px 35px; border-radius: 50px; font-family: var(--font-display); font-weight: 600; text-decoration: none; border: none; cursor: pointer; transition: all var(--transition-main); box-shadow: var(--shadow-soft); color: white; font-size: 1rem; letter-spacing: 0.8px; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); position: relative; overflow: hidden; z-index: 1; }
 .btn::before { content: ''; position: absolute; top: 0; left: 0; width: 0; height: 100%; background: rgba(255, 255, 255, 0.2); transition: width var(--transition-main); border-radius: 50px; z-index: -1; }
@@ -226,32 +231,35 @@ body.mobile-menu-active .mobile-nav { display: flex; transform: translateX(0); }
 .footer-nav a:hover { color: var(--primary-color); transform: scale(1.1); }
 .site-footer-bottom p { margin-bottom: 5px; font-size: 0.9rem; color: #5a5372; }
 
-/* ▼▼▼ ここから動画セクション用のスタイルを追加 ▼▼▼ */
-#mayfla-local-video {
-    padding: 60px 0;
-    text-align: center;
+/* ▼▼▼ ここから動画セクション用のスタイル (HTMLのインラインスタイルと協調) ▼▼▼ */
+#local-video-section { /* HTML側で <section id="local-video-section" ...> に対応 */
+    /* padding: 60px 0; */ /* HTML側のインラインスタイルで指定済みなので、ここでは不要 */
+    /* text-align: center; */ /* HTML側のインラインスタイルで指定済みなので、ここでは不要 */
 }
 
-#mayfla-local-video h2 { /* 動画セクションのタイトルスタイル (既存のh2スタイルを継承・上書き) */
-    margin-bottom: 1.5em;
-    /* 必要であれば、他のh2と区別するためのスタイルを追加 */
+#local-video-section h2 { /* 動画セクションのタイトルスタイル (既存のh2スタイルを継承) */
+    /* margin-bottom: 1.5em; */ /* HTML側のインラインスタイルで指定済みなので、ここでは不要 */
+    /* 必要であれば、他のh2と区別するためのスタイルをここに追加 */
 }
 
-/* 動画コンテナのスタイル */
-.video-container-local {
-    max-width: 720px; /* 動画の表示最大幅 (お好みで調整) */
-    margin: 0 auto;   /* 中央揃え */
-    background-color: #000; /* 動画の背景を黒にするとアスペクト比によっては見栄えが良い */
-    border-radius: var(--border-radius); /* 角丸 (任意) */
-    box-shadow: var(--shadow-soft); /* 影 (任意) */
-    overflow: hidden; /* 角丸を効かせるためと、video要素のはみ出し防止 */
+.video-player-container { /* HTML側で <div class="video-player-container" ...> に対応 */
+    /* max-width: 720px; */   /* HTML側のインラインスタイルで指定済み */
+    /* margin: 0 auto; */    /* HTML側のインラインスタイルで指定済み */
+    /* background-color: #000; */ /* HTML側のインラインスタイルで指定済み */
+    /* border-radius: 8px; */   /* HTML側のインラインスタイルで指定済み */
+    /* overflow: hidden; */     /* HTML側のインラインスタイルで指定済み */
+    /* 必要であれば、ここに box-shadow などを追加 */
+    box-shadow: var(--shadow-strong); /* 例: 他のセクションのカードのような影を追加 */
 }
 
-.video-container-local video {
-    display: block; /* video要素はインラインなのでブロック要素にしてmargin autoを効かせる */
-    width: 100%;    /* 親要素の幅に合わせる */
-    height: auto;   /* 高さは自動調整でアスペクト比を保つ */
-    border-radius: var(--border-radius); /* 動画自体にも角丸 (任意、親のoverflow:hiddenと併用) */
+#myLocalVideo { /* HTML側で <video id="myLocalVideo" ...> に対応 */
+    /* width: 100%; */       /* HTML側のインラインスタイルで指定済み */
+    /* height: auto; */      /* HTML側のインラインスタイルで指定済み */
+    /* display: block; */    /* HTML側のインラインスタイルで指定済み */
+    /* border-radius: 8px; */ /* HTML側のインラインスタイルで指定済み */
+    /* スタイルシートで上書きしたい場合は、!important を使うか、
+       HTML側のインラインスタイルを削除して、こちらに記述します。
+       今回はHTML側のインラインスタイルを優先しています。 */
 }
 /* ▲▲▲ ここまで動画セクション用のスタイル ▲▲▲ */
 
