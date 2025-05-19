@@ -1,4 +1,4 @@
-/* style.css (テキストずれ修正版) */
+/* style.css (テキストずれ修正版 + 動画セクションスタイル追加) */
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=M+PLUS+Rounded+1c:wght@400;500;700&display=swap');
 
@@ -75,7 +75,7 @@ body.mobile-menu-active .mobile-nav { display: flex; transform: translateX(0); }
 
 .hero-section { 
     padding: 80px 0 100px; 
-    text-align: center; /* このセクション内のテキストは基本的に中央揃え */
+    text-align: center; 
     position: relative; 
     overflow: hidden; 
     background-color: transparent; 
@@ -99,7 +99,7 @@ body.mobile-menu-active .mobile-nav { display: flex; transform: translateX(0); }
     z-index: 1; 
     display: flex; 
     flex-direction: column; 
-    align-items: center; /* Flexアイテム (hero-textなど) を中央揃え */
+    align-items: center; 
     gap: 30px; 
     background: rgba(255,255,255,0.2); 
     backdrop-filter: blur(2px); 
@@ -108,12 +108,9 @@ body.mobile-menu-active .mobile-nav { display: flex; transform: translateX(0); }
 }
 
 .hero-text {
-    text-align: center; /* この中のテキストとインライン要素を中央揃え */
-    width: 100%; /* 親要素いっぱいに広がる */
-    max-width: 700px; /* hero-text全体の最大幅 (必要に応じて調整) */
-    /* margin-left: auto; と margin-right: auto; は、
-       親の .hero-content が display:flex と align-items:center; なので、
-       .hero-text ブロック自体の中央揃えはそちらで担保されます。 */
+    text-align: center; 
+    width: 100%; 
+    max-width: 700px; 
 }
 
 .hero-text h2 { 
@@ -122,12 +119,11 @@ body.mobile-menu-active .mobile-nav { display: flex; transform: translateX(0); }
     font-weight: 700; 
     margin-bottom: 0.3em; 
     text-shadow: 1px 1px 3px rgba(0,0,0,0.1); 
-    /* text-align は親の .hero-text から継承 */
 }
 
 .hero-text p { 
     font-size: clamp(1.1rem, 3vw, 1.3rem); 
-    max-width: 650px; /* p要素の最大幅 */
+    max-width: 650px; 
     margin-bottom: 1.5em; 
     color: var(--primary-color); 
     font-weight: 500; 
@@ -135,12 +131,8 @@ body.mobile-menu-active .mobile-nav { display: flex; transform: translateX(0); }
     background: none; 
     padding: 0; 
     border-radius: 0; 
-    margin-left: auto;   /* ★max-widthが設定されたブロック要素を中央揃え */
-    margin-right: auto;  /* ★max-widthが設定されたブロック要素を中央揃え */
-    /* text-align は親の .hero-text から継承。
-       もしこのpタグ内のテキストも強制的に中央揃えにしたい場合は、
-       text-align: center; をここに追加。
-       現状は親の .hero-text の text-align: center; が効く想定。*/
+    margin-left: auto;   
+    margin-right: auto;  
 }
 .hero-text p span.jp-part { 
     font-family: var(--font-body) !important; 
@@ -172,11 +164,6 @@ body.mobile-menu-active .mobile-nav { display: flex; transform: translateX(0); }
     justify-content: center; 
     margin-top: 25px; 
 }
-/* ... (以降の .btn, .data-sectionなどのスタイルは変更なし) ... */
-/* ... (メディアクエリも変更なし) ... */
-
-/* --- ここから下は、既存のコードの続きをそのまま記述してください --- */
-/* (前のメッセージで提示されたコードの残りの部分) */
 
 .btn { display: inline-flex; align-items: center; justify-content: center; padding: 15px 35px; border-radius: 50px; font-family: var(--font-display); font-weight: 600; text-decoration: none; border: none; cursor: pointer; transition: all var(--transition-main); box-shadow: var(--shadow-soft); color: white; font-size: 1rem; letter-spacing: 0.8px; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); position: relative; overflow: hidden; z-index: 1; }
 .btn::before { content: ''; position: absolute; top: 0; left: 0; width: 0; height: 100%; background: rgba(255, 255, 255, 0.2); transition: width var(--transition-main); border-radius: 50px; z-index: -1; }
@@ -238,6 +225,36 @@ body.mobile-menu-active .mobile-nav { display: flex; transform: translateX(0); }
 .footer-nav a { color: var(--secondary-color); font-weight: 600; font-size: 1rem; }
 .footer-nav a:hover { color: var(--primary-color); transform: scale(1.1); }
 .site-footer-bottom p { margin-bottom: 5px; font-size: 0.9rem; color: #5a5372; }
+
+/* ▼▼▼ ここから動画セクション用のスタイルを追加 ▼▼▼ */
+#mayfla-local-video {
+    padding: 60px 0;
+    text-align: center;
+}
+
+#mayfla-local-video h2 { /* 動画セクションのタイトルスタイル (既存のh2スタイルを継承・上書き) */
+    margin-bottom: 1.5em;
+    /* 必要であれば、他のh2と区別するためのスタイルを追加 */
+}
+
+/* 動画コンテナのスタイル */
+.video-container-local {
+    max-width: 720px; /* 動画の表示最大幅 (お好みで調整) */
+    margin: 0 auto;   /* 中央揃え */
+    background-color: #000; /* 動画の背景を黒にするとアスペクト比によっては見栄えが良い */
+    border-radius: var(--border-radius); /* 角丸 (任意) */
+    box-shadow: var(--shadow-soft); /* 影 (任意) */
+    overflow: hidden; /* 角丸を効かせるためと、video要素のはみ出し防止 */
+}
+
+.video-container-local video {
+    display: block; /* video要素はインラインなのでブロック要素にしてmargin autoを効かせる */
+    width: 100%;    /* 親要素の幅に合わせる */
+    height: auto;   /* 高さは自動調整でアスペクト比を保つ */
+    border-radius: var(--border-radius); /* 動画自体にも角丸 (任意、親のoverflow:hiddenと併用) */
+}
+/* ▲▲▲ ここまで動画セクション用のスタイル ▲▲▲ */
+
 @media (max-width: 992px) { #mobile-menu-toggle { display: flex; } .content-grid, .content-grid.reverse-grid { grid-template-columns: 1fr; gap: 40px; } .content-grid .content-image, .content-grid.reverse-grid .content-image { order: initial; margin-bottom: 30px; } .content-text h2 { text-align: center; display: block; border-image: none; border-bottom: 3px solid var(--primary-color); } .content-icon { max-width: 200px; } }
 @media (max-width: 768px) { body { font-size: 15px; } h1 { font-size: 1.4em; } h2 { font-size: 1.9em; } .hero-text h2 { font-size: 2.8em; } .hero-text p { font-size: 1.15em; } .api-data-grid { grid-template-columns: 1fr; gap: 25px; } .chart-container { height: 300px; padding: 15px; } .btn { padding: 12px 30px; font-size: 0.95rem;} .hero-extra-links { grid-template-columns: 1fr; max-width: 350px; } }
 @media (max-width: 480px) { body { font-size: 14px; padding-top: 65px; --header-height: 65px; } h1 { font-size: 1.1em; } .header-content { justify-content: center; } #mobile-menu-toggle { position: absolute; right: 15px; } .logo-title-container { margin: 0 auto; margin-right: 30px; } .logo-title-container h1 { display: block; font-size: 1.05em; white-space: normal; line-height: 1.2; } .logo-title-container h1 .jp-part {display: block; font-size: 0.9em;} .hero-text h2 { font-size: 2.2em; } .hero-text p { font-size: 1rem; font-family: var(--font-display); } .hero-text p span.jp-part { font-family: var(--font-body) !important; color: var(--secondary-color) !important; font-weight: 700 !important; } .hero-buttons { flex-direction: column; gap: 15px; } .hero-extra-links { max-width: 90%; } .btn { width: 95%; margin: 0 auto; } .btn-feature {font-size: 0.9rem; padding: 10px 20px;} .content-icon { max-width: 180px; } .chart-container { height: 250px;} .footer-nav a { margin: 5px 10px; font-size: 0.95em; } }
