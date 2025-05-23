@@ -226,14 +226,14 @@ body.mobile-menu-active .mobile-nav { display: flex; transform: translateX(0); }
 .footer-nav a:hover { color: var(--primary-color); transform: scale(1.1); }
 .site-footer-bottom p { margin-bottom: 5px; font-size: 0.9rem; color: #5a5372; }
 
-/* ▼▼▼ 動画セクション用のスタイル (HTMLのインラインスタイルをこちらに移行) ▼▼▼ */
+/* ▼▼▼ 動画セクション用のスタイル ▼▼▼ */
 #local-video-section {
-    padding: 60px 0;
-    text-align: center;
+    padding: 60px 0; 
+    text-align: center; 
 }
 
-.video-title-custom { /* HTML側で <h2 class="video-title-custom"> に対応 */
-    font-family: 'Yomogi', cursive; /* Yomogiフォントを指定 */
+.video-title-custom { 
+    font-family: 'Yomogi', cursive; 
     font-size: clamp(2rem, 6vw, 3rem); 
     color: var(--secondary-color); 
     text-align: center;
@@ -250,7 +250,7 @@ body.mobile-menu-active .mobile-nav { display: flex; transform: translateX(0); }
     animation: float 3s ease-in-out infinite; 
 }
 
-.video-player-container { /* HTML側で <div class="video-player-container"> に対応 */
+.video-player-container { 
     max-width: 720px; 
     margin: 0 auto;   
     background-color: #000; 
@@ -259,14 +259,14 @@ body.mobile-menu-active .mobile-nav { display: flex; transform: translateX(0); }
     overflow: hidden; 
 }
 
-#myLocalVideo { /* HTML側で <video id="myLocalVideo"> に対応 */
+#myLocalVideo { /* <video id="myLocalVideo"> に対応 */
     display: block; 
     width: 100%;    
     height: auto;   
     border-radius: var(--border-radius); 
 }
 
-.video-caption-custom { /* HTML側で <p class="video-caption-custom"> に対応 */
+.video-caption-custom { 
     text-align: center; 
     margin-top: 1.5em; 
     font-size: 1.1em;
@@ -277,15 +277,14 @@ body.mobile-menu-active .mobile-nav { display: flex; transform: translateX(0); }
 
 /* ▼▼▼ Bitget残高セクション用のスタイル ▼▼▼ */
 #bitget-balance-section {
-    /* 特に追加のセクションスタイルがなければ、.content-section.alt-bg のスタイルが適用される */
+    /* .content-section.alt-bg のスタイルが適用される */
 }
 
 #bitget-balance-section h2.bitget-title { /* HTMLでクラス名を指定 */
     font-family: 'Yomogi', cursive; 
     font-size: clamp(2rem, 5.5vw, 3rem); 
-    color: var(--accent-blue); /* 色を変更 (例) */
+    color: var(--accent-blue); 
     margin-bottom: 1em;
-    /* 既存のh2の display:flex やアイコンのスタイルは継承される */
 }
 
 #bitget-balance-container h3 {
@@ -302,8 +301,8 @@ body.mobile-menu-active .mobile-nav { display: flex; transform: translateX(0); }
 
 #total-jpy-balance-value { 
     color: var(--primary-color); 
-    font-size: 2.2em; /* HTMLのインラインスタイルから移動 */
-    font-weight: bold; /* HTMLのインラインスタイルから移動 */
+    font-size: 2.2em; 
+    font-weight: bold; 
 }
 #total-usdt-balance-value { 
     color: var(--text-color-dark);
@@ -312,8 +311,8 @@ body.mobile-menu-active .mobile-nav { display: flex; transform: translateX(0); }
 
 #goal-progress-percentage { 
     color: var(--secondary-color); 
-    font-size: 1.6em; /* HTMLのインラインスタイルから移動 */
-    font-weight: bold; /* HTMLのインラインスタイルから移動 */
+    font-size: 1.6em; 
+    font-weight: bold; 
     margin-top: 0.5em;
     margin-bottom: 0.3em;
 }
