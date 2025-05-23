@@ -3,6 +3,7 @@ import crypto from 'crypto';
 
 const BITGET_API_BASE_URL = 'https://api.bitget.com'; 
 
+// Bitget API V2 の署名生成関数
 function createBitgetSignature(timestamp, method, requestPath, body, secretKey) {
   let prehashString = timestamp + method.toUpperCase() + requestPath;
   if (body && (method.toUpperCase() === 'POST' || method.toUpperCase() === 'PUT' || method.toUpperCase() === 'DELETE')) {
@@ -14,7 +15,7 @@ function createBitgetSignature(timestamp, method, requestPath, body, secretKey) 
 export default async function handler(request, response) {
   const apiKey = process.env.BITGET_API_KEY;
   const secretKey = process.env.BITGET_SECRET_KEY;
-  const passphrase = process.env.BITGET_PASSPHRASE; 
+  // const passphrase = process.env.BITGET_PASSPHRASE; // パスフレーズは使用しない前提でコメントアウト
 
   if (!apiKey || !secretKey) {
     console.error('[getBitgetBalance] Critical Error: Bitget API Key or Secret Key is not set in env vars.');
@@ -28,18 +29,19 @@ export default async function handler(request, response) {
   const method = 'GET';
 
   try {
+    // --- 1. アカウントの全スポット資産を取得 ---
     const assetsRequestPath = '/api/v2/spot/account/assets';
     const assetsSignature = createBitgetSignature(timestamp, method, assetsRequestPath, null, secretKey);
 
-    const commonHeaders = {
+    const commonHeaders = { // パスフレーズなしのヘッダー
       'B-ACCESS-KEY': apiKey,
       'B-ACCESS-TIMESTAMP': timestamp,
       'Content-Type': 'application/json; charset=utf-8',
       'locale': 'en-US',
     };
-    if (passphrase) {
-      commonHeaders['B-ACCESS-PASSPHRASE'] = passphrase;
-    }
+    // if (passphrase) { // パスフレーズ関連のifブロックは削除
+    //   commonHeaders['B-ACCESS-PASSPHRASE'] = passphrase;
+    // }
 
     const assetsHeaders = {
       ...commonHeaders,
@@ -78,8 +80,10 @@ export default async function handler(request, response) {
       
       const tickerTimestamp = Date.now().toString(); 
       const tickerSignature = createBitgetSignature(tickerTimestamp, method, tickerRequestPath, null, secretKey);
+      
+      // ティッカー取得時のヘッダーもパスフレーズなしのcommonHeadersをベースにする
       const tickerHeaders = {
-        ...commonHeaders,
+        ...commonHeaders, // APIキー、ロケールなど
         'B-ACCESS-TIMESTAMP': tickerTimestamp,
         'B-ACCESS-SIGN': tickerSignature,
       };
