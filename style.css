@@ -1,4 +1,4 @@
-/* style.css (ヒーローテキストずれ修正、動画セクションスタイル確定版) */
+/* style.css (ヒーローテキストずれ修正、動画セクションスタイル、Bitget残高セクションスタイル 全て反映) */
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=M+PLUS+Rounded+1c:wght@400;500;700&family=Yomogi&display=swap');
 
@@ -226,23 +226,23 @@ body.mobile-menu-active .mobile-nav { display: flex; transform: translateX(0); }
 .footer-nav a:hover { color: var(--primary-color); transform: scale(1.1); }
 .site-footer-bottom p { margin-bottom: 5px; font-size: 0.9rem; color: #5a5372; }
 
-/* ▼▼▼ 動画セクション用のスタイル ▼▼▼ */
+/* ▼▼▼ 動画セクション用のスタイル (HTMLのインラインスタイルをこちらに移行) ▼▼▼ */
 #local-video-section {
-    padding: 60px 0; /* HTML側のインラインスタイルからこちらに移動 */
-    text-align: center; /* HTML側のインラインスタイルからこちらに移動 */
+    padding: 60px 0;
+    text-align: center;
 }
 
 .video-title-custom { /* HTML側で <h2 class="video-title-custom"> に対応 */
-    font-size: clamp(2rem, 6vw, 3rem); /* 少し大きめに、お好みで調整 */
-    color: var(--secondary-color); /* 色を変更 (例) */
+    font-family: 'Yomogi', cursive; /* Yomogiフォントを指定 */
+    font-size: clamp(2rem, 6vw, 3rem); 
+    color: var(--secondary-color); 
     text-align: center;
     margin-bottom: 1.2em;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 15px;
-    font-family: 'Yomogi', cursive; /* Yomogiフォントを指定 */
-    font-weight: 500; /* Yomogiは太字が少ないので調整 */
+    font-weight: 500; 
 }
 
 .video-title-custom .icon {
@@ -254,8 +254,8 @@ body.mobile-menu-active .mobile-nav { display: flex; transform: translateX(0); }
     max-width: 720px; 
     margin: 0 auto;   
     background-color: #000; 
-    border-radius: var(--border-radius); /* :rootで定義した角丸を使用 */
-    box-shadow: var(--shadow-strong); /* 強めの影 */
+    border-radius: var(--border-radius); 
+    box-shadow: var(--shadow-strong); 
     overflow: hidden; 
 }
 
@@ -263,7 +263,7 @@ body.mobile-menu-active .mobile-nav { display: flex; transform: translateX(0); }
     display: block; 
     width: 100%;    
     height: auto;   
-    border-radius: var(--border-radius); /* 親コンテナと合わせる */
+    border-radius: var(--border-radius); 
 }
 
 .video-caption-custom { /* HTML側で <p class="video-caption-custom"> に対応 */
@@ -275,13 +275,98 @@ body.mobile-menu-active .mobile-nav { display: flex; transform: translateX(0); }
 }
 /* ▲▲▲ ここまで動画セクション用のスタイル ▲▲▲ */
 
-@media (max-width: 992px) { #mobile-menu-toggle { display: flex; } .content-grid, .content-grid.reverse-grid { grid-template-columns: 1fr; gap: 40px; } .content-grid .content-image, .content-grid.reverse-grid .content-image { order: initial; margin-bottom: 30px; } .content-text h2 { text-align: center; display: block; border-image: none; border-bottom: 3px solid var(--primary-color); } .content-icon { max-width: 200px; } }
-@media (max-width: 768px) { body { font-size: 15px; } h1 { font-size: 1.4em; } h2 { font-size: 1.9em; } .hero-text h2 { font-size: 2.8em; } .hero-text p { font-size: 1.15em; } .api-data-grid { grid-template-columns: 1fr; gap: 25px; } .chart-container { height: 300px; padding: 15px; } .btn { padding: 12px 30px; font-size: 0.95rem;} .hero-extra-links { grid-template-columns: 1fr; max-width: 350px; } 
-    /* 動画タイトルのレスポンシブ調整 */
-    .video-title-custom { font-size: clamp(1.5rem, 5vw, 2.2rem); }
+/* ▼▼▼ Bitget残高セクション用のスタイル ▼▼▼ */
+#bitget-balance-section {
+    /* 特に追加のセクションスタイルがなければ、.content-section.alt-bg のスタイルが適用される */
 }
-@media (max-width: 480px) { body { font-size: 14px; padding-top: 65px; --header-height: 65px; } h1 { font-size: 1.1em; } .header-content { justify-content: center; } #mobile-menu-toggle { position: absolute; right: 15px; } .logo-title-container { margin: 0 auto; margin-right: 30px; } .logo-title-container h1 { display: block; font-size: 1.05em; white-space: normal; line-height: 1.2; } .logo-title-container h1 .jp-part {display: block; font-size: 0.9em;} .hero-text h2 { font-size: 2.2em; } .hero-text p { font-size: 1rem; font-family: var(--font-display); } .hero-text p span.jp-part { font-family: var(--font-body) !important; color: var(--secondary-color) !important; font-weight: 700 !important; } .hero-buttons { flex-direction: column; gap: 15px; } .hero-extra-links { max-width: 90%; } .btn { width: 95%; margin: 0 auto; } .btn-feature {font-size: 0.9rem; padding: 10px 20px;} .content-icon { max-width: 180px; } .chart-container { height: 250px;} .footer-nav a { margin: 5px 10px; font-size: 0.95em; } 
-    /* 動画タイトルのレスポンシブ調整 */
+
+#bitget-balance-section h2.bitget-title { /* HTMLでクラス名を指定 */
+    font-family: 'Yomogi', cursive; 
+    font-size: clamp(2rem, 5.5vw, 3rem); 
+    color: var(--accent-blue); /* 色を変更 (例) */
+    margin-bottom: 1em;
+    /* 既存のh2の display:flex やアイコンのスタイルは継承される */
+}
+
+#bitget-balance-container h3 {
+    font-size: 1.4em; 
+    color: var(--text-color-dark);
+    margin-bottom: 0.3em;
+    font-weight: 600;
+}
+
+#bitget-balance-container p { 
+    margin-bottom: 0.5em;
+    line-height: 1.4;
+}
+
+#total-jpy-balance-value { 
+    color: var(--primary-color); 
+    font-size: 2.2em; /* HTMLのインラインスタイルから移動 */
+    font-weight: bold; /* HTMLのインラインスタイルから移動 */
+}
+#total-usdt-balance-value { 
+    color: var(--text-color-dark);
+    font-size: 1.1em; 
+}
+
+#goal-progress-percentage { 
+    color: var(--secondary-color); 
+    font-size: 1.6em; /* HTMLのインラインスタイルから移動 */
+    font-weight: bold; /* HTMLのインラインスタイルから移動 */
+    margin-top: 0.5em;
+    margin-bottom: 0.3em;
+}
+/* ▲▲▲ Bitget残高セクション用のスタイルここまで ▲▲▲ */
+
+
+@media (max-width: 992px) { 
+    #mobile-menu-toggle { display: flex; } 
+    .content-grid, .content-grid.reverse-grid { grid-template-columns: 1fr; gap: 40px; } 
+    .content-grid .content-image, .content-grid.reverse-grid .content-image { order: initial; margin-bottom: 30px; } 
+    .content-text h2 { text-align: center; display: block; border-image: none; border-bottom: 3px solid var(--primary-color); } 
+    .content-icon { max-width: 200px; } 
+}
+@media (max-width: 768px) { 
+    body { font-size: 15px; } 
+    h1 { font-size: 1.4em; } 
+    h2 { font-size: 1.9em; } 
+    .hero-text h2 { font-size: 2.8em; } 
+    .hero-text p { font-size: 1.15em; } 
+    .api-data-grid { grid-template-columns: 1fr; gap: 25px; } 
+    .chart-container { height: 300px; padding: 15px; } 
+    .btn { padding: 12px 30px; font-size: 0.95rem;} 
+    .hero-extra-links { grid-template-columns: 1fr; max-width: 350px; } 
+    
+    .video-title-custom { font-size: clamp(1.5rem, 5vw, 2.2rem); }
+    #bitget-balance-section h2.bitget-title { font-size: clamp(1.6rem, 5vw, 2.4rem); }
+    #bitget-balance-container h3 { font-size: 1.2em; }
+    #total-jpy-balance-value { font-size: 1.8em; }
+    #goal-progress-percentage { font-size: 1.3em; }
+}
+@media (max-width: 480px) { 
+    body { font-size: 14px; padding-top: 65px; --header-height: 65px; } 
+    h1 { font-size: 1.1em; } 
+    .header-content { justify-content: center; } 
+    #mobile-menu-toggle { position: absolute; right: 15px; } 
+    .logo-title-container { margin: 0 auto; margin-right: 30px; } 
+    .logo-title-container h1 { display: block; font-size: 1.05em; white-space: normal; line-height: 1.2; } 
+    .logo-title-container h1 .jp-part {display: block; font-size: 0.9em;} 
+    .hero-text h2 { font-size: 2.2em; } 
+    .hero-text p { font-size: 1rem; font-family: var(--font-display); } 
+    .hero-text p span.jp-part { font-family: var(--font-body) !important; color: var(--secondary-color) !important; font-weight: 700 !important; } 
+    .hero-buttons { flex-direction: column; gap: 15px; } 
+    .hero-extra-links { max-width: 90%; } 
+    .btn { width: 95%; margin: 0 auto; } 
+    .btn-feature {font-size: 0.9rem; padding: 10px 20px;} 
+    .content-icon { max-width: 180px; } 
+    .chart-container { height: 250px;} 
+    .footer-nav a { margin: 5px 10px; font-size: 0.95em; } 
+
     .video-title-custom { font-size: clamp(1.3rem, 4.5vw, 1.8rem); }
     .video-caption-custom { font-size: 1em; }
+    #bitget-balance-section h2.bitget-title { font-size: clamp(1.4rem, 5vw, 2rem); }
+    #bitget-balance-container h3 { font-size: 1.1em; }
+    #total-jpy-balance-value { font-size: 1.6em; }
+    #goal-progress-percentage { font-size: 1.2em; }
 }

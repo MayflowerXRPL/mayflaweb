@@ -101,6 +101,29 @@
             </div>
         </section>
 
+        {/* ▼▼▼ Bitget残高セクション ▼▼▼ */}
+        <section id="bitget-balance-section" class="content-section alt-bg">
+            <div class="container">
+                <h2 class="bitget-title"><span class="icon">🚀</span>めざせ！メイフラちゃん1億円への道！<span class="icon">🚀</span></h2>
+                <div id="bitget-balance-container" style="text-align: center;">
+                    <p id="bitget-loading-message" class="loading-message">軌道計算中... ಸ್ವಲ್ಪಹೊತ್ತು ಕಾಯಿರಿ!</p> {/* ローディングメッセージ変更 */}
+                    <div id="bitget-error-message" class="error-message" style="display: none;"></div>
+                    <div id="bitget-data-display" style="display: none;"> {/* ID変更 */}
+                        <h3>現在の推定総資産</h3>
+                        <p style="font-size: 2.2em; font-weight: bold; color: var(--primary-color);" id="total-jpy-balance-value">--- JPY</p> {/* ID変更 */}
+                        <p style="font-size: 1.1em; color: var(--text-color-dark);" id="total-usdt-balance-value">(--- USDT)</p> {/* ID変更 */}
+                        
+                        <div style="margin: 30px auto 20px; width: 90%; max-width: 350px; height: 200px;"> {/* サイズ調整 */}
+                            <canvas id="goalProgressChart"></canvas> {/* ID変更 */}
+                        </div>
+                        <p id="goal-progress-percentage" style="font-size: 1.6em; font-weight: bold; color: var(--secondary-color);">達成率: --- %</p> {/* ID変更 */}
+                        <p style="font-size: 0.9em; color: var(--text-color-dark);">(目標: 100,000,000 JPY)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        {/* ▲▲▲ Bitget残高セクションここまで ▲▲▲ */}
+
         <section id="xrp-cafe" class="content-section">
              <div class="container content-grid reverse-grid">
                 <div class="content-image cafe-image">
@@ -165,5 +188,6 @@
     </footer>
 
     <script src="script.js"></script>
+    <script src="bitget_balance_script.js"></script> {/* ★Bitget残高表示用スクリプトの読み込み */}
 </body>
 </html>
