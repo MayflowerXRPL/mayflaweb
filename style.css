@@ -259,7 +259,7 @@ body.mobile-menu-active .mobile-nav { display: flex; transform: translateX(0); }
     overflow: hidden; 
 }
 
-#myLocalVideo { /* <video id="myLocalVideo"> に対応 */
+#myLocalVideo { 
     display: block; 
     width: 100%;    
     height: auto;   
@@ -280,7 +280,7 @@ body.mobile-menu-active .mobile-nav { display: flex; transform: translateX(0); }
     /* .content-section.alt-bg のスタイルが適用される */
 }
 
-#bitget-balance-section h2.bitget-title { /* HTMLでクラス名を指定 */
+#bitget-balance-section h2.bitget-title { 
     font-family: 'Yomogi', cursive; 
     font-size: clamp(2rem, 5.5vw, 3rem); 
     color: var(--accent-blue); 
